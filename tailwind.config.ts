@@ -7,6 +7,10 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    colors: {
+      black: '#1D3D7C',
+      white: '#ffffff',
+    },
     spacing: {
       0: '0', // 0
       1: '1px', // 1px

@@ -39,7 +39,7 @@
 @layer base {
   html,
   body {
-    @apply h-full w-full;
+    @apply h-full w-full text-black;
   }
 
   body {
@@ -200,11 +200,11 @@
     }
 
     & blockquote {
-      @apply rounded-lg bg-gray-100 p-spacer-20;
+      @apply rounded-lg bg-black/5 p-spacer-20;
     }
 
     & code {
-      @apply inline-block rounded-lg bg-gray-100 px-6;
+      @apply inline-block rounded-lg bg-black/5 px-6;
     }
 
     @apply first-mt-0 last-mb-0;
