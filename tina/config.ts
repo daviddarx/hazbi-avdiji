@@ -215,6 +215,12 @@ export default defineConfig({
             isTitle: true,
             required: true,
           },
+          {
+            name: 'priority',
+            label: 'Priority',
+            type: 'number',
+            required: true,
+          },
         ],
       },
       {

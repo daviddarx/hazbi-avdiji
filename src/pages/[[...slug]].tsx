@@ -50,7 +50,9 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
 
   if (hasPostListBlock) {
     const categoryParams = params.slug![1];
-    const categoryConnectionResult = await client.queries.categoryConnection();
+    const categoryConnectionResult = await client.queries.categoryConnection({
+      sort: 'priority',
+    });
 
     postsFilters = [
       {
