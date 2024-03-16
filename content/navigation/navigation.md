@@ -1,11 +1,10 @@
 ---
 links:
-  - label: Home
-    link: /
-  - label: About
+  - label: À propos
     link: /about
   - label: Blog
     link: /posts
   - label: Contact
     link: /contact
 ---
+
