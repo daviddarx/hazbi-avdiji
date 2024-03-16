@@ -1,3 +1,4 @@
+import ColoredBackground from '@/components/layout/ColoredBackground';
 import Header from '@/components/layout/Header';
 import Navigation from '@/components/layout/Navigation';
 import { uiActions } from '@/store';
@@ -103,6 +104,7 @@ export default function Layout({
           {children}
         </AnimatePresence>
       </main>
+      <ColoredBackground />
     </div>
   );
 }

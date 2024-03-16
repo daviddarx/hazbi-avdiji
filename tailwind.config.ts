@@ -10,6 +10,7 @@ const config: Config = {
     colors: {
       black: '#1D3D7C',
       white: '#ffffff',
+      theme: 'var(--color-theme)',
     },
     spacing: {
       0: '0', // 0
