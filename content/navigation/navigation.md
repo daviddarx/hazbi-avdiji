@@ -2,7 +2,7 @@
 links:
   - label: À propos
     link: /about
-  - label: Blog
+  - label: Thèmes
     link: /posts
   - label: Contact
     link: /contact
