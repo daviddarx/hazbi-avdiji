@@ -12,6 +12,12 @@ const config: Config = {
       white: '#ffffff',
       theme: 'var(--color-theme)',
     },
+    lineHeight: {
+      normal: '1.65',
+      tight: '1.4',
+      title: '1.15',
+      none: '1',
+    },
     spacing: {
       0: '0', // 0
       1: '1px', // 1px

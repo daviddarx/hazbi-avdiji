@@ -44,22 +44,7 @@
   }
 
   body {
-    @apply text-base lg:text-xl;
-  }
-
-  h1,
-  .h1,
-  h2,
-  .h2,
-  h3,
-  .h3,
-  h4,
-  .h4,
-  h5,
-  .h5,
-  h6,
-  .h6 {
-    @apply font-normal;
+    @apply text-base leading-normal lg:text-xl;
   }
 
   h1,
@@ -90,6 +75,23 @@
   h6,
   .h6 {
     @apply text-xl xl:text-2xl;
+  }
+
+  h1,
+  .h1,
+  h2,
+  .h2,
+  h3,
+  .h3,
+  h4,
+  .h4,
+  h5,
+  .h5,
+  h6,
+  .h6 {
+    @apply font-normal leading-title;
+
+    font-family: var(--font-title);
   }
 
   ::selection {

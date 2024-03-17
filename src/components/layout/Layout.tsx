@@ -8,11 +8,16 @@ import { delayBeforeScrollRestoration } from '@/utils/core';
 import classNames from 'classnames';
 import { AnimatePresence } from 'framer-motion';
 import { Bricolage_Grotesque } from 'next/font/google';
+import localFont from 'next/font/local';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const font = Bricolage_Grotesque({ weight: ['400', '600'], subsets: ['latin'] });
+const fontText = Bricolage_Grotesque({ weight: ['400', '600'], subsets: ['latin'] });
+const fontTitle = localFont({
+  src: './../../fonts/Larken-Black.ttf',
+  variable: '--font-title',
+});
 
 export default function Layout({
   navigationProps,
@@ -96,7 +101,7 @@ export default function Layout({
   };
 
   return (
-    <div className={classNames('lg:grid lg:grid-cols-2', font.className)}>
+    <div className={classNames('lg:grid lg:grid-cols-2', fontText.className, fontTitle.variable)}>
       <Header />
       {navigationProps && <Navigation {...navigationProps} />}
       <main className='p-gutter lg:px-0 lg:pr-gutter'>
