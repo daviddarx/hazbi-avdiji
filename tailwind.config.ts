@@ -9,7 +9,7 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      black: 'hsl(230, 75, 36)',
+      black: 'hsl(255, 75, 36)',
       white: '#ffffff',
       theme: 'var(--color-theme)',
       ...themeColors,
