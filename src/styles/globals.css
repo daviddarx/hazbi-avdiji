@@ -18,7 +18,7 @@
   --spacer-96: theme('spacing.56');
   --spacer-120: theme('spacing.64');
   --gutter: var(--spacer-40);
-  --color-theme: #fffcb7;
+  --color-theme: theme('colors.theme1');
 
   @screen lg {
     --spacer-8: theme('spacing.8');
@@ -95,7 +95,7 @@
   }
 
   ::selection {
-    @apply bg-black text-white;
+    @apply bg-black text-theme;
     text-shadow: none;
   }
 }
@@ -124,7 +124,7 @@
   }
 
   .button--primary {
-    @apply bg-black text-white;
+    @apply bg-black text-theme;
   }
 
   .text-container {

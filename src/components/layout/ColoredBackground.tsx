@@ -1,7 +1,8 @@
+import { themeColors } from '@/utils/ui';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
-const colors = ['#FFFCB7', '#E8FFB7', '#CFFFFC', '#F5F1FF'];
+const colors = Object.values(themeColors);
 
 export default function ColoredBackground() {
   const router = useRouter();

@@ -1,3 +1,4 @@
+import { themeColors } from './src/utils/ui';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
@@ -11,6 +12,7 @@ const config: Config = {
       black: 'hsl(230, 75, 36)',
       white: '#ffffff',
       theme: 'var(--color-theme)',
+      ...themeColors,
     },
     lineHeight: {
       normal: '1.65',
