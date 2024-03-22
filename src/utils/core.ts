@@ -52,3 +52,5 @@ export const themeColors = {
   theme3: '#CFFFFC',
   theme4: '#F5F1FF',
 };
+
+export type Timeout = ReturnType<typeof setTimeout>;
