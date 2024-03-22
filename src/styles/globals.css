@@ -101,6 +101,10 @@
 }
 
 @layer utilities {
+  .font-text {
+    font-family: var(--font-text);
+  }
+
   .first-mt-0 {
     & > *:first-child {
       @apply mt-0;

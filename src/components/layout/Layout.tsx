@@ -13,7 +13,11 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const fontText = Bricolage_Grotesque({ weight: ['400', '600'], subsets: ['latin'] });
+const fontText = Bricolage_Grotesque({
+  weight: ['400', '600'],
+  subsets: ['latin'],
+  variable: '--font-text',
+});
 const fontTitle = localFont({
   src: './../../fonts/Larken-Black.ttf',
   variable: '--font-title',
@@ -101,7 +105,14 @@ export default function Layout({
   };
 
   return (
-    <div className={classNames('lg:grid lg:grid-cols-2', fontText.className, fontTitle.variable)}>
+    <div
+      className={classNames(
+        'lg:grid lg:grid-cols-2',
+        fontText.className,
+        fontText.variable,
+        fontTitle.variable,
+      )}
+    >
       <Header />
       {navigationProps && <Navigation {...navigationProps} />}
       <main className='p-gutter lg:px-0 lg:pr-gutter'>
