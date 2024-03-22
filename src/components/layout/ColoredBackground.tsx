@@ -81,11 +81,11 @@ export default function ColoredBackground() {
           transform: `translate3d(0, ${transformValue}, 0)`,
         }}
       >
-        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'>1</div>
-        <div className='from-theme2 to-theme3 h-lvh w-screen bg-gradient-to-b'>2</div>
-        <div className='from-theme3 to-theme4 h-lvh w-screen bg-gradient-to-b'>3</div>
-        <div className='from-theme4 to-theme1 h-lvh w-screen bg-gradient-to-b'>4</div>
-        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'>5</div>
+        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'></div>
+        <div className='from-theme2 to-theme3 h-lvh w-screen bg-gradient-to-b'></div>
+        <div className='from-theme3 to-theme4 h-lvh w-screen bg-gradient-to-b'></div>
+        <div className='from-theme4 to-theme1 h-lvh w-screen bg-gradient-to-b'></div>
+        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'></div>
       </div>
     </div>
   );
