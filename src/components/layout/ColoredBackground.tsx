@@ -1,4 +1,4 @@
-import { themeColors } from '@/utils/ui';
+import { themeColors } from '@/utils/core';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 

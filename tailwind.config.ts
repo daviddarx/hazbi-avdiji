@@ -1,4 +1,4 @@
-import { themeColors } from './src/utils/ui';
+import { themeColors } from './src/utils/core';
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
