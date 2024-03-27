@@ -9,7 +9,7 @@ const config: Config = {
   ],
   theme: {
     colors: {
-      black: 'hsl(255, 75, 36)',
+      black: '#3917A1',
       white: '#ffffff',
       theme: 'var(--color-theme)',
       ...themeColors,
@@ -59,6 +59,10 @@ const config: Config = {
       'spacer-96': 'var(--spacer-96)',
       'spacer-120': 'var(--spacer-120)',
       gutter: 'var(--gutter)',
+      'gutter-1/2': 'calc(var(--gutter)*0.5)',
+    },
+    boxShadow: {
+      base: '0 0 5px 0px black',
     },
   },
   plugins: [],
