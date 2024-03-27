@@ -105,17 +105,10 @@ export default function Layout({
   };
 
   return (
-    <div
-      className={classNames(
-        'lg:grid lg:grid-cols-2',
-        fontText.className,
-        fontText.variable,
-        fontTitle.variable,
-      )}
-    >
+    <div className={classNames(fontText.className, fontText.variable, fontTitle.variable)}>
       <Header />
       {navigationProps && <Navigation {...navigationProps} />}
-      <main className='p-gutter lg:px-0 lg:pr-gutter'>
+      <main>
         <AnimatePresence mode='wait' initial={false} onExitComplete={handleExitComplete}>
           {children}
         </AnimatePresence>

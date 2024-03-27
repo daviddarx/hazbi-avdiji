@@ -74,8 +74,10 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
       variants={motionVariants}
       custom={scrollToTopOnPageChange}
     >
-      {children}
-      <Footer />
+      <div className='mx-auto mt-[200px] max-w-[1200px] p-gutter'>
+        {children}
+        <Footer />
+      </div>
     </motion.div>
   );
 }
