@@ -128,8 +128,9 @@
   }
 
   .subtitle {
-    @apply font-text text-base font-bold uppercase lg:text-lg;
+    @apply font-text text-base font-bold uppercase lg:text-xl;
   }
+
   .text-container {
     & > {
       & p,
