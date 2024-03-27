@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 
 const colors = Object.values(themeColors);
 const animationDuration = 1000;
+const colorsStepsAmount = colors.length + 1;
 let wasInitialized = false;
 
 export default function ColoredBackground() {
@@ -28,33 +29,27 @@ export default function ColoredBackground() {
 
     if (currentColorId !== null) {
       let tv = 0;
-      switch (currentColorId) {
-        case 1:
-          tv = -20;
-          break;
-        case 2:
-          tv = -40;
-          break;
-        case 3:
-          tv = -60;
-          break;
-        default:
-          if (wasInitialized) {
-            tv = -80;
-            resetTimeout = setTimeout(() => {
-              setTransitionDuration(0);
+
+      if (currentColorId === 0) {
+        if (wasInitialized) {
+          tv = (((colorsStepsAmount - 1) * -1) / colorsStepsAmount) * 100;
+          resetTimeout = setTimeout(() => {
+            setTransitionDuration(0);
+            requestAnimationFrame(() => {
+              setTransformValue(`0%`);
               requestAnimationFrame(() => {
-                setTransformValue(`0%`);
-                requestAnimationFrame(() => {
-                  setTransitionDuration(animationDuration);
-                });
+                setTransitionDuration(animationDuration);
               });
-            }, animationDuration + 10);
-          } else {
-            tv = 0;
-            wasInitialized = true;
-          }
+            });
+          }, animationDuration + 10);
+        } else {
+          tv = 0;
+          wasInitialized = true;
+        }
+      } else {
+        tv = ((currentColorId * -1) / 7) * 100;
       }
+
       setTransformValue(`${tv}%`);
       document.body.style.setProperty('--color-theme', colors[currentColorId]);
 
@@ -81,11 +76,13 @@ export default function ColoredBackground() {
           transform: `translate3d(0, ${transformValue}, 0)`,
         }}
       >
-        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'></div>
-        <div className='from-theme2 to-theme3 h-lvh w-screen bg-gradient-to-b'></div>
-        <div className='from-theme3 to-theme4 h-lvh w-screen bg-gradient-to-b'></div>
-        <div className='from-theme4 to-theme1 h-lvh w-screen bg-gradient-to-b'></div>
-        <div className='from-theme1 to-theme2 h-lvh w-screen bg-gradient-to-b'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme1 to-theme2'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme2 to-theme3'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme3 to-theme4'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme4 to-theme5'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme5 to-theme6'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme6 to-theme1'></div>
+        <div className='h-lvh w-screen bg-gradient-to-b from-theme1 to-theme2'></div>
       </div>
     </div>
   );
