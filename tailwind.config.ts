@@ -12,6 +12,8 @@ const config: Config = {
       black: '#3917A1',
       white: '#ffffff',
       theme: 'var(--color-theme)',
+      'theme-prev': 'var(--color-theme-prev)',
+      'theme-next': 'var(--color-theme-next)',
       ...themeColors,
     },
     lineHeight: {

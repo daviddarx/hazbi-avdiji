@@ -19,6 +19,8 @@
   --spacer-120: theme('spacing.64');
   --gutter: var(--spacer-40);
   --color-theme: theme('colors.theme1');
+  --color-theme-prev: theme('colors.theme6');
+  --color-theme-next: theme('colors.theme2');
 
   @screen lg {
     --spacer-8: theme('spacing.8');

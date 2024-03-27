@@ -36,7 +36,7 @@ export default function Navigation(props: NavigationResult) {
               {path.split('/')[1] === link!.link.split('/')[1] && (
                 <motion.span
                   layoutId='activeLine'
-                  className='absolute -bottom-4 -left-4 -right-4 -top-4 -z-10 rounded-full border border-black bg-theme'
+                  className='absolute -bottom-4 -left-4 -right-4 -top-4 -z-10 rounded-full border border-black bg-theme-next'
                   transition={{
                     duration: 0.5,
                     ease: ease.inOutQuart,

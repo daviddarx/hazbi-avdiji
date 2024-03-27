@@ -52,6 +52,14 @@ export default function ColoredBackground() {
 
       setTransformValue(`${tv}%`);
       document.body.style.setProperty('--color-theme', colors[currentColorId]);
+      document.body.style.setProperty(
+        '--color-theme-prev',
+        currentColorId === 0 ? colors[colors.length - 1] : colors[currentColorId - 1],
+      );
+      document.body.style.setProperty(
+        '--color-theme-next',
+        currentColorId === colors.length - 1 ? colors[0] : colors[currentColorId + 1],
+      );
 
       return () => {
         if (resetTimeout) {
