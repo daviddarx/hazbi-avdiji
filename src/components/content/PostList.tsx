@@ -17,7 +17,7 @@ export default function PostList(props: {
 
   return (
     <section>
-      <div className='text-container'>
+      <div className='text-container mb-spacer-80'>
         {!props.blockProps.hideTitle && (
           <h2 data-tina-field={tinaField(props.blockProps, 'title')}>{props.blockProps.title}</h2>
         )}

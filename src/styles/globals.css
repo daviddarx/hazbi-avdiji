@@ -127,6 +127,9 @@
     @apply bg-black text-theme;
   }
 
+  .subtitle {
+    @apply font-text text-base font-bold uppercase lg:text-lg;
+  }
   .text-container {
     & > {
       & p,
