@@ -11,33 +11,35 @@ export default function Post(props: PostResult) {
   const { post } = data.data;
 
   return (
-    <div>
+    <div className='layout-grid'>
       <Metas title={post.title} />
-      <header className='text-container'>
-        <h1 data-tina-field={tinaField(post, 'title')} className='h2'>
-          {post.title}
-        </h1>
-        <div>
-          <span data-tina-field={tinaField(post, 'createdAt')}>{formatDate(post.createdAt)}</span> -{' '}
-          <span data-tina-field={tinaField(post, 'category')}>{post.category.title}</span>
+      <div className='col-start-4 col-end-10'>
+        <header className='text-container'>
+          <h1 data-tina-field={tinaField(post, 'title')} className='h2'>
+            {post.title}
+          </h1>
+          <div>
+            <span data-tina-field={tinaField(post, 'createdAt')}>{formatDate(post.createdAt)}</span>{' '}
+            - <span data-tina-field={tinaField(post, 'category')}>{post.category.title}</span>
+          </div>
+        </header>
+        <div className='mt-gutter'>
+          {post.image && (
+            <div data-tina-field={tinaField(post, 'image')}>
+              <Image
+                src={post.image}
+                alt={post.title}
+                width={post.imageWidth || 1920}
+                height={post.imageHeight || 1080}
+              />
+            </div>
+          )}
+          {post.body && (
+            <div data-tina-field={tinaField(post, 'body')}>
+              <CustomMarkdown content={post.body} className={'mt-gutter pr-gutter'} />
+            </div>
+          )}
         </div>
-      </header>
-      <div className='mt-gutter'>
-        {post.image && (
-          <div data-tina-field={tinaField(post, 'image')}>
-            <Image
-              src={post.image}
-              alt={post.title}
-              width={post.imageWidth || 1920}
-              height={post.imageHeight || 1080}
-            />
-          </div>
-        )}
-        {post.body && (
-          <div data-tina-field={tinaField(post, 'body')}>
-            <CustomMarkdown content={post.body} className={'mt-gutter pr-gutter'} />
-          </div>
-        )}
       </div>
     </div>
   );
