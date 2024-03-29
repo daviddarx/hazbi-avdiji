@@ -76,7 +76,7 @@ export default function PostList(props: {
                 <li key={post._sys.filename}>
                   <PageLink
                     href={`${postRoute}/${post._sys.filename}`}
-                    className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:bg-theme-prev'
+                    className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:border-black hover:bg-theme-prev'
                   >
                     <h3 className='' data-tina-field={tinaField(post, 'title')}>
                       {post.title}
