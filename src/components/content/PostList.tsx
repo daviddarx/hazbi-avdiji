@@ -3,8 +3,10 @@ import PageLink from '@/components/ui/PageLink';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { formatDate } from '@/utils/core';
+import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
-import classNames from 'classnames';
+import { motion } from 'framer-motion';
+import { usePathname } from 'next/navigation';
 import { tinaField, useTina } from 'tinacms/dist/react';
 
 export default function PostList(props: {
@@ -14,41 +16,55 @@ export default function PostList(props: {
 }) {
   const { data } = useTina(props.postsProps);
   const posts = data.postConnection.edges;
+  const path = usePathname();
 
   return (
     <section>
-      <div className='text-container mb-spacer-80'>
-        {!props.blockProps.hideTitle && (
-          <h2 data-tina-field={tinaField(props.blockProps, 'title')}>{props.blockProps.title}</h2>
-        )}
-        {props.blockProps.description && (
-          <div data-tina-field={tinaField(props.blockProps, 'description')}>
-            <CustomMarkdown content={props.blockProps.description} />
-          </div>
-        )}
+      <div className='layout-grid'>
+        <div className='text-container col-start-4 col-end-10'>
+          {!props.blockProps.hideTitle && (
+            <h2 data-tina-field={tinaField(props.blockProps, 'title')}>{props.blockProps.title}</h2>
+          )}
+          {props.blockProps.description && (
+            <div data-tina-field={tinaField(props.blockProps, 'description')}>
+              <CustomMarkdown content={props.blockProps.description} />
+            </div>
+          )}
+        </div>
       </div>
 
       {posts && posts?.length > 0 && props.filterProps && (
-        <div className='mt-gutter'>
-          <ul className='flex flex-wrap gap-8'>
-            {props.filterProps.map((filter, i) => {
-              return (
-                <li key={i}>
-                  <PageLink
-                    href={filter.url}
-                    className={classNames('button', {
-                      'button--primary': filter.active,
-                    })}
-                    scrollToTop={false}
-                  >
-                    {filter.label}
-                  </PageLink>
-                </li>
-              );
-            })}
-          </ul>
+        <div className='layout-grid mt-gutter'>
+          <div className='col-start-4 col-end-10'>
+            <ul className='nav nav-list inline-flex'>
+              {props.filterProps.map((filter, i) => {
+                return (
+                  <li key={i} className='relative'>
+                    <PageLink
+                      href={filter.url}
+                      className={'nav-link relative z-10'}
+                      scrollToTop={false}
+                    >
+                      {filter.label}
+                    </PageLink>
 
-          <ul className='mt-gutter'>
+                    {path.split('/')[2] === filter!.url.split('/')[2] && (
+                      <motion.span
+                        layoutId='activeFilter'
+                        className='absolute -bottom-4 -left-4 -right-4 -top-4 z-0 rounded-full border border-black bg-theme-next'
+                        transition={{
+                          duration: 0.5,
+                          ease: ease.inOutQuart,
+                        }}
+                      />
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+          <ul className='col-start-4 col-end-10 mt-gutter'>
             {posts.map((edge) => {
               const post = edge?.node;
 
