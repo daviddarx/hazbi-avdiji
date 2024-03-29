@@ -3,6 +3,7 @@ import Page from '@/components/pages/Page';
 import client from '@/tina/client';
 import { CategoryFilter } from '@/tina/types';
 import { PageResult, PostsFilter, PostsResult } from '@/types/';
+import t from '@/utils/translations';
 
 export default function PageComponent({
   pageProps,
@@ -56,7 +57,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
 
     postsFilters = [
       {
-        label: 'ALL' /* TODO: Translate */,
+        label: t.allPosts,
         url: `/${pageMdPath}`,
         active: params.slug?.length === 1,
       },
