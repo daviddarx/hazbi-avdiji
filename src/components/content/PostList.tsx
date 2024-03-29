@@ -51,7 +51,7 @@ export default function PostList(props: {
                     {path.split('/')[2] === filter!.url.split('/')[2] && (
                       <motion.span
                         layoutId='activeFilter'
-                        className='absolute -bottom-4 -left-4 -right-4 -top-4 z-0 rounded-full border border-black bg-theme-next'
+                        className='nav-active z-0'
                         transition={{
                           duration: 0.5,
                           ease: ease.inOutQuart,

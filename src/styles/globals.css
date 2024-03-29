@@ -238,4 +238,8 @@
   .nav-link {
     @apply inline-block px-16 py-4 font-bold;
   }
+
+  .nav-active {
+    @apply absolute -bottom-4 -left-4 -right-4 -top-4 rounded-full border border-black bg-theme-next;
+  }
 }
