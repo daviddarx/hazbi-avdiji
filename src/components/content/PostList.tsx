@@ -64,7 +64,7 @@ export default function PostList(props: {
             </ul>
           </div>
 
-          <ul className='col-start-4 col-end-10 mt-gutter'>
+          <ul className='col-start-2 col-end-12 mt-gutter grid grid-cols-3 gap-4'>
             {posts.map((edge) => {
               const post = edge?.node;
 
@@ -73,14 +73,16 @@ export default function PostList(props: {
               }
 
               return (
-                <li key={post._sys.filename} className='border-t border-black'>
+                <li key={post._sys.filename}>
                   <PageLink
                     href={`${postRoute}/${post._sys.filename}`}
-                    className='flex flex-col gap-8 py-gutter'
+                    className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:bg-theme-prev'
                   >
-                    <h3 data-tina-field={tinaField(post, 'title')}>{post.title}</h3>
+                    <h3 className='' data-tina-field={tinaField(post, 'title')}>
+                      {post.title}
+                    </h3>
                     <div className='flex gap-16'>
-                      <span className='font-bold uppercase'>{post.category.title}</span> –
+                      <span className='font-bold'>{post.category.title}</span> –
                       <span>{formatDate(post.createdAt)}</span>
                     </div>
                   </PageLink>
