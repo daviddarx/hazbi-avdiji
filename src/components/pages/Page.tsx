@@ -17,9 +17,15 @@ export default function Page(props: {
   return (
     <div>
       <Metas title={page.title} />
-      <h1 className='subtitle mb-spacer-20' data-tina-field={tinaField(page, 'title')}>
-        {page.title}
-      </h1>
+      <div className='layout-grid'>
+        <h1
+          className='subtitle col-start-4 col-end-10 mb-spacer-20'
+          data-tina-field={tinaField(page, 'title')}
+        >
+          {page.title}
+        </h1>
+      </div>
+
       <div className='mb-spacer-120 flex flex-col gap-spacer-80'>
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {

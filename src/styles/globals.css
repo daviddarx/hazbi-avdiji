@@ -222,4 +222,8 @@
 
     @apply first-mt-0 last-mb-0;
   }
+
+  .layout-grid {
+    @apply grid grid-cols-12 p-gutter;
+  }
 }
