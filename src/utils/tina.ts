@@ -76,6 +76,24 @@ export const richTextTemplates: Template[] = [
   tinaTableTemplate,
 ];
 
+export const textContentTemplate: Template = {
+  name: 'textContent',
+  label: 'Text-Content',
+  ui: {
+    itemProps: () => {
+      return { label: `Text-Content` };
+    },
+  },
+  fields: [
+    {
+      name: 'content',
+      label: 'Content',
+      type: 'rich-text',
+      templates: richTextTemplates,
+    },
+  ],
+};
+
 export const imageFields: TinaField[] = [
   { name: 'image', label: 'Image', type: 'image' },
   { name: 'imageWidth', label: 'Image width', type: 'number' },

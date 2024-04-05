@@ -17,12 +17,15 @@ export default function Page(props: {
     <div>
       <Metas title={page.title} />
       <div className='layout-grid'>
-        <h1
-          className='subtitle col-start-4 col-end-10 mb-spacer-20'
-          data-tina-field={tinaField(page, 'title')}
-        >
-          {page.title}
-        </h1>
+        <div className='col-start-4 col-end-10 flex flex-col gap-16'>
+          <span className='subtitle' data-tina-field={tinaField(page, 'title')}>
+            {page.title}
+          </span>
+          {page.longTitle && (
+            <h1 data-tina-field={tinaField(page, 'longTitle')}>{page.longTitle}</h1>
+          )}
+          {page.lead && <p>{page.lead}</p>}
+        </div>
       </div>
 
       <div className='mb-spacer-120 flex flex-col gap-spacer-80'>

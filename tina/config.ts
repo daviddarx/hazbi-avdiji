@@ -1,4 +1,10 @@
-import { addImagesDimensions, imageFields, richTextTemplates, slugify } from '../src/utils/tina';
+import {
+  addImagesDimensions,
+  imageFields,
+  richTextTemplates,
+  slugify,
+  textContentTemplate,
+} from '../src/utils/tina';
 import { postRoute } from '../src/utils/tina';
 import { defineConfig } from 'tinacms';
 
@@ -42,75 +48,40 @@ export default defineConfig({
         },
         fields: [
           { name: 'title', label: 'Title', type: 'string', isTitle: true, required: true },
+          { name: 'longTitle', label: 'Long-Title', type: 'string' },
+          {
+            name: 'lead',
+            label: 'Lead-text',
+            type: 'string',
+            ui: {
+              component: 'textarea',
+            },
+          },
           {
             name: 'blocks',
             label: 'Blocks',
             type: 'object',
             list: true,
             templates: [
-              {
-                name: 'textContent',
-                label: 'Text-Content',
-                ui: {
-                  itemProps: (item) => {
-                    return { label: `Text-Content: ${item.title}` };
-                  },
-                  defaultItem: {
-                    title: 'Title',
-                  },
-                },
-                fields: [
-                  { name: 'title', label: 'Title', type: 'string', required: true },
-                  {
-                    name: 'description',
-                    label: 'Description',
-                    type: 'rich-text',
-                    templates: richTextTemplates,
-                  },
-                  {
-                    name: 'links',
-                    label: 'Links',
-                    type: 'object',
-                    list: true,
-                    ui: {
-                      itemProps: (item) => {
-                        return { label: item.label };
-                      },
-                    },
-                    fields: [
-                      { name: 'href', label: 'Href', type: 'string', required: true },
-                      { name: 'label', label: 'Label', type: 'string', required: true },
-                      {
-                        name: 'style',
-                        label: 'Style',
-                        type: 'string',
-                        options: ['primary', 'secondary'],
-                        required: true,
-                      },
-                    ],
-                  },
-                ],
-              },
+              textContentTemplate,
               {
                 name: 'postList',
                 label: 'Post-List',
                 ui: {
-                  itemProps: (item) => {
-                    return { label: `Post-List: ${item.title}` };
+                  itemProps: () => {
+                    return { label: 'Post-List' };
                   },
                   defaultItem: {
                     title: 'Post-List title',
-                    hideTitle: false,
                   },
                 },
                 fields: [
-                  { name: 'title', label: 'Title', type: 'string', isTitle: true, required: true },
-                  { name: 'hideTitle', label: 'Hide Title?', type: 'boolean' },
                   {
-                    name: 'description',
-                    label: 'Description',
-                    type: 'rich-text',
-                    templates: richTextTemplates,
+                    name: 'title',
+                    label: "Title (won't be displayed)",
+                    type: 'string',
+                    isTitle: true,
+                    required: true,
                   },
                 ],
               },
@@ -200,7 +171,6 @@ export default defineConfig({
 
             return {
               ...valuesWithImageDimensions,
-              updatedAt: new Date(),
             };
           },
         },
@@ -211,15 +181,6 @@ export default defineConfig({
             label: 'Created at',
             type: 'datetime',
             required: true,
-            ui: {
-              dateFormat: 'MMMM DD YYYY',
-              timeFormat: 'HH:mm',
-            },
-          },
-          {
-            name: 'updatedAt',
-            label: 'Updated at',
-            type: 'datetime',
             ui: {
               dateFormat: 'MMMM DD YYYY',
               timeFormat: 'HH:mm',
@@ -237,8 +198,13 @@ export default defineConfig({
             collections: ['category'],
             required: true,
           },
-          { name: 'body', label: 'Body', type: 'rich-text', templates: richTextTemplates },
-          ...imageFields,
+          {
+            name: 'blocks',
+            label: 'Blocks',
+            type: 'object',
+            list: true,
+            templates: [textContentTemplate],
+          },
         ],
       },
     ],

@@ -4,8 +4,8 @@ links:
     link: /idees-recues
   - label: Services
     link: /services
-  - label: À propos
-    link: /a-propos
+  - label: Portrait
+    link: /portrait
   - label: Contact
     link: /contact
 ---

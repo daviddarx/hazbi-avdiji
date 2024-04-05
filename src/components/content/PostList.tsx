@@ -20,19 +20,6 @@ export default function PostList(props: {
 
   return (
     <section>
-      <div className='layout-grid'>
-        <div className='text-container col-start-4 col-end-10'>
-          {!props.blockProps.hideTitle && (
-            <h2 data-tina-field={tinaField(props.blockProps, 'title')}>{props.blockProps.title}</h2>
-          )}
-          {props.blockProps.description && (
-            <div data-tina-field={tinaField(props.blockProps, 'description')}>
-              <CustomMarkdown content={props.blockProps.description} />
-            </div>
-          )}
-        </div>
-      </div>
-
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='layout-grid mt-gutter'>
           <div className='col-start-4 col-end-10'>
