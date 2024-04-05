@@ -1,4 +1,3 @@
-import FeatureList from '@/components/content/FeatureList';
 import Hero from '@/components/content/Hero';
 import PostList from '@/components/content/PostList';
 import Metas from '@/components/layout/Metas';
@@ -31,9 +30,6 @@ export default function Page(props: {
           switch (block?.__typename) {
             case 'PageBlocksHero': {
               return <Hero {...block} key={i} />;
-            }
-            case 'PageBlocksFeatureList': {
-              return <FeatureList {...block} key={i} />;
             }
             case 'PageBlocksPostList': {
               return (

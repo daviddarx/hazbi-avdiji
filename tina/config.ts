@@ -92,54 +92,6 @@ export default defineConfig({
                 ],
               },
               {
-                name: 'featureList',
-                label: 'Feature-List',
-                ui: {
-                  itemProps: (item) => {
-                    return { label: `Feature-List: ${item.title}` };
-                  },
-                  defaultItem: {
-                    title: 'Feature-List title',
-                  },
-                },
-                fields: [
-                  { name: 'title', label: 'Title', type: 'string', required: true },
-                  {
-                    name: 'description',
-                    label: 'Description',
-                    type: 'rich-text',
-                    templates: richTextTemplates,
-                  },
-                  {
-                    name: 'feature',
-                    label: 'Feature',
-                    type: 'object',
-                    list: true,
-                    ui: {
-                      itemProps: (item) => {
-                        return { label: item.title };
-                      },
-                      defaultItem: {
-                        title: 'Feature title',
-                        description: 'Feature description',
-                      },
-                    },
-                    fields: [
-                      { name: 'title', label: 'Title', type: 'string', required: true },
-                      {
-                        name: 'description',
-                        label: 'Description',
-                        type: 'string',
-                        ui: {
-                          component: 'textarea',
-                        },
-                      },
-                      ...imageFields,
-                    ],
-                  },
-                ],
-              },
-              {
                 name: 'postList',
                 label: 'Post-List',
                 ui: {
