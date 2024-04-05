@@ -49,14 +49,14 @@ export default defineConfig({
             list: true,
             templates: [
               {
-                name: 'hero',
-                label: 'Hero',
+                name: 'textContent',
+                label: 'Text-Content',
                 ui: {
                   itemProps: (item) => {
-                    return { label: `Hero: ${item.title}` };
+                    return { label: `Text-Content: ${item.title}` };
                   },
                   defaultItem: {
-                    title: 'Hero title',
+                    title: 'Title',
                   },
                 },
                 fields: [

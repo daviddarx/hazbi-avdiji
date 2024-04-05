@@ -1,5 +1,5 @@
-import Hero from '@/components/content/Hero';
 import PostList from '@/components/content/PostList';
+import TextContent from '@/components/content/TextContent';
 import Metas from '@/components/layout/Metas';
 import { PageResult, PostsFilter, PostsResult } from '@/types';
 import { useTina } from 'tinacms/dist/react';
@@ -28,8 +28,8 @@ export default function Page(props: {
       <div className='mb-spacer-120 flex flex-col gap-spacer-80'>
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {
-            case 'PageBlocksHero': {
-              return <Hero {...block} key={i} />;
+            case 'PageBlocksTextContent': {
+              return <TextContent {...block} key={i} />;
             }
             case 'PageBlocksPostList': {
               return (

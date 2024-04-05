@@ -1,9 +1,9 @@
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
-import { PageBlocksHero } from '@/tina/types';
+import { PageBlocksTextContent } from '@/tina/types';
 import classNames from 'classnames';
 import { tinaField } from 'tinacms/dist/react';
 
-export default function Hero(props: PageBlocksHero) {
+export default function Hero(props: PageBlocksTextContent) {
   return (
     <section className='layout-grid'>
       <div className='text-container col-start-4 col-end-10'>
@@ -13,6 +13,7 @@ export default function Hero(props: PageBlocksHero) {
             <CustomMarkdown content={props.description} />
           </div>
         )}
+
         {props.links && (
           <div className='flex flex-col items-start gap-12 md:flex-row'>
             {props.links?.map((link, i) => (
