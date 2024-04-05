@@ -1,9 +1,11 @@
 ---
 links:
-  - label: Thèmes
-    link: /posts
+  - label: Idées reçues
+    link: /idees-recues
+  - label: Services
+    link: /services
   - label: À propos
-    link: /about
+    link: /a-propos
   - label: Contact
     link: /contact
 ---
