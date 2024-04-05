@@ -15,7 +15,7 @@ export default function PostList(props: {
   filterProps: PostsFilter[];
 }) {
   const { data } = useTina(props.postsProps);
-  const posts = data.postConnection.edges;
+  const posts = data?.postConnection.edges;
   const path = usePathname();
 
   return (
