@@ -1,5 +1,5 @@
 ---
-title: Handicaps
+title: Handicap
 priority: 600
 ---
 
