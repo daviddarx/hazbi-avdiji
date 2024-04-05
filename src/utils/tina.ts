@@ -1,6 +1,6 @@
 import { type Template, type TinaField, tinaTableTemplate } from 'tinacms';
 
-export const postRoute = '/post';
+export const postRoute = '/idee-recue';
 
 export const slugify = (value = 'no-value') => {
   return `${value
