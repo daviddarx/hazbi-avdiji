@@ -1,13 +1,34 @@
-import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import PageLink from '@/components/ui/PageLink';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { formatDate } from '@/utils/core';
 import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
-import { motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { tinaField, useTina } from 'tinacms/dist/react';
+
+const motionVariants = {
+  initial: {
+    opacity: 0,
+    y: 30,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.25,
+      ease: ease.outQuart,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.15,
+      ease: ease.outQuart,
+    },
+  },
+};
 
 export default function PostList(props: {
   blockProps: PageBlocksPostList;
@@ -51,7 +72,14 @@ export default function PostList(props: {
             </ul>
           </div>
 
-          <ul className='col-start-2 col-end-12 mt-gutter grid grid-cols-3 gap-4'>
+          <motion.ul
+            key={Math.random() * Math.random()}
+            className='col-start-2 col-end-12 mt-gutter grid grid-cols-3 gap-4'
+            initial='initial'
+            animate='animate'
+            exit='exit'
+            variants={motionVariants}
+          >
             {posts.map((edge) => {
               const post = edge?.node;
 
@@ -76,7 +104,7 @@ export default function PostList(props: {
                 </li>
               );
             })}
-          </ul>
+          </motion.ul>
         </div>
       )}
     </section>
