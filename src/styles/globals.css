@@ -223,20 +223,4 @@
   .layout-grid {
     @apply grid grid-cols-12 p-gutter;
   }
-
-  .nav {
-    @apply rounded-full border border-black/20 p-16;
-  }
-
-  .nav-list {
-    @apply flex flex-wrap items-start;
-  }
-
-  .nav-link {
-    @apply inline-block px-16 py-4 font-bold;
-  }
-
-  .nav-active {
-    @apply absolute -bottom-4 -left-4 -right-4 -top-4 rounded-full border border-black bg-theme-next;
-  }
 }
