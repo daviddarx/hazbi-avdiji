@@ -58,7 +58,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
     postsFilters = [
       {
         label: t.allPosts,
-        url: `/${pageMdPath}`,
+        link: `/${pageMdPath}`,
         active: params.slug?.length === 1,
       },
     ];
@@ -68,7 +68,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
         const node = edge!.node!;
         return {
           label: node.title,
-          url: `/${params.slug![0]}/${node._sys.filename}`,
+          link: `/${params.slug![0]}/${node._sys.filename}`,
           active: node._sys.filename === categoryParams,
         };
       }),

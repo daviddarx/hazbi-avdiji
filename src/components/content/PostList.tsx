@@ -1,12 +1,16 @@
+import ActiveNavigation from '../ui/ActiveNavigation';
 import PageLink from '@/components/ui/PageLink';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { formatDate } from '@/utils/core';
 import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
-import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { tinaField, useTina } from 'tinacms/dist/react';
+
+const postsFilterActiveDetection = (currentPathname: string, linkPathname: string) => {
+  return currentPathname.split('/')[2] === linkPathname.split('/')[2];
+};
 
 const motionVariants = {
   initial: {
@@ -37,39 +41,19 @@ export default function PostList(props: {
 }) {
   const { data } = useTina(props.postsProps);
   const posts = data?.postConnection.edges;
-  const path = usePathname();
 
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='layout-grid mt-gutter'>
           <div className='col-start-4 col-end-10'>
-            <ul className='nav nav-list inline-flex'>
-              {props.filterProps.map((filter, i) => {
-                return (
-                  <li key={i} className='relative'>
-                    <PageLink
-                      href={filter.url}
-                      className={'nav-link relative z-10'}
-                      scrollToTop={false}
-                    >
-                      {filter.label}
-                    </PageLink>
-
-                    {path.split('/')[2] === filter!.url.split('/')[2] && (
-                      <motion.span
-                        layoutId='activeFilter'
-                        className='nav-active z-0'
-                        transition={{
-                          duration: 0.5,
-                          ease: ease.inOutQuart,
-                        }}
-                      />
-                    )}
-                  </li>
-                );
-              })}
-            </ul>
+            <ActiveNavigation
+              title={'Filtres'}
+              items={props.filterProps}
+              scrollToTop={false}
+              activeLinkDetection={postsFilterActiveDetection}
+              animated={false}
+            />
           </div>
 
           <motion.ul
