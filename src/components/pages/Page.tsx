@@ -22,7 +22,9 @@ export default function Page(props: {
             {page.title}
           </span>
           {page.longTitle && (
-            <h1 data-tina-field={tinaField(page, 'longTitle')}>{page.longTitle}</h1>
+            <h1 className='mb-48' data-tina-field={tinaField(page, 'longTitle')}>
+              {page.longTitle}
+            </h1>
           )}
           {page.lead && <p data-tina-field={tinaField(page, 'lead')}>{page.lead}</p>}
         </div>

@@ -19,7 +19,7 @@ const fontText = Bricolage_Grotesque({
   variable: '--font-text',
 });
 const fontTitle = localFont({
-  src: './../../fonts/Larken-Black.ttf',
+  src: './../../fonts/Larken-Bold.ttf',
   variable: '--font-title',
 });
 

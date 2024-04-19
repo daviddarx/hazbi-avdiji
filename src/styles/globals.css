@@ -46,12 +46,12 @@
   }
 
   body {
-    @apply text-base leading-normal lg:text-xl;
+    @apply text-base leading-normal lg:text-2xl;
   }
 
   h1,
   .h1 {
-    @apply text-4xl xl:text-5xl;
+    @apply text-4xl xl:text-7xl;
   }
 
   h2,
@@ -139,7 +139,7 @@
       & blockquote,
       & table,
       a.button {
-        @apply mb-spacer-20;
+        @apply mb-spacer-32;
       }
 
       & div {

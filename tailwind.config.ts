@@ -16,6 +16,21 @@ const config: Config = {
       'theme-next': 'var(--color-theme-next)',
       ...themeColors,
     },
+    fontSize: {
+      xs: ['0.75rem', '1.5'], // 12px
+      sm: ['0.875rem', '1.5'], // 14px
+      base: ['1rem', '1.5'], // 16px
+      lg: ['1.125rem', '1.5'], // 18px
+      xl: ['1.25rem', '1.5'], // 20px
+      '2xl': ['1.5rem', '1.5'], // 24px
+      '3xl': ['1.75rem', '1.5'], // 28px
+      '4xl': ['2rem', '1.5'], // 32px
+      '5xl': ['2.5rem', '1.5'], // 40px
+      '6xl': ['3rem', '1.5'], // 48px
+      '7xl': ['3.5rem', '1.5'], // 56px
+      '8xl': ['4.5rem', '1.5'], // 72px
+      '9xl': ['6rem', '1.5'], // 96px
+    },
     lineHeight: {
       normal: '1.65',
       tight: '1.4',
