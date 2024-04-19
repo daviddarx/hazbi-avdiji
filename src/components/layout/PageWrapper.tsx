@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 const motionVariants = {
   initial: (scrollToTopOnPageChange: boolean) => {
     if (scrollToTopOnPageChange) {
-      return { opacity: 0, y: 50 };
+      return { opacity: 0, y: 30 };
     } else {
       return { opacity: 1 };
     }
@@ -27,7 +27,7 @@ const motionVariants = {
           delay:
             delayBeforeScrollRestoration / 1000 +
             0.05 /* aditional delay to avoid visual glitch when pages have big differences in their height  */,
-          duration: 0.5,
+          duration: 0.4,
           ease: eases.outQuart,
         },
       };
@@ -46,7 +46,7 @@ const motionVariants = {
         opacity: 0,
         y: 0,
         transition: {
-          duration: 0.15,
+          duration: 0.1,
           ease: eases.linear,
         },
       };
