@@ -13,6 +13,7 @@ export default function ActivePillNavigation({
   className?: string;
 }) {
   const container = useRef<HTMLElement>(null);
+  const [activeChild, setActiveChild] = useState<null | HTMLElement>(null);
 
   const [activeDimensions, setActiveDimensions] = useState<{
     top: string | number;
@@ -56,11 +57,23 @@ export default function ActivePillNavigation({
     }
   }, []);
 
+  const handleResize = useCallback(() => {
+    handleActiveItem(activeChild);
+  }, [activeChild, handleActiveItem]);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [handleResize]);
+
   useEffect(() => {
     const activeElement = container.current?.querySelector(
       `[data-active-value='${currentActiveValue}']`,
     );
     handleActiveItem(activeElement as HTMLElement);
+    setActiveChild(activeElement as HTMLElement);
   }, [currentActiveValue, handleActiveItem]);
 
   return (
