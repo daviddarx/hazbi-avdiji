@@ -4,7 +4,7 @@ import { ActiveLinkDetectionFn } from '@/types';
 import Link, { LinkProps } from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useRouter } from 'next/router';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 
 type PageLinkProps = LinkProps & {
@@ -25,13 +25,11 @@ const PageLink = ({
   className = '',
   scrollToTop = true,
   activeDetection = defaultActiveLinkDetection,
-  onActive = undefined,
   ...props
 }: PropsWithChildren<PageLinkProps>) => {
   const { isReady } = useRouter();
   const [computedClassName, setComputedClassName] = useState(className);
   const dispatch = useDispatch();
-  const linkRef = useRef<HTMLAnchorElement>(null);
   const path = usePathname();
 
   useEffect(() => {
@@ -45,10 +43,6 @@ const PageLink = ({
       if (newClassName !== computedClassName) {
         setComputedClassName(newClassName);
       }
-
-      if (isActive && onActive) {
-        onActive(linkRef.current!);
-      }
     }
   }, [
     isReady,
@@ -59,7 +53,6 @@ const PageLink = ({
     activeClassName,
     className,
     computedClassName,
-    onActive,
   ]);
 
   const handleClick = () => {
@@ -69,13 +62,7 @@ const PageLink = ({
   };
 
   return (
-    <Link
-      ref={linkRef}
-      onClick={handleClick}
-      scroll={false}
-      className={computedClassName}
-      {...props}
-    >
+    <Link onClick={handleClick} scroll={false} className={computedClassName} {...props}>
       {children}
     </Link>
   );

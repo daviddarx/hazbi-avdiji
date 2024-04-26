@@ -1,21 +1,34 @@
-import ActiveNavigation from '../ui/ActiveNavigation';
+import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
+import PageLink from '@/components/ui/PageLink';
 import { NavigationResult } from '@/types';
+import { usePathname } from 'next/navigation';
 import React from 'react';
-import { useTina } from 'tinacms/dist/react';
+import { tinaField, useTina } from 'tinacms/dist/react';
 
 export default function Navigation(props: NavigationResult) {
   const navigationData = useTina(props);
   const { navigation } = navigationData.data;
+  const pathName = usePathname();
 
   return (
     <React.Fragment>
       {navigation.links && (
-        <ActiveNavigation
+        <ActivePillNavigation
           title={'Navigation'}
-          items={navigation.links}
-          useTinaField={true}
+          currentActiveValue={pathName.split('/')[1]}
           className='lg:fixed lg:left-1/2 lg:top-gutter lg:z-50 lg:-translate-x-1/2'
-        />
+        >
+          {navigation.links.map((link) => (
+            <PageLink
+              key={link!.link}
+              href={link!.link}
+              data-tina-field={tinaField(link!, 'label')}
+              data-active-value={link!.link.split('/')[1]}
+            >
+              {link!.label}
+            </PageLink>
+          ))}
+        </ActivePillNavigation>
       )}
     </React.Fragment>
   );
