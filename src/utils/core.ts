@@ -9,6 +9,7 @@ export function formatDate(date: string) {
 }
 
 export const POSTS_CATEGORY_SEARCH_PARAMS = 'categorie';
+export const POSTS_CATEGORY_ALL_VALUE = 'tout';
 
 export function getSystem() {
   const detected = detect();

@@ -1,8 +1,8 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Page from '@/components/pages/Page';
 import client from '@/tina/client';
-import { CategoryFilter } from '@/tina/types';
 import { PageResult, PostsFilter, PostsResult } from '@/types/';
+import { POSTS_CATEGORY_ALL_VALUE } from '@/utils/core';
 import t from '@/utils/translations';
 
 export default function PageComponent({
@@ -58,8 +58,8 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
     postsFilters = [
       {
         label: t.allPosts,
-        link: `/${pageMdPath}`,
-        category: '',
+        link: `/${pageMdPath}?categorie=${POSTS_CATEGORY_ALL_VALUE}`,
+        category: POSTS_CATEGORY_ALL_VALUE,
       },
     ];
 

@@ -1,8 +1,9 @@
+import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
 import PageLink from '@/components/ui/PageLink';
 import { uiActions } from '@/store';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
-import { POSTS_CATEGORY_SEARCH_PARAMS, formatDate } from '@/utils/core';
+import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS, formatDate } from '@/utils/core';
 import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
 import t from '@/utils/translations';
@@ -41,7 +42,7 @@ export default function PostList(props: {
   const { data } = useTina(props.postsProps);
   const posts = data.postConnection.edges;
   const [filteredPosts, setFilteredPosts] = useState(posts);
-  const [currentCategory, setCurrentCategory] = useState('');
+  const [currentCategory, setCurrentCategory] = useState(POSTS_CATEGORY_ALL_VALUE);
   const dispatch = useDispatch();
 
   const filterlist = useCallback(
@@ -57,7 +58,9 @@ export default function PostList(props: {
       window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
 
       const updatedFilteredPosts = posts!.filter((post) => {
-        return category ? post?.node?.category._sys.filename === category : true;
+        return category === POSTS_CATEGORY_ALL_VALUE || !category
+          ? true
+          : post?.node?.category._sys.filename === category;
       });
 
       setFilteredPosts(updatedFilteredPosts);
@@ -69,26 +72,28 @@ export default function PostList(props: {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
-    filterlist(category || '');
+    filterlist(category || POSTS_CATEGORY_ALL_VALUE);
   }, [filterlist]);
 
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='layout-grid mt-gutter'>
-          <div className='col-start-4 col-end-10 flex flex-wrap gap-32'>
-            {props.filterProps.map((filter) => (
-              <button
-                onClick={() => {
-                  filterlist(filter.category);
-                  dispatch(uiActions.changeCurrentColors(Math.random()));
-                }}
-                key={filter.link}
-                className={currentCategory === filter.category ? 'bg-black text-theme' : ''}
-              >
-                {filter.label}
-              </button>
-            ))}
+          <div className='col-start-4 col-end-10'>
+            <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
+              {props.filterProps.map((filter) => (
+                <button
+                  key={filter.link}
+                  onClick={() => {
+                    filterlist(filter.category);
+                    dispatch(uiActions.changeCurrentColors(Math.random()));
+                  }}
+                  data-active-value={filter.category}
+                >
+                  {filter.label}
+                </button>
+              ))}
+            </ActivePillNavigation>
           </div>
 
           <AnimatePresence mode='wait' initial={false}>
