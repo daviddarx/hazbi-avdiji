@@ -65,7 +65,7 @@ export default function ActiveNavigation({
         ))}
         <div
           className={classNames(
-            'absolute -z-10 rounded-full border border-black bg-theme-next transition-all duration-500 ease-in-out-quart',
+            'absolute -z-10 rounded-full border border-black bg-theme-next transition-all ease-in-out-quart',
             animated ? 'duration-500' : 'duration-0',
           )}
           style={activeDimensions}
