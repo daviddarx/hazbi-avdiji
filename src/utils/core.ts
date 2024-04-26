@@ -8,6 +8,8 @@ export function formatDate(date: string) {
   }).format(new Date(date));
 }
 
+export const POSTS_CATEGORY_SEARCH_PARAMS = 'categorie';
+
 export function getSystem() {
   const detected = detect();
 

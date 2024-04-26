@@ -1,7 +1,8 @@
-import { themeColors } from '@/utils/core';
-import type { Timeout } from '@/utils/core';
+import { uiStateType } from '@/store/ui-slice';
+import { type Timeout, themeColors } from '@/utils/core';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const colors = Object.values(themeColors);
 const animationDuration = 1000;
@@ -13,6 +14,7 @@ export default function ColoredBackground() {
   const [currentColorId, setCurrentColorId] = useState<null | number>(null);
   const [transformValue, setTransformValue] = useState('0%');
   const [transitionDuration, setTransitionDuration] = useState(animationDuration);
+  const changeCurrentColorsId = useSelector((state: uiStateType) => state.ui.changeCurrentColorsId);
 
   useEffect(() => {
     setCurrentColorId((current) => {
@@ -22,7 +24,7 @@ export default function ColoredBackground() {
         return current < colors.length - 1 ? current + 1 : 0;
       }
     });
-  }, [router.asPath]);
+  }, [router.asPath, changeCurrentColorsId]);
 
   useEffect(() => {
     let resetTimeout: Timeout;

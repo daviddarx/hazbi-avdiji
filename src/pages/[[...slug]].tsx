@@ -59,7 +59,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       {
         label: t.allPosts,
         link: `/${pageMdPath}`,
-        active: params.slug?.length === 1,
+        category: '',
       },
     ];
 
@@ -68,26 +68,14 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
         const node = edge!.node!;
         return {
           label: node.title,
-          link: `/${params.slug![0]}/${node._sys.filename}`,
-          active: node._sys.filename === categoryParams,
+          link: `/${params.slug![0]}?categorie=${node._sys.filename}`,
+          category: node._sys.filename,
         };
       }),
     );
 
-    let postsCategoryQueryFilter: CategoryFilter = {};
-
-    if (categoryParams) {
-      postsCategoryQueryFilter = {
-        title: {
-          eq: categoryConnectionResult.data.categoryConnection.edges!.find(
-            (edge) => edge?.node?._sys.filename === categoryParams,
-          )?.node?.title,
-        },
-      };
-    }
-
     postsResult = await client.queries.postConnection({
-      filter: { category: { category: postsCategoryQueryFilter }, published: { eq: true } },
+      filter: { published: { eq: true } },
       sort: 'createdAt',
       last: 100,
     });
@@ -106,7 +94,6 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
 
 export const getStaticPaths = async () => {
   const pageConnectionResult = await client.queries.pageConnection();
-  const categoryConnectionResult = await client.queries.categoryConnection();
 
   const paths = [{ params: { slug: [''] } }];
 
@@ -119,16 +106,6 @@ export const getStaticPaths = async () => {
       const pageResult = await client.queries.page({
         relativePath: `${fileName}.mdx`,
       });
-
-      const hasPostListBlock = pageResult.data.page.blocks?.some(
-        (block) => block?.__typename === 'PageBlocksPostList',
-      );
-
-      if (hasPostListBlock) {
-        categoryConnectionResult.data.categoryConnection.edges!.map((edge) => {
-          paths.push({ params: { slug: [fileName, edge!.node!._sys.filename] } });
-        });
-      }
     }),
   );
 

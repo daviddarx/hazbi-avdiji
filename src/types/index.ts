@@ -27,7 +27,7 @@ export type PostResult = {
 export type PostsFilter = {
   label: string;
   link: string;
-  active: boolean;
+  category: string;
 };
 
 export type ActiveLinkDetectionFn = (currentPathname: string, linkPathname: string) => boolean;

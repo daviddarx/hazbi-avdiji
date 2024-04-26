@@ -1,16 +1,15 @@
-import ActiveNavigation from '../ui/ActiveNavigation';
 import PageLink from '@/components/ui/PageLink';
+import { uiActions } from '@/store';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
-import { formatDate } from '@/utils/core';
+import { POSTS_CATEGORY_SEARCH_PARAMS, formatDate } from '@/utils/core';
 import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
-import { motion } from 'framer-motion';
+import t from '@/utils/translations';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useCallback, useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { tinaField, useTina } from 'tinacms/dist/react';
-
-const postsFilterActiveDetection = (currentPathname: string, linkPathname: string) => {
-  return currentPathname.split('/')[2] === linkPathname.split('/')[2];
-};
 
 const motionVariants = {
   initial: {
@@ -40,55 +39,98 @@ export default function PostList(props: {
   filterProps: PostsFilter[];
 }) {
   const { data } = useTina(props.postsProps);
-  const posts = data?.postConnection.edges;
+  const posts = data.postConnection.edges;
+  const [filteredPosts, setFilteredPosts] = useState(posts);
+  const [currentCategory, setCurrentCategory] = useState('');
+  const dispatch = useDispatch();
+
+  const filterlist = useCallback(
+    (category: string) => {
+      const queryParams = new URLSearchParams(window.location.search);
+      queryParams.set(POSTS_CATEGORY_SEARCH_PARAMS, category);
+
+      const newUrl = category
+        ? `${window.location.pathname}?${queryParams.toString()}`
+        : window.location.pathname;
+
+      // https://github.com/vercel/next.js/discussions/18072#discussioncomment-109059
+      window.history.replaceState({ ...window.history.state, as: newUrl, url: newUrl }, '', newUrl);
+
+      const updatedFilteredPosts = posts!.filter((post) => {
+        return category ? post?.node?.category._sys.filename === category : true;
+      });
+
+      setFilteredPosts(updatedFilteredPosts);
+      setCurrentCategory(category);
+    },
+    [posts, setFilteredPosts],
+  );
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
+    filterlist(category || '');
+  }, [filterlist]);
 
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='layout-grid mt-gutter'>
-          <div className='col-start-4 col-end-10'>
-            <ActiveNavigation
-              title={'Filtres'}
-              items={props.filterProps}
-              scrollToTop={false}
-              activeLinkDetection={postsFilterActiveDetection}
-              animated={false}
-            />
+          <div className='col-start-4 col-end-10 flex flex-wrap gap-32'>
+            {props.filterProps.map((filter) => (
+              <button
+                onClick={() => {
+                  filterlist(filter.category);
+                  dispatch(uiActions.changeCurrentColors(Math.random()));
+                }}
+                key={filter.link}
+                className={currentCategory === filter.category ? 'bg-black text-theme' : ''}
+              >
+                {filter.label}
+              </button>
+            ))}
           </div>
 
-          <motion.ul
-            key={Math.random() * Math.random()}
-            className='col-start-2 col-end-12 mt-gutter grid grid-cols-3 gap-4'
-            initial='initial'
-            animate='animate'
-            exit='exit'
-            variants={motionVariants}
-          >
-            {posts.map((edge) => {
-              const post = edge?.node;
+          <AnimatePresence mode='wait' initial={false}>
+            <motion.div
+              key={Math.random() * Math.random()}
+              className='col-start-2 col-end-12 mt-gutter'
+              initial='initial'
+              animate='animate'
+              exit='exit'
+              variants={motionVariants}
+            >
+              <div className='col-start-2 col-end-12 mb-gutter text-base'>
+                {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
+              </div>
+              <ul className='grid grid-cols-3 gap-4'>
+                {filteredPosts!.map((edge) => {
+                  const post = edge?.node;
 
-              if (!post) {
-                return null;
-              }
+                  if (!post) {
+                    return null;
+                  }
 
-              return (
-                <li key={post._sys.filename}>
-                  <PageLink
-                    href={`${postRoute}/${post._sys.filename}`}
-                    className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:border-black hover:bg-theme-prev'
-                  >
-                    <h3 className='' data-tina-field={tinaField(post, 'title')}>
-                      {post.title}
-                    </h3>
-                    <div className='flex gap-16'>
-                      <span className='font-bold'>{post.category.title}</span> –
-                      <span>{formatDate(post.createdAt)}</span>
-                    </div>
-                  </PageLink>
-                </li>
-              );
-            })}
-          </motion.ul>
+                  return (
+                    <li key={post._sys.filename}>
+                      <PageLink
+                        href={`${postRoute}/${post._sys.filename}`}
+                        className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:border-black hover:bg-theme-prev'
+                      >
+                        <h3 className='' data-tina-field={tinaField(post, 'title')}>
+                          {post.title}
+                        </h3>
+                        <div className='flex gap-16'>
+                          <span className='font-bold'>{post.category.title}</span> –
+                          <span>{formatDate(post.createdAt)}</span>
+                        </div>
+                      </PageLink>
+                    </li>
+                  );
+                })}
+              </ul>
+            </motion.div>
+          </AnimatePresence>
         </div>
       )}
     </section>
