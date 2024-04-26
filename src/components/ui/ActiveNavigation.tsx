@@ -42,7 +42,10 @@ export default function ActiveNavigation({
 
   return (
     <nav
-      className={classNames('rounded-full border border-black/20 p-12 backdrop-blur-md', className)}
+      className={classNames(
+        'rounded-[1.5em] border border-black/20 p-12 backdrop-blur-md',
+        className,
+      )}
       style={{ backgroundColor: 'color-mix(in lab, var(--color-theme) 20%, transparent)' }}
     >
       <h2 className='sr-only'>{title}</h2>
