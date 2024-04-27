@@ -73,8 +73,9 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
       exit='exit'
       variants={motionVariants}
       custom={scrollToTopOnPageChange}
+      className='h-full'
     >
-      <div className='mt-[200px]'>
+      <div className='flex h-full flex-col pt-[200px]'>
         {children}
         <Footer />
       </div>

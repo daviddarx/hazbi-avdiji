@@ -46,6 +46,10 @@
     @apply h-full w-full text-black;
   }
 
+  div#__next {
+    @apply h-full;
+  }
+
   body {
     @apply text-base leading-normal lg:text-2xl;
   }

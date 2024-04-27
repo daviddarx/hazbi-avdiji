@@ -105,10 +105,12 @@ export default function Layout({
   };
 
   return (
-    <div className={classNames(fontText.className, fontText.variable, fontTitle.variable)}>
+    <div
+      className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
+    >
       <Header />
       {navigationProps && <Navigation {...navigationProps} />}
-      <main>
+      <main className='h-full'>
         <AnimatePresence mode='wait' initial={false} onExitComplete={handleExitComplete}>
           {children}
         </AnimatePresence>
