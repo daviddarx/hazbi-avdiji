@@ -70,6 +70,7 @@ const config: Config = {
       24: '1.5rem', // 24px
       28: '1.75rem', // 28px
       32: '2rem', // 32px
+      36: '2.25rem', // 36px
       40: '2.5rem', // 40px
       48: '3rem', // 48px
       56: '3.5rem', // 56px
@@ -125,6 +126,9 @@ const config: Config = {
         'in-out-expo': 'cubic-bezier(1.0, 0.0, 0.0, 1.0)',
         'in-out-circ': 'cubic-bezier(0.785, 0.135, 0.15, 0.86)',
         'in-out-back': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+      },
+      borderRadius: {
+        cards: 'var(--radius-cards)',
       },
     },
   },

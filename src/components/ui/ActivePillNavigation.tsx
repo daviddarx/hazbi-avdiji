@@ -80,7 +80,7 @@ export default function ActivePillNavigation({
     <nav
       ref={container}
       className={classNames(
-        'rounded-[1.5em] border border-black/20 p-12 backdrop-blur-md',
+        'rounded-cards border border-black/20 p-12 backdrop-blur-md',
         className,
       )}
       style={{ backgroundColor: 'color-mix(in lab, var(--color-theme) 20%, transparent)' }}
@@ -98,7 +98,7 @@ export default function ActivePillNavigation({
           ))}
         <div
           className={classNames(
-            'absolute -z-10 rounded-full border border-black bg-theme-next transition-all duration-500 ease-in-out-quart',
+            'absolute -z-10 transform-gpu rounded-full border border-black bg-theme-next transition-all duration-500 ease-in-out-quart',
           )}
           style={activeDimensions}
         ></div>

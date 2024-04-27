@@ -21,6 +21,7 @@
   --color-theme: theme('colors.theme1');
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
+  --radius-cards: theme('spacing.36');
 
   @screen lg {
     --spacer-8: theme('spacing.8');

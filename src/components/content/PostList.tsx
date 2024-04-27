@@ -3,7 +3,7 @@ import PageLink from '@/components/ui/PageLink';
 import { uiActions } from '@/store';
 import { PageBlocksPostList } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
-import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS, formatDate } from '@/utils/core';
+import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
 import ease from '@/utils/eases';
 import { postRoute } from '@/utils/tina';
 import t from '@/utils/translations';
@@ -120,14 +120,13 @@ export default function PostList(props: {
                     <li key={post._sys.filename}>
                       <PageLink
                         href={`${postRoute}/${post._sys.filename}`}
-                        className='flex h-full flex-col justify-between gap-gutter rounded-3xl border border-black/20 p-gutter transition-colors hover:border-black hover:bg-theme-prev'
+                        className='flex h-full flex-col justify-between gap-gutter rounded-cards border border-black/20 p-gutter transition-colors hover:border-black hover:bg-theme-prev'
                       >
                         <h3 className='' data-tina-field={tinaField(post, 'title')}>
                           {post.title}
                         </h3>
-                        <div className='flex gap-16'>
-                          <span className='font-bold'>{post.category.title}</span> –
-                          <span>{formatDate(post.createdAt)}</span>
+                        <div className='sr-only flex gap-16'>
+                          <span className='font-bold'>{post.category.title}</span>
                         </div>
                       </PageLink>
                     </li>
