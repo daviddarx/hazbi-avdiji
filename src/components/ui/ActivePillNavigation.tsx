@@ -140,7 +140,7 @@ export default function ActivePillNavigation({
         ></div>
         <div
           className={classNames(
-            'absolute -z-20 transform-gpu rounded-full border border-black bg-theme-prev transition-all duration-300 ease-out-quart',
+            'absolute -z-20 hidden transform-gpu rounded-full border border-black bg-theme-prev transition-all duration-300 ease-out-quart hashover:block',
           )}
           style={hoverDimensions}
         ></div>
