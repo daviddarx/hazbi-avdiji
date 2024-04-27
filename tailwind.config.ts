@@ -31,6 +31,22 @@ const config: Config = {
       '8xl': ['4.5rem', '1.5'], // 72px
       '9xl': ['6rem', '1.5'], // 96px
     },
+    screens: {
+      'max-xs': { max: '389px' },
+      xs: '390px',
+      'max-sm': { max: '639px' },
+      sm: '640px',
+      'max-md': { max: '767px' },
+      md: '768px',
+      'max-lg': { max: '1023px' },
+      lg: '1024px',
+      'max-xl': { max: '1279px' },
+      xl: '1280px',
+      'max-2xl': { max: '1535px' },
+      '2xl': '1536px',
+      max: '2560px',
+      hashover: { raw: '(hover: hover)' },
+    },
     lineHeight: {
       normal: '1.65',
       tight: '1.4',
