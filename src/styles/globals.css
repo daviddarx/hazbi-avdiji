@@ -120,6 +120,14 @@
       @apply mb-0;
     }
   }
+
+  .admin-only {
+    display: none;
+
+    .__tina-quick-editing-enabled & {
+      display: block;
+    }
+  }
 }
 
 @layer components {

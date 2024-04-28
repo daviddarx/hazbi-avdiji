@@ -76,6 +76,12 @@ export const richTextTemplates: Template[] = [
   tinaTableTemplate,
 ];
 
+export const imageFields: TinaField[] = [
+  { name: 'image', label: 'Image', type: 'image' },
+  { name: 'imageWidth', label: 'Image width', type: 'number' },
+  { name: 'imageHeight', label: 'Image height', type: 'number' },
+];
+
 export const textContentTemplate: Template = {
   name: 'textContent',
   label: 'Text-Content',
@@ -91,11 +97,36 @@ export const textContentTemplate: Template = {
       type: 'rich-text',
       templates: richTextTemplates,
     },
+    {
+      name: 'mediaBlocks',
+      label: 'Media Blocks',
+      type: 'object',
+      list: true,
+      templates: [
+        {
+          name: 'image',
+          label: 'Image',
+          fields: [{ name: 'id', label: 'ID', type: 'string' }, ...imageFields],
+          ui: {
+            itemProps: (item) => {
+              return { label: `Image (${item.id})` };
+            },
+          },
+        },
+        {
+          name: 'video',
+          label: 'Video',
+          fields: [
+            { name: 'id', label: 'ID', type: 'string' },
+            { name: 'url', label: 'URL', type: 'string' },
+          ],
+          ui: {
+            itemProps: (item) => {
+              return { label: `Video (${item.id})` };
+            },
+          },
+        },
+      ],
+    },
   ],
 };
-
-export const imageFields: TinaField[] = [
-  { name: 'image', label: 'Image', type: 'image' },
-  { name: 'imageWidth', label: 'Image width', type: 'number' },
-  { name: 'imageHeight', label: 'Image height', type: 'number' },
-];

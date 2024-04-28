@@ -1,10 +1,4 @@
-import {
-  addImagesDimensions,
-  imageFields,
-  richTextTemplates,
-  slugify,
-  textContentTemplate,
-} from '../src/utils/tina';
+import { addImagesDimensions, slugify, textContentTemplate } from '../src/utils/tina';
 import { postRoute } from '../src/utils/tina';
 import { defineConfig } from 'tinacms';
 

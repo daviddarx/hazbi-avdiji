@@ -1,6 +1,6 @@
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
-import classNames from 'classnames';
+import Image from 'next/image';
 import { tinaField } from 'tinacms/dist/react';
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
@@ -11,6 +11,29 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           <div data-tina-field={tinaField(props, 'content')}>
             <CustomMarkdown content={props.content} />
           </div>
+        )}
+        {props.mediaBlocks && (
+          <section className='admin-only mt-64'>
+            <h1>Médias</h1>
+            <ul>
+              {props.mediaBlocks.map((mediaBlock, i) => (
+                <li key={`mediablock-${i}`} className='mt-20 border-t border-black pt-20'>
+                  <div data-tina-field={tinaField(mediaBlock!, 'id')}>{mediaBlock!.id}</div>
+                  {mediaBlock?.__typename === 'PostBlocksTextContentMediaBlocksImage' && (
+                    <Image
+                      src={mediaBlock.image!}
+                      width={mediaBlock.imageWidth!}
+                      height={mediaBlock.imageHeight!}
+                      alt='media'
+                    />
+                  )}
+                  {mediaBlock?.__typename === 'PostBlocksTextContentMediaBlocksVideo' && (
+                    <a href={mediaBlock.url!}>{mediaBlock.url}</a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
         )}
       </div>
     </section>
