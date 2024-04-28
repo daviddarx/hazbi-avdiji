@@ -102,31 +102,16 @@ export const textContentTemplate: Template = {
       label: 'Media Blocks',
       type: 'object',
       list: true,
-      templates: [
-        {
-          name: 'image',
-          label: 'Image',
-          fields: [{ name: 'id', label: 'ID', type: 'string' }, ...imageFields],
-          ui: {
-            itemProps: (item) => {
-              return { label: `Image (${item.id})` };
-            },
-          },
-        },
-        {
-          name: 'video',
-          label: 'Video',
-          fields: [
-            { name: 'id', label: 'ID', type: 'string' },
-            { name: 'url', label: 'URL', type: 'string' },
-          ],
-          ui: {
-            itemProps: (item) => {
-              return { label: `Video (${item.id})` };
-            },
-          },
-        },
+      fields: [
+        { name: 'id', label: 'ID', type: 'string', required: true },
+        { name: 'videoURL', label: 'Video URL', type: 'string' },
+        ...imageFields,
       ],
+      ui: {
+        itemProps: (item) => {
+          return { label: `Media (${item.id})` };
+        },
+      },
     },
   ],
 };

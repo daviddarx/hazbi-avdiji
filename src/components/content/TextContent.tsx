@@ -19,16 +19,18 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
               {props.mediaBlocks.map((mediaBlock, i) => (
                 <li key={`mediablock-${i}`} className='mt-20 border-t border-black pt-20'>
                   <div data-tina-field={tinaField(mediaBlock!, 'id')}>{mediaBlock!.id}</div>
-                  {mediaBlock?.__typename === 'PostBlocksTextContentMediaBlocksImage' && (
+                  {mediaBlock?.videoURL && (
+                    <video controls>
+                      <source src={mediaBlock.videoURL} type='video/mp4' />
+                    </video>
+                  )}
+                  {mediaBlock?.image && (
                     <Image
                       src={mediaBlock.image!}
                       width={mediaBlock.imageWidth!}
                       height={mediaBlock.imageHeight!}
                       alt='media'
                     />
-                  )}
-                  {mediaBlock?.__typename === 'PostBlocksTextContentMediaBlocksVideo' && (
-                    <a href={mediaBlock.url!}>{mediaBlock.url}</a>
                   )}
                 </li>
               ))}
