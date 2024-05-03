@@ -2,7 +2,6 @@ import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
 import ease from '@/utils/eases';
-import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -53,19 +52,15 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     setCurrentMedia(null);
   }, []);
 
-  const handleBodyClick = useCallback(
-    (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.hasAttribute('data-media-video')) {
-        closeMedia();
-      }
-    },
-    [closeMedia],
-  );
-
   const positionMedia = useCallback((mediaElement: HTMLElement) => {
-    mediaElement.style.left = `${(window.innerWidth - mediaElement.offsetWidth) * 0.5}px`;
-    mediaElement.style.top = `${(window.innerHeight - mediaElement.offsetHeight) * 0.5}px`;
+    if (mediasContainer.current) {
+      mediasContainer.current.style.left = `${
+        (window.innerWidth - mediaElement.offsetWidth) * 0.5
+      }px`;
+      mediasContainer.current.style.top = `${
+        (window.innerHeight - mediaElement.offsetHeight) * 0.5
+      }px`;
+    }
   }, []);
 
   const resizeMedia = useCallback(
@@ -125,17 +120,15 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
       resizeCurrentMedia();
       textContainerEl.addEventListener('click', handleMediaClick);
       window.addEventListener('resize', resizeCurrentMedia);
-      document.body.addEventListener('click', handleBodyClick);
     }
 
     return () => {
       if (mediasContainerEl && textContainerEl) {
         textContainerEl.removeEventListener('click', handleMediaClick);
         window.removeEventListener('resize', resizeCurrentMedia);
-        document.body.removeEventListener('click', handleBodyClick);
       }
     };
-  }, [handleBodyClick, resizeCurrentMedia]);
+  }, [resizeCurrentMedia]);
 
   return (
     <section className='layout-grid'>
@@ -146,7 +139,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </div>
         )}
         {props.mediaBlocks && (
-          <div className='fixed left-0 top-0 z-70' ref={mediasContainer}>
+          <div className='fixed z-70' ref={mediasContainer}>
             <AnimatePresence mode='wait' initial={false}>
               {props.mediaBlocks.map((mediaBlock, i) => {
                 if (currentMedia && currentMedia.id === mediaBlock?.id) {
@@ -163,7 +156,8 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       {mediaBlock?.videoURL && (
                         <video
                           controls
-                          data-media-video='true'
+                          autoPlay={true}
+                          loop={true}
                           data-media-element='true'
                           className='overflow-hidden rounded-cards'
                         >
@@ -216,6 +210,9 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </section>
         )}
       </div>
+      {currentMedia && (
+        <div className='fixed left-0 top-0 z-60 h-screen w-screen' onClick={closeMedia}></div>
+      )}
     </section>
   );
 }
