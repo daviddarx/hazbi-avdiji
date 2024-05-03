@@ -15,7 +15,11 @@ const components: Components<{
     return (
       <a
         href={props?.url}
-        className={props!.url.split(mediaLinksURLPrefix).length > 1 ? 'bg-theme-prev' : ''}
+        className={
+          props!.url.split(mediaLinksURLPrefix).length > 1
+            ? 'rounded-[1em] border border-black/20 bg-theme px-[0.55em] py-[0.25em] font-bold !no-underline transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev'
+            : ''
+        }
         target='_blank'
       >
         {props?.children}

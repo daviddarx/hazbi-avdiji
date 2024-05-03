@@ -132,7 +132,7 @@
 
 @layer components {
   .button {
-    @apply inline-block rounded-full border border-black px-16 py-4 font-bold uppercase transition-colors duration-200 ease-out;
+    @apply inline-block rounded-full border border-black/20 bg-theme px-16 py-4 font-bold transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev;
   }
 
   .button--primary {
