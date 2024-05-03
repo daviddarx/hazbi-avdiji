@@ -222,8 +222,8 @@
       }
     }
 
-    & a:not(.button) {
-      @apply underline;
+    & a.text-link {
+      @apply underline transition-opacity duration-200 ease-out hashover:hover:no-underline hashover:hover:opacity-50;
     }
 
     & blockquote {
