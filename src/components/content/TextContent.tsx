@@ -4,62 +4,74 @@ import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
 import ease from '@/utils/eases';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
 
 const motionVariants = {
   initial: () => {
-    return { opacity: 0, y: 30, rotate: getRandomBetween(-90, 90) };
+    return { opacity: 0, y: 200, rotate: getRandomBetween(-20, 20) };
   },
   animate: {
     opacity: 1,
     y: 0,
     rotate: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.4,
       ease: ease.outQuart,
     },
   },
   exit: {
     opacity: 0,
+    y: 50,
     transition: {
-      duration: 0.5,
+      duration: 0.25,
       ease: ease.outQuart,
     },
   },
 };
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
-  const [currentMediaId, setCurrentMediaId] = useState<string | null>(null);
+  const [currentMedia, setCurrentMedia] = useState<{ id: string; caption: string } | null>(null);
   const textContainer = useRef<HTMLDivElement | null>(null);
 
   const handleMediaClick = (e: MouseEvent) => {
     if (e.target instanceof HTMLAnchorElement) {
-      const mediaURL = e.target.href.split(mediaLinksURLPrefix);
+      const target = e.target as HTMLAnchorElement;
+      const mediaURL = target.href.split(mediaLinksURLPrefix);
       if (mediaURL.length > 1) {
         requestAnimationFrame(() => {
-          setCurrentMediaId(mediaURL[1]);
+          setCurrentMedia({ id: mediaURL[1], caption: target.innerText });
         });
         e.preventDefault();
       }
     }
   };
 
-  const closeMedia = () => {
-    setCurrentMediaId(null);
-  };
+  const closeMedia = useCallback(() => {
+    setCurrentMedia(null);
+  }, []);
+
+  const handleBodyClick = useCallback(
+    (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.hasAttribute('data-media-block')) {
+        closeMedia();
+      }
+    },
+    [closeMedia],
+  );
 
   useEffect(() => {
-    if (currentMediaId) {
-      document.body.addEventListener('click', closeMedia);
+    if (currentMedia) {
+      document.body.addEventListener('click', handleBodyClick);
     }
 
     return () => {
-      if (currentMediaId) {
-        document.body.removeEventListener('click', closeMedia);
+      if (currentMedia) {
+        document.body.removeEventListener('click', handleBodyClick);
       }
     };
-  }, [currentMediaId]);
+  }, [currentMedia, handleBodyClick]);
 
   useEffect(() => {
     const textContainerEl = textContainer.current;
@@ -83,18 +95,34 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           <div className='absolute left-0 top-0 z-70'>
             <AnimatePresence mode='wait' initial={false}>
               {props.mediaBlocks.map((mediaBlock, i) => {
-                if (mediaBlock?.id === currentMediaId) {
+                if (currentMedia && currentMedia.id === mediaBlock?.id) {
                   return (
-                    <motion.div
+                    <motion.figure
                       key={i}
-                      className='border border-black bg-white'
+                      className='relative -mx-40 overflow-hidden rounded-cards border border-black bg-white'
                       initial='initial'
                       animate='animate'
                       exit='exit'
                       variants={motionVariants}
                     >
-                      {mediaBlock?.id}
-                    </motion.div>
+                      {mediaBlock?.videoURL && (
+                        <video controls data-media-block='true'>
+                          <source src={mediaBlock.videoURL} type='video/mp4' />
+                        </video>
+                      )}
+                      {mediaBlock?.image && (
+                        <Image
+                          src={mediaBlock.image!}
+                          width={mediaBlock.imageWidth!}
+                          height={mediaBlock.imageHeight!}
+                          alt='media'
+                          data-media-block='true'
+                        />
+                      )}
+                      <figcaption className='px-40 py-8 text-center text-base font-bold'>
+                        {currentMedia.caption}
+                      </figcaption>
+                    </motion.figure>
                   );
                 }
               })}
