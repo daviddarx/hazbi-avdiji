@@ -1,3 +1,4 @@
+import CloseButton from '@/components/ui/CloseButton';
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
@@ -25,7 +26,7 @@ const motionVariants = {
     opacity: 0,
 
     transition: {
-      duration: 0.2,
+      duration: 0.25,
       ease: ease.outQuart,
     },
   },
@@ -178,6 +179,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
                         {currentMedia.caption}
                       </figcaption>
+                      <CloseButton onClick={closeMedia} className={'absolute right-20 top-20'} />
                     </motion.figure>
                   );
                 }
