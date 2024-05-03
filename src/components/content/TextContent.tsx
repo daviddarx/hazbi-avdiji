@@ -33,7 +33,6 @@ const motionVariants = {
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
   const [currentMedia, setCurrentMedia] = useState<{ id: string; caption: string } | null>(null);
-  const [currentLink, setCurrentLink] = useState<HTMLAnchorElement | null>(null);
   const textContainer = useRef<HTMLDivElement | null>(null);
   const mediasContainer = useRef<HTMLDivElement | null>(null);
 
@@ -42,7 +41,6 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
       const target = e.target as HTMLAnchorElement;
       const mediaURL = target.href.split(mediaLinksURLPrefix);
       if (mediaURL.length > 1) {
-        setCurrentLink(target);
         requestAnimationFrame(() => {
           setCurrentMedia({ id: mediaURL[1], caption: target.innerText });
         });
@@ -65,21 +63,29 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     [closeMedia],
   );
 
+  const positionMedia = useCallback((mediaElement: HTMLElement) => {
+    mediaElement.style.left = `${(window.innerWidth - mediaElement.offsetWidth) * 0.5}px`;
+    mediaElement.style.top = `${(window.innerHeight - mediaElement.offsetHeight) * 0.5}px`;
+  }, []);
+
   const resizeMedia = useCallback(
-    (mediaElement: HTMLElement, linkElement: HTMLAnchorElement | null) => {
+    (mediaElement: HTMLElement) => {
       if (mediaElement) {
         const element = mediaElement.querySelector('[data-media-element="true"]') as HTMLElement;
+        positionMedia(mediaElement);
 
-        requestAnimationFrame(() => {
-          if (mediaElement.offsetHeight > window.innerHeight) {
-            const height = element.offsetHeight - (mediaElement.offsetHeight - window.innerHeight);
-            element.style.height = `${height}px`;
-            element.style.width = 'auto';
-          }
-        });
+        if (mediaElement.offsetHeight > window.innerHeight) {
+          const height = element.offsetHeight - (mediaElement.offsetHeight - window.innerHeight);
+          element.style.height = `${height}px`;
+          element.style.width = 'auto';
+
+          requestAnimationFrame(() => {
+            positionMedia(mediaElement);
+          });
+        }
       }
     },
-    [],
+    [positionMedia],
   );
 
   const resizeCurrentMedia = useCallback(() => {
@@ -88,7 +94,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
         `[data-media-id='${currentMedia.id}']`,
       ) as HTMLElement;
 
-      resizeMedia(currentMediaEl, currentLink);
+      resizeMedia(currentMediaEl);
 
       if (currentMediaEl) {
         const videoEl = currentMediaEl.querySelector('video');
@@ -101,7 +107,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
               videoEl.classList.remove('opacity-0');
               videoEl.setAttribute('data-loaded', 'true');
               if (currentMediaEl) {
-                resizeMedia(currentMediaEl, currentLink);
+                resizeMedia(currentMediaEl);
               }
             },
             { once: true },
@@ -109,7 +115,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
         }
       }
     }
-  }, [currentMedia, currentLink, resizeMedia]);
+  }, [currentMedia, resizeMedia]);
 
   useEffect(() => {
     const mediasContainerEl = mediasContainer.current;
@@ -147,10 +153,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                   return (
                     <motion.figure
                       key={i}
-                      className={classNames(
-                        'bg-theme-mix relative rounded-cards border border-black/20 backdrop-blur-md',
-                        '-ml-80 -mr-80 p-80',
-                      )}
+                      className='bg-theme-mix relative rounded-cards border border-black/20 p-80 backdrop-blur-md'
                       initial='initial'
                       animate='animate'
                       exit='exit'
