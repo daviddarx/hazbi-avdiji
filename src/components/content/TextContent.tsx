@@ -9,11 +9,12 @@ import { tinaField } from 'tinacms/dist/react';
 
 const motionVariants = {
   initial: () => {
-    return { opacity: 0, scale: 0.75, rotate: getRandomBetween(-15, 15) };
+    return { opacity: 0, scale: 0.75, y: 50, rotate: getRandomBetween(-15, 15) };
   },
   animate: {
     opacity: 1,
     scale: 1,
+    y: 0,
     rotate: 0,
     transition: {
       duration: 0.35,
