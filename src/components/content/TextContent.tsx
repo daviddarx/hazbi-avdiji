@@ -1,9 +1,33 @@
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
-import { mediaLinksURLPrefix } from '@/utils/core';
+import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
+import ease from '@/utils/eases';
+import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
+
+const motionVariants = {
+  initial: () => {
+    return { opacity: 0, y: 30, rotate: getRandomBetween(-90, 90) };
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    rotate: 0,
+    transition: {
+      duration: 0.25,
+      ease: ease.outQuart,
+    },
+  },
+  exit: {
+    opacity: 0,
+    transition: {
+      duration: 0.15,
+      ease: ease.outQuart,
+    },
+  },
+};
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
   const [currentMediaId, setCurrentMediaId] = useState<string | null>(null);
@@ -14,19 +38,14 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
       const mediaURL = e.target.href.split(mediaLinksURLPrefix);
       if (mediaURL.length > 1) {
         setCurrentMediaId(mediaURL[1]);
+        e.preventDefault();
       }
     }
-
-    e.preventDefault();
   };
 
   const closeMedia = () => {
     setCurrentMediaId(null);
   };
-
-  useEffect(() => {
-    console.log(currentMediaId);
-  }, [currentMediaId]);
 
   useEffect(() => {
     const textContainerEl = textContainer.current;
@@ -47,12 +66,25 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </div>
         )}
         {props.mediaBlocks && (
-          <div className='absolute left-0 top-0 z-70 bg-white'>
-            {props.mediaBlocks.map((mediaBlock, i) => {
-              if (mediaBlock?.id === currentMediaId) {
-                return <div key={i}>{mediaBlock?.id}</div>;
-              }
-            })}
+          <div className='absolute left-0 top-0 z-70'>
+            <AnimatePresence mode='wait' initial={false}>
+              {props.mediaBlocks.map((mediaBlock, i) => {
+                if (mediaBlock?.id === currentMediaId) {
+                  return (
+                    <motion.div
+                      key={i}
+                      className='border border-black bg-white'
+                      initial='initial'
+                      animate='animate'
+                      exit='exit'
+                      variants={motionVariants}
+                    >
+                      {mediaBlock?.id}
+                    </motion.div>
+                  );
+                }
+              })}
+            </AnimatePresence>
           </div>
         )}
         {props.mediaBlocks && (
@@ -82,10 +114,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
         )}
       </div>
       {currentMediaId && (
-        <div
-          className='fixed left-0 top-0 z-60 h-screen w-screen bg-[orange]'
-          onClick={closeMedia}
-        ></div>
+        <div className='fixed left-0 top-0 z-60 h-screen w-screen' onClick={closeMedia}></div>
       )}
     </section>
   );
