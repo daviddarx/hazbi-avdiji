@@ -15,7 +15,7 @@ const components: Components<{
     return (
       <a
         href={props?.url}
-        className={props!.url.split(mediaLinksURLPrefix).length > 1 ? 'relative z-70' : ''}
+        className={props!.url.split(mediaLinksURLPrefix).length > 1 ? 'bg-theme-prev' : ''}
         target='_blank'
       >
         {props?.children}

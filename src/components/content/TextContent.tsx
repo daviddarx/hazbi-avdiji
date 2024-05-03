@@ -16,14 +16,14 @@ const motionVariants = {
     y: 0,
     rotate: 0,
     transition: {
-      duration: 0.25,
+      duration: 0.5,
       ease: ease.outQuart,
     },
   },
   exit: {
     opacity: 0,
     transition: {
-      duration: 0.15,
+      duration: 0.5,
       ease: ease.outQuart,
     },
   },
@@ -37,7 +37,9 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     if (e.target instanceof HTMLAnchorElement) {
       const mediaURL = e.target.href.split(mediaLinksURLPrefix);
       if (mediaURL.length > 1) {
-        setCurrentMediaId(mediaURL[1]);
+        requestAnimationFrame(() => {
+          setCurrentMediaId(mediaURL[1]);
+        });
         e.preventDefault();
       }
     }
@@ -46,6 +48,18 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   const closeMedia = () => {
     setCurrentMediaId(null);
   };
+
+  useEffect(() => {
+    if (currentMediaId) {
+      document.body.addEventListener('click', closeMedia);
+    }
+
+    return () => {
+      if (currentMediaId) {
+        document.body.removeEventListener('click', closeMedia);
+      }
+    };
+  }, [currentMediaId]);
 
   useEffect(() => {
     const textContainerEl = textContainer.current;
@@ -113,9 +127,6 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </section>
         )}
       </div>
-      {currentMediaId && (
-        <div className='fixed left-0 top-0 z-60 h-screen w-screen' onClick={closeMedia}></div>
-      )}
     </section>
   );
 }
