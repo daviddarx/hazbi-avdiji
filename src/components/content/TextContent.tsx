@@ -199,14 +199,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <source src={mediaBlock.videoURL} type='video/mp4' />
                     </video>
                   )}
-                  {mediaBlock?.image && (
-                    <Image
-                      src={mediaBlock.image!}
-                      width={mediaBlock.imageWidth!}
-                      height={mediaBlock.imageHeight!}
-                      alt='media'
-                    />
-                  )}
+                  {mediaBlock?.image && <img src={mediaBlock.image!} alt='media' />}
                 </li>
               ))}
             </ul>
