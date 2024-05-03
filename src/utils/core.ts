@@ -59,3 +59,5 @@ export const themeColors = {
 };
 
 export type Timeout = ReturnType<typeof setTimeout>;
+
+export const mediaLinksURLPrefix = '#media-';

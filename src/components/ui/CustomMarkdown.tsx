@@ -1,3 +1,4 @@
+import { mediaLinksURLPrefix } from '@/utils/core';
 import classNames from 'classnames';
 import Image from 'next/image';
 import { type Components, TinaMarkdown, type TinaMarkdownContent } from 'tinacms/dist/rich-text';
@@ -9,6 +10,18 @@ const components: Components<{
     blank: boolean;
   };
 }> = {
+  a: (props) => {
+    // Place media links on top of the close overlay in TextContent.tsx
+    return (
+      <a
+        href={props?.url}
+        className={props!.url.split(mediaLinksURLPrefix).length > 1 ? 'relative z-70' : ''}
+        target='_blank'
+      >
+        {props?.children}
+      </a>
+    );
+  },
   bold: (props) => <strong className='hover:blur-[1px]' {...props} />,
   img: (props) => {
     const url = props!.url;

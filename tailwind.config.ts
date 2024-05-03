@@ -99,6 +99,13 @@ const config: Config = {
       base: '0 0 5px 0px black',
     },
     extend: {
+      zIndex: {
+        '60': '60',
+        '70': '70',
+        '80': '80',
+        '90': '90',
+        '100': '100',
+      },
       transitionTimingFunction: {
         'in-quad': 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
         'in-cubic': 'cubic-bezier(0.55, 0.055, 0.675, 0.19)',

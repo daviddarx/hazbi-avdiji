@@ -1,3 +1,4 @@
+import { mediaLinksURLPrefix } from './core';
 import { type Template, type TinaField, tinaTableTemplate } from 'tinacms';
 
 export const postRoute = '/idee-recue';
@@ -97,8 +98,8 @@ export const textContentTemplate: Template = {
       type: 'rich-text',
       description: `
         To link text to exisiting media-blocks (below), select the text and add a link to it.
-        Set the URL of the link as follow: #media-[media-block id].
-        For example: '#media-image-tweet' to open a media-block with id 'image-tweet'`,
+        Set the URL of the link as follow: ${mediaLinksURLPrefix}[media-block id].
+        For example: '${mediaLinksURLPrefix}image-tweet' to open a media-block with id 'image-tweet'`,
       templates: richTextTemplates,
     },
     {
