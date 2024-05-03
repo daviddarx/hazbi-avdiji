@@ -10,11 +10,11 @@ import { tinaField } from 'tinacms/dist/react';
 
 const motionVariants = {
   initial: () => {
-    return { opacity: 0, y: 200, rotate: getRandomBetween(-15, 15) };
+    return { opacity: 0, scale: 0.75, rotate: getRandomBetween(-15, 15) };
   },
   animate: {
     opacity: 1,
-    y: 0,
+    scale: 1,
     rotate: 0,
     transition: {
       duration: 0.35,
@@ -23,7 +23,7 @@ const motionVariants = {
   },
   exit: {
     opacity: 0,
-    y: 50,
+
     transition: {
       duration: 0.2,
       ease: ease.outQuart,
@@ -33,13 +33,16 @@ const motionVariants = {
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
   const [currentMedia, setCurrentMedia] = useState<{ id: string; caption: string } | null>(null);
+  const [currentLink, setCurrentLink] = useState<HTMLAnchorElement | null>(null);
   const textContainer = useRef<HTMLDivElement | null>(null);
+  const mediasContainer = useRef<HTMLDivElement | null>(null);
 
   const handleMediaClick = (e: MouseEvent) => {
     if (e.target instanceof HTMLAnchorElement) {
       const target = e.target as HTMLAnchorElement;
       const mediaURL = target.href.split(mediaLinksURLPrefix);
       if (mediaURL.length > 1) {
+        setCurrentLink(target);
         requestAnimationFrame(() => {
           setCurrentMedia({ id: mediaURL[1], caption: target.innerText });
         });
@@ -62,27 +65,71 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     [closeMedia],
   );
 
-  useEffect(() => {
+  const resizeMedia = useCallback(
+    (mediaElement: HTMLElement, linkElement: HTMLAnchorElement | null) => {
+      if (mediaElement) {
+        const element = mediaElement.querySelector('[data-media-element="true"]') as HTMLElement;
+
+        requestAnimationFrame(() => {
+          if (mediaElement.offsetHeight > window.innerHeight) {
+            const height = element.offsetHeight - (mediaElement.offsetHeight - window.innerHeight);
+            element.style.height = `${height}px`;
+            element.style.width = 'auto';
+          }
+        });
+      }
+    },
+    [],
+  );
+
+  const resizeCurrentMedia = useCallback(() => {
     if (currentMedia) {
+      const currentMediaEl = mediasContainer.current!.querySelector(
+        `[data-media-id='${currentMedia.id}']`,
+      ) as HTMLElement;
+
+      resizeMedia(currentMediaEl, currentLink);
+
+      if (currentMediaEl) {
+        const videoEl = currentMediaEl.querySelector('video');
+
+        if (videoEl && videoEl.getAttribute('data-loaded') !== 'true') {
+          videoEl.classList.add('opacity-0');
+          videoEl.addEventListener(
+            'loadedmetadata',
+            () => {
+              videoEl.classList.remove('opacity-0');
+              videoEl.setAttribute('data-loaded', 'true');
+              if (currentMediaEl) {
+                resizeMedia(currentMediaEl, currentLink);
+              }
+            },
+            { once: true },
+          );
+        }
+      }
+    }
+  }, [currentMedia, currentLink, resizeMedia]);
+
+  useEffect(() => {
+    const mediasContainerEl = mediasContainer.current;
+    const textContainerEl = textContainer.current;
+
+    if (mediasContainerEl && textContainerEl) {
+      resizeCurrentMedia();
+      textContainerEl.addEventListener('click', handleMediaClick);
+      window.addEventListener('resize', resizeCurrentMedia);
       document.body.addEventListener('click', handleBodyClick);
     }
 
     return () => {
-      if (currentMedia) {
+      if (mediasContainerEl && textContainerEl) {
+        textContainerEl.removeEventListener('click', handleMediaClick);
+        window.removeEventListener('resize', resizeCurrentMedia);
         document.body.removeEventListener('click', handleBodyClick);
       }
     };
-  }, [currentMedia, handleBodyClick]);
-
-  useEffect(() => {
-    const textContainerEl = textContainer.current;
-
-    textContainerEl!.addEventListener('click', handleMediaClick);
-
-    return () => {
-      textContainerEl!.removeEventListener('click', handleMediaClick);
-    };
-  }, []);
+  }, [handleBodyClick, resizeCurrentMedia]);
 
   return (
     <section className='layout-grid'>
@@ -93,7 +140,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </div>
         )}
         {props.mediaBlocks && (
-          <div className='absolute left-0 top-0 z-70'>
+          <div className='fixed left-0 top-0 z-70' ref={mediasContainer}>
             <AnimatePresence mode='wait' initial={false}>
               {props.mediaBlocks.map((mediaBlock, i) => {
                 if (currentMedia && currentMedia.id === mediaBlock?.id) {
@@ -101,18 +148,20 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                     <motion.figure
                       key={i}
                       className={classNames(
-                        'relative -mx-40 rounded-cards border border-black bg-white',
-                        'before:bg-theme-mix before:absolute before:-inset-80 before:-z-10 before:rounded-cards before:border before:border-black/20 before:backdrop-blur-md',
+                        'bg-theme-mix relative rounded-cards border border-black/20 backdrop-blur-md',
+                        '-ml-80 -mr-80 p-80',
                       )}
                       initial='initial'
                       animate='animate'
                       exit='exit'
+                      data-media-id={mediaBlock!.id}
                       variants={motionVariants}
                     >
                       {mediaBlock?.videoURL && (
                         <video
                           controls
                           data-media-video='true'
+                          data-media-element='true'
                           className='overflow-hidden rounded-cards'
                         >
                           <source src={mediaBlock.videoURL} type='video/mp4' />
@@ -123,11 +172,12 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                           src={mediaBlock.image!}
                           width={mediaBlock.imageWidth!}
                           height={mediaBlock.imageHeight!}
-                          className='overflow-hidden rounded-cards'
+                          className='overflow-hidden rounded-cards border border-black/20'
                           alt='media'
+                          data-media-element='true'
                         />
                       )}
-                      <figcaption className='px-40 py-8 text-center text-base font-bold'>
+                      <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
                         {currentMedia.caption}
                       </figcaption>
                     </motion.figure>
