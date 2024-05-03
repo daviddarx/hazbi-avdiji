@@ -116,10 +116,9 @@ export default function ActivePillNavigation({
     <nav
       ref={container}
       className={classNames(
-        'rounded-cards border border-black/20 p-12 backdrop-blur-md',
+        'bg-theme-mix rounded-cards border border-black/20 p-12 backdrop-blur-md',
         className,
       )}
-      style={{ backgroundColor: 'color-mix(in lab, var(--color-theme) 20%, transparent)' }}
     >
       <h2 className='sr-only'>{title}</h2>
       <ul className='relative flex flex-wrap items-start px-4'>

@@ -2,6 +2,7 @@ import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
 import ease from '@/utils/eases';
+import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -9,14 +10,14 @@ import { tinaField } from 'tinacms/dist/react';
 
 const motionVariants = {
   initial: () => {
-    return { opacity: 0, y: 200, rotate: getRandomBetween(-20, 20) };
+    return { opacity: 0, y: 200, rotate: getRandomBetween(-15, 15) };
   },
   animate: {
     opacity: 1,
     y: 0,
     rotate: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.35,
       ease: ease.outQuart,
     },
   },
@@ -24,7 +25,7 @@ const motionVariants = {
     opacity: 0,
     y: 50,
     transition: {
-      duration: 0.25,
+      duration: 0.2,
       ease: ease.outQuart,
     },
   },
@@ -54,7 +55,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   const handleBodyClick = useCallback(
     (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (!target.hasAttribute('data-media-block')) {
+      if (!target.hasAttribute('data-media-video')) {
         closeMedia();
       }
     },
@@ -99,14 +100,21 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                   return (
                     <motion.figure
                       key={i}
-                      className='relative -mx-40 overflow-hidden rounded-cards border border-black bg-white'
+                      className={classNames(
+                        'relative -mx-40 rounded-cards border border-black bg-white',
+                        'before:bg-theme-mix before:absolute before:-inset-80 before:-z-10 before:rounded-cards before:border before:border-black/20 before:backdrop-blur-md',
+                      )}
                       initial='initial'
                       animate='animate'
                       exit='exit'
                       variants={motionVariants}
                     >
                       {mediaBlock?.videoURL && (
-                        <video controls data-media-block='true'>
+                        <video
+                          controls
+                          data-media-video='true'
+                          className='overflow-hidden rounded-cards'
+                        >
                           <source src={mediaBlock.videoURL} type='video/mp4' />
                         </video>
                       )}
@@ -115,8 +123,8 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                           src={mediaBlock.image!}
                           width={mediaBlock.imageWidth!}
                           height={mediaBlock.imageHeight!}
+                          className='overflow-hidden rounded-cards'
                           alt='media'
-                          data-media-block='true'
                         />
                       )}
                       <figcaption className='px-40 py-8 text-center text-base font-bold'>
