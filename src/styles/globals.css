@@ -129,7 +129,8 @@
     }
   }
 
-  .bg-theme-mix {
+  .bg-blurred {
+    @apply backdrop-blur-md;
     background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
   }
 }

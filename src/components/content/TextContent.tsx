@@ -147,7 +147,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                   return (
                     <motion.figure
                       key={i}
-                      className='bg-theme-mix relative rounded-cards border border-black/20 p-80 backdrop-blur-md'
+                      className='bg-blurred relative rounded-cards border border-black/20 p-80'
                       initial='initial'
                       animate='animate'
                       exit='exit'
