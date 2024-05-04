@@ -86,24 +86,24 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
 
   const resizeCurrentMedia = useCallback(() => {
     if (currentMedia) {
-      const currentMediaEl = mediasContainer.current!.querySelector(
+      const currentMediaElelement = mediasContainer.current!.querySelector(
         `[data-media-id='${currentMedia.id}']`,
       ) as HTMLElement;
 
-      resizeMedia(currentMediaEl);
+      resizeMedia(currentMediaElelement);
 
-      if (currentMediaEl) {
-        const videoEl = currentMediaEl.querySelector('video');
+      if (currentMediaElelement) {
+        const videoElement = currentMediaElelement.querySelector('video');
 
-        if (videoEl && videoEl.getAttribute('data-loaded') !== 'true') {
-          videoEl.classList.add('opacity-0');
-          videoEl.addEventListener(
+        if (videoElement && videoElement.getAttribute('data-loaded') !== 'true') {
+          videoElement.classList.add('opacity-0');
+          videoElement.addEventListener(
             'loadedmetadata',
             () => {
-              videoEl.classList.remove('opacity-0');
-              videoEl.setAttribute('data-loaded', 'true');
-              if (currentMediaEl) {
-                resizeMedia(currentMediaEl);
+              videoElement.classList.remove('opacity-0');
+              videoElement.setAttribute('data-loaded', 'true');
+              if (currentMediaElelement) {
+                resizeMedia(currentMediaElelement);
               }
             },
             { once: true },
