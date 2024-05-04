@@ -3,6 +3,7 @@ import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
 import ease from '@/utils/eases';
+import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -35,6 +36,12 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   const [currentMedia, setCurrentMedia] = useState<{ id: string; caption: string } | null>(null);
   const textContainer = useRef<HTMLDivElement | null>(null);
   const mediasContainer = useRef<HTMLDivElement | null>(null);
+  const closeOverlay = useRef<HTMLDivElement | null>(null);
+  const closeButton = useRef<HTMLDivElement | null>(null);
+  const closeButtonCurrentPosition = useRef({ x: 0, y: 0 });
+  const closeButtonTargetPosition = useRef({ x: 0, y: 0 });
+  const closeButtonRAF = useRef(0);
+  const closeButtonPositionEase = 0.15;
 
   const handleMediaClick = (e: MouseEvent) => {
     if (e.target instanceof HTMLAnchorElement) {
@@ -113,6 +120,62 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     }
   }, [currentMedia, resizeMedia]);
 
+  const handleCloseMouseMove = useCallback((e: MouseEvent) => {
+    closeButtonTargetPosition.current = { x: e.clientX, y: e.clientY };
+  }, []);
+
+  const positionCloseButton = useCallback(() => {
+    const posX =
+      closeButtonCurrentPosition.current.x +
+      (closeButtonTargetPosition.current.x - closeButtonCurrentPosition.current.x) *
+        closeButtonPositionEase;
+    const posY =
+      closeButtonCurrentPosition.current.y +
+      (closeButtonTargetPosition.current.y - closeButtonCurrentPosition.current.y) *
+        closeButtonPositionEase;
+
+    if (closeButton.current) {
+      closeButton.current.style.setProperty('--tw-translate-x', `${posX}px`);
+      closeButton.current.style.setProperty('--tw-translate-y', `${posY}px`);
+    }
+
+    closeButtonCurrentPosition.current = { x: posX, y: posY };
+
+    closeButtonRAF.current = window.requestAnimationFrame(positionCloseButton);
+  }, []);
+
+  const displayCloseButton = () => {
+    if (closeButton.current) {
+      closeButton.current.style.opacity = '1';
+    }
+  };
+
+  const hideCloseButton = () => {
+    if (closeButton.current) {
+      closeButton.current.style.opacity = '0';
+    }
+  };
+
+  useEffect(() => {
+    const closeOverlayElement = closeOverlay.current;
+
+    if (currentMedia && closeOverlayElement) {
+      positionCloseButton();
+      closeOverlayElement.addEventListener('mouseenter', displayCloseButton);
+      closeOverlayElement.addEventListener('mouseleave', hideCloseButton);
+      closeOverlayElement.addEventListener('mousemove', handleCloseMouseMove);
+    }
+
+    return () => {
+      if (closeOverlayElement) {
+        window.cancelAnimationFrame(closeButtonRAF.current);
+        closeOverlayElement.removeEventListener('mouseenter', displayCloseButton);
+        closeOverlayElement.removeEventListener('mouseleave', hideCloseButton);
+        closeOverlayElement.removeEventListener('mousemove', handleCloseMouseMove);
+      }
+    };
+  }, [currentMedia, handleCloseMouseMove, positionCloseButton]);
+
   useEffect(() => {
     const mediasContainerEl = mediasContainer.current;
     const textContainerEl = textContainer.current;
@@ -122,6 +185,11 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
       textContainerEl.addEventListener('click', handleMediaClick);
       window.addEventListener('resize', resizeCurrentMedia);
     }
+
+    const screenCenter = { x: window.innerWidth * 0.5, y: window.innerHeight * 0.5 };
+
+    closeButtonCurrentPosition.current = screenCenter;
+    closeButtonTargetPosition.current = screenCenter;
 
     return () => {
       if (mediasContainerEl && textContainerEl) {
@@ -205,9 +273,26 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           </section>
         )}
       </div>
-      {currentMedia && (
-        <div className='fixed left-0 top-0 z-60 h-screen w-screen' onClick={closeMedia}></div>
-      )}
+      <div
+        className={classNames(
+          'pointer-events-none fixed left-0 top-0 z-60 h-screen w-screen cursor-none opacity-0 transition-opacity duration-300',
+          {
+            'pointer-events-auto opacity-100': currentMedia,
+          },
+        )}
+        ref={closeOverlay}
+        onClick={closeMedia}
+      >
+        <div
+          className='absolute left-0 top-0 transform-gpu transition-opacity duration-200'
+          ref={closeButton}
+        >
+          <CloseButton
+            onClick={closeMedia}
+            className='bg-blurred pointer-events-none -translate-x-1/2 -translate-y-1/2'
+          />
+        </div>
+      </div>
     </section>
   );
 }
