@@ -246,7 +246,10 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
                         {currentMedia.caption}
                       </figcaption>
-                      <CloseButton onClick={closeMedia} className={'absolute right-20 top-20'} />
+                      <CloseButton
+                        onClick={closeMedia}
+                        className='absolute right-20 top-20 lg:hidden'
+                      />
                     </motion.figure>
                   );
                 }
