@@ -152,6 +152,10 @@
     @apply font-text text-base font-bold uppercase tracking-widest;
   }
 
+  .tag {
+    @apply rounded-full bg-black px-[1em] py-[0.25em] text-base font-bold text-theme;
+  }
+
   .text-container {
     & > {
       & p,
