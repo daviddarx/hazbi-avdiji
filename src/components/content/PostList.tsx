@@ -1,16 +1,15 @@
+import Post from '@/components/content/Post';
 import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
-import PageLink from '@/components/ui/PageLink';
 import { uiActions } from '@/store';
-import { PageBlocksPostList } from '@/tina/types';
+import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
 import ease from '@/utils/eases';
-import { postRoute } from '@/utils/tina';
 import t from '@/utils/translations';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { tinaField, useTina } from 'tinacms/dist/react';
+import { useTina } from 'tinacms/dist/react';
 
 const motionVariants = {
   initial: {
@@ -110,7 +109,7 @@ export default function PostList(props: {
               </div>
               <ul className='grid grid-cols-3 gap-4'>
                 {filteredPosts!.map((edge) => {
-                  const post = edge?.node;
+                  const post = edge?.node as PostType;
 
                   if (!post) {
                     return null;
@@ -118,17 +117,7 @@ export default function PostList(props: {
 
                   return (
                     <li key={post._sys.filename}>
-                      <PageLink
-                        href={`${postRoute}/${post._sys.filename}`}
-                        className='border-semi-transparent flex h-full flex-col justify-between gap-gutter rounded-cards p-gutter transition-colors hover:border-black hover:bg-theme-prev'
-                      >
-                        <h3 className='' data-tina-field={tinaField(post, 'title')}>
-                          {post.title}
-                        </h3>
-                        <div className='sr-only flex gap-16'>
-                          <span className='font-bold'>{post.category.title}</span>
-                        </div>
-                      </PageLink>
+                      <Post post={post} />
                     </li>
                   );
                 })}
