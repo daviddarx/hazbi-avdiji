@@ -39,12 +39,13 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   const mediasContainer = useRef<HTMLDivElement | null>(null);
   const closeOverlay = useRef<HTMLDivElement | null>(null);
   const closeButton = useRef<HTMLDivElement | null>(null);
+  const closeButtonLabel = useRef<HTMLSpanElement | null>(null);
+  const closeButtonLabelSecurityPadding = 40;
   const closeButtonCurrentPosition = useRef({ x: 0, y: 0 });
   const closeButtonTargetPosition = useRef({ x: 0, y: 0 });
   const closeButtonRAF = useRef(0);
   const closeButtonPositionEase = 0.15;
-  const [closeButtonLabel, setCloseButtonLabel] = useState('');
-  const [closeButtonLabelPositionedLeft, setCloseButtonLabelPositionedLeft] = useState(false);
+  const [closeButtonLabelText, setCloseButtonLabelText] = useState('');
 
   const handleMediaClick = (e: MouseEvent) => {
     if (e.target instanceof HTMLAnchorElement) {
@@ -126,31 +127,39 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   }, [currentMedia, resizeMedia]);
 
   useEffect(() => {
-    setCloseButtonLabel(currentMediaType === 'image' ? "Fermer l'image" : 'Fermer la vidéo');
+    setCloseButtonLabelText(currentMediaType === 'image' ? "Fermer l'image" : 'Fermer la vidéo');
   }, [currentMediaType]);
-
-  useEffect(() => {
-    console.log('test', closeButtonLabelPositionedLeft);
-  }, [closeButtonLabelPositionedLeft]);
 
   const handleCloseMouseMove = useCallback((e: MouseEvent) => {
     closeButtonTargetPosition.current = { x: e.clientX, y: e.clientY };
 
-    let labelPositionedLeft: boolean;
-    // console.log('check', e.clientX, window.innerWidth * 0.5);
-    if (
-      closeButton.current &&
-      e.clientX > window.innerWidth * 0.5 &&
-      e.clientX < window.innerWidth - closeButton.current.scrollWidth
-    ) {
-      console.log('set to true');
-      labelPositionedLeft = false;
+    const screenCenterX = window.innerWidth * 0.5;
+
+    let closeButtonLabelLeftPositioned: boolean;
+
+    if (e.clientX > screenCenterX) {
+      closeButtonLabelLeftPositioned = true;
+
+      if (
+        e.clientX <
+        window.innerWidth -
+          (closeButtonLabel.current!.scrollWidth + closeButtonLabelSecurityPadding)
+      ) {
+        closeButtonLabelLeftPositioned = false;
+      }
     } else {
-      console.log('set to false');
-      labelPositionedLeft = true;
+      closeButtonLabelLeftPositioned = false;
+
+      if (e.clientX > closeButtonLabel.current!.scrollWidth + closeButtonLabelSecurityPadding) {
+        closeButtonLabelLeftPositioned = true;
+      }
     }
 
-    setCloseButtonLabelPositionedLeft(labelPositionedLeft);
+    if (closeButtonLabelLeftPositioned) {
+      closeButtonLabel.current?.style.setProperty('--tw-translate-x', 'calc(-100% - 24px)');
+    } else {
+      closeButtonLabel.current?.style.setProperty('--tw-translate-x', '24px');
+    }
   }, []);
 
   const positionCloseButton = useCallback(() => {
@@ -276,7 +285,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                         {currentMedia.caption}
                       </figcaption>
                       <CloseButton
-                        label={closeButtonLabel}
+                        label={closeButtonLabelText}
                         onClick={closeMedia}
                         className='absolute right-20 top-20 lg:hidden'
                       />
@@ -322,23 +331,17 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
         >
           <div className='relative'>
             <CloseButton
-              label={closeButtonLabel}
+              label={closeButtonLabelText}
               onClick={closeMedia}
               className='bg-blurred pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2'
             />
-            <div
+            <span
               className='bg-blurred border-semi-transparent absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
-              style={
-                {
-                  '--tw-translate-x': closeButtonLabelPositionedLeft
-                    ? 'calc(-100% - 24px)'
-                    : '24px',
-                } as React.CSSProperties
-              }
+              ref={closeButtonLabel}
               aria-hidden='true'
             >
-              {closeButtonLabel}
-            </div>
+              {closeButtonLabelText}
+            </span>
           </div>
         </div>
       </div>
