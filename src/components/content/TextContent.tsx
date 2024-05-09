@@ -309,6 +309,12 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <source src={mediaBlock.videoURL} type='video/mp4' />
                     </video>
                   )}
+                  {/**
+                   * Use <img> instead of <Image> to preload the pictures on page load,
+                   * as it isn't possible de place the <Image> direclty in the media-links
+                   * of CustomMarkDown, as it is rendered on the server and can't access
+                   * this part.
+                   **/}
                   {mediaBlock?.image && <img src={mediaBlock.image!} alt='media' />}
                 </li>
               ))}
