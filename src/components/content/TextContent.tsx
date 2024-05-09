@@ -177,12 +177,12 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   }, [currentMedia, handleCloseMouseMove, positionCloseButton]);
 
   useEffect(() => {
-    const mediasContainerEl = mediasContainer.current;
-    const textContainerEl = textContainer.current;
+    const mediasContainerElement = mediasContainer.current;
+    const textContainerElement = textContainer.current;
 
-    if (mediasContainerEl && textContainerEl) {
+    if (mediasContainerElement && textContainerElement) {
       resizeCurrentMedia();
-      textContainerEl.addEventListener('click', handleMediaClick);
+      textContainerElement.addEventListener('click', handleMediaClick);
       window.addEventListener('resize', resizeCurrentMedia);
     }
 
@@ -192,8 +192,8 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     closeButtonTargetPosition.current = screenCenter;
 
     return () => {
-      if (mediasContainerEl && textContainerEl) {
-        textContainerEl.removeEventListener('click', handleMediaClick);
+      if (mediasContainerElement && textContainerElement) {
+        textContainerElement.removeEventListener('click', handleMediaClick);
         window.removeEventListener('resize', resizeCurrentMedia);
       }
     };
