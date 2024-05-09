@@ -32,9 +32,9 @@ export default function PostList(props: { post: Post }) {
         <h3 data-tina-field={tinaField(props.post, 'title')}>{props.post.title}</h3>
         <div
           className={classNames(
-            'tag absolute bottom-0 opacity-0 hashover:group-hover:translate-y-1/2',
+            'tag absolute bottom-0 translate-y-full opacity-0',
             'transition-[opacity,transform] delay-[0s,200ms] duration-[200ms,200ms] ease-out-quart',
-            'hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
+            'hashover:group-hover:translate-y-1/2 hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
           )}
         >
           {props.post.category.title}
