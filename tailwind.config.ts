@@ -46,6 +46,8 @@ const config: Config = {
       '2xl': '1536px',
       max: '2560px',
       hashover: { raw: '(hover: hover)' },
+      hasmouse: { raw: '(pointer: fine)' },
+      hastouch: { raw: '(pointer: coarse)' },
     },
     lineHeight: {
       normal: '1.65',

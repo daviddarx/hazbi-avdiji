@@ -197,7 +197,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   useEffect(() => {
     const closeOverlayElement = closeOverlay.current;
 
-    if (currentMedia && closeOverlayElement) {
+    if (currentMedia && closeOverlayElement && matchMedia('(pointer:fine)').matches) {
       hideCloseButton();
       positionCloseButton();
       closeOverlayElement.addEventListener('mouseenter', displayCloseButton);
@@ -206,7 +206,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     }
 
     return () => {
-      if (closeOverlayElement) {
+      if (closeOverlayElement && matchMedia('(pointer:fine)').matches) {
         window.cancelAnimationFrame(closeButtonRAF.current);
         closeOverlayElement.removeEventListener('mouseenter', displayCloseButton);
         closeOverlayElement.removeEventListener('mouseleave', hideCloseButton);
@@ -288,7 +288,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <CloseButton
                         label={closeButtonLabelText}
                         onClick={closeMedia}
-                        className='absolute right-20 top-20 lg:hidden'
+                        className='absolute right-20 top-20 hasmouse:hidden'
                       />
                     </motion.figure>
                   );
