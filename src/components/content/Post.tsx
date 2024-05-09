@@ -18,21 +18,21 @@ export default function PostList(props: { post: Post }) {
     >
       <QuoteIcon
         className={classNames(
-          'absolute left-1/2 z-20 !w-48 -translate-x-1/2 -translate-y-[30%] opacity-0',
+          'absolute right-0 top-0 z-20 !w-[52px] opacity-0',
           'transition-[opacity,transform] delay-[0s,200ms] duration-[200ms,200ms] ease-out-quart',
-          'hashover:group-hover:-translate-y-[75%] hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
+          'hashover:group-hover:-translate-y-[30%] hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
         )}
       />
       <div
         className={classNames(
-          'border-semi-transparent relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards p-gutter text-center transition-colors',
+          'border-semi-transparent relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards p-gutter transition-colors',
           'hashover:hover:border-black hashover:hover:bg-theme-prev',
         )}
       >
         <h3 data-tina-field={tinaField(props.post, 'title')}>{props.post.title}</h3>
         <div
           className={classNames(
-            'tag absolute bottom-0 left-1/2 -translate-x-1/2 opacity-0 hashover:group-hover:translate-y-1/2',
+            'tag absolute bottom-0 opacity-0 hashover:group-hover:translate-y-1/2',
             'transition-[opacity,transform] delay-[0s,200ms] duration-[200ms,200ms] ease-out-quart',
             'hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
           )}
