@@ -1,6 +1,6 @@
+import LoadedImage from '@/components/ui/LoadedImage';
 import { mediaLinksURLPrefix } from '@/utils/core';
 import classNames from 'classnames';
-import Image from 'next/image';
 import { type Components, TinaMarkdown, type TinaMarkdownContent } from 'tinacms/dist/rich-text';
 
 const components: Components<{
@@ -36,7 +36,7 @@ const components: Components<{
       height = parseInt(dimensions[1]);
     }
     return (
-      <Image
+      <LoadedImage
         src={url}
         alt={props?.alt || ''}
         width={width}

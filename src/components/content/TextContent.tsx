@@ -1,11 +1,11 @@
 import CloseButton from '@/components/ui/CloseButton';
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
+import LoadedImage from '@/components/ui/LoadedImage';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { getRandomBetween, mediaLinksURLPrefix } from '@/utils/core';
 import ease from '@/utils/eases';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import Image from 'next/image';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
 
@@ -273,14 +273,15 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                         </video>
                       )}
                       {mediaBlock?.image && (
-                        <Image
-                          src={mediaBlock.image!}
-                          width={mediaBlock.imageWidth!}
-                          height={mediaBlock.imageHeight!}
-                          className='border-semi-transparent overflow-hidden rounded-cards'
-                          alt='media'
-                          data-media-element='true'
-                        />
+                        <span className='border-semi-transparent block overflow-hidden rounded-cards'>
+                          <LoadedImage
+                            src={mediaBlock.image!}
+                            width={mediaBlock.imageWidth!}
+                            height={mediaBlock.imageHeight!}
+                            alt='media'
+                            data-media-element='true'
+                          />
+                        </span>
                       )}
                       <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
                         {currentMedia.caption}
@@ -309,13 +310,14 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                       <source src={mediaBlock.videoURL} type='video/mp4' />
                     </video>
                   )}
-                  {/**
-                   * Use <img> instead of <Image> to preload the pictures on page load,
-                   * as it isn't possible de place the <Image> direclty in the media-links
-                   * of CustomMarkDown, as it is rendered on the server and can't access
-                   * this part.
-                   **/}
-                  {mediaBlock?.image && <img src={mediaBlock.image!} alt='media' />}
+                  {mediaBlock?.image && (
+                    <LoadedImage
+                      src={mediaBlock.image!}
+                      width={mediaBlock.imageWidth!}
+                      height={mediaBlock.imageHeight!}
+                      alt='media'
+                    />
+                  )}
                 </li>
               ))}
             </ul>
