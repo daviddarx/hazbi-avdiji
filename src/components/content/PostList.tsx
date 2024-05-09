@@ -105,7 +105,7 @@ export default function PostList(props: {
               exit='exit'
               variants={motionVariants}
             >
-              <div className='col-start-2 col-end-12 mb-gutter text-base'>
+              <div className='subtitle col-start-2 col-end-12 mb-gutter'>
                 {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
               </div>
               <ul className='grid grid-cols-3 gap-4'>

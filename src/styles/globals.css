@@ -149,7 +149,7 @@
   }
 
   .subtitle {
-    @apply font-text text-base font-bold uppercase lg:text-xl;
+    @apply font-text text-base font-bold uppercase tracking-widest;
   }
 
   .text-container {
