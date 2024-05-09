@@ -133,11 +133,15 @@
     @apply backdrop-blur-md;
     background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
   }
+
+  .border-semi-transparent {
+    @apply border border-black/20;
+  }
 }
 
 @layer components {
   .button {
-    @apply inline-block rounded-full border border-black/20 bg-theme px-16 py-4 font-bold transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev;
+    @apply border-semi-transparent inline-block rounded-full bg-theme px-16 py-4 font-bold transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev;
   }
 
   .button--primary {

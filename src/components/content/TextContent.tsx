@@ -34,6 +34,7 @@ const motionVariants = {
 
 export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
   const [currentMedia, setCurrentMedia] = useState<{ id: string; caption: string } | null>(null);
+  const [currentMediaType, setCurrentMediaType] = useState<'image' | 'video' | null>(null);
   const textContainer = useRef<HTMLDivElement | null>(null);
   const mediasContainer = useRef<HTMLDivElement | null>(null);
   const closeOverlay = useRef<HTMLDivElement | null>(null);
@@ -42,6 +43,8 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   const closeButtonTargetPosition = useRef({ x: 0, y: 0 });
   const closeButtonRAF = useRef(0);
   const closeButtonPositionEase = 0.15;
+  const [closeButtonLabel, setCloseButtonLabel] = useState('');
+  const [closeButtonLabelPositionedLeft, setCloseButtonLabelPositionedLeft] = useState(false);
 
   const handleMediaClick = (e: MouseEvent) => {
     if (e.target instanceof HTMLAnchorElement) {
@@ -116,12 +119,38 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
             { once: true },
           );
         }
+
+        setCurrentMediaType(videoElement ? 'video' : 'image');
       }
     }
   }, [currentMedia, resizeMedia]);
 
+  useEffect(() => {
+    setCloseButtonLabel(currentMediaType === 'image' ? "Fermer l'image" : 'Fermer la vidéo');
+  }, [currentMediaType]);
+
+  useEffect(() => {
+    console.log('test', closeButtonLabelPositionedLeft);
+  }, [closeButtonLabelPositionedLeft]);
+
   const handleCloseMouseMove = useCallback((e: MouseEvent) => {
     closeButtonTargetPosition.current = { x: e.clientX, y: e.clientY };
+
+    let labelPositionedLeft: boolean;
+    // console.log('check', e.clientX, window.innerWidth * 0.5);
+    if (
+      closeButton.current &&
+      e.clientX > window.innerWidth * 0.5 &&
+      e.clientX < window.innerWidth - closeButton.current.scrollWidth
+    ) {
+      console.log('set to true');
+      labelPositionedLeft = false;
+    } else {
+      console.log('set to false');
+      labelPositionedLeft = true;
+    }
+
+    setCloseButtonLabelPositionedLeft(labelPositionedLeft);
   }, []);
 
   const positionCloseButton = useCallback(() => {
@@ -163,7 +192,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
       positionCloseButton();
       closeOverlayElement.addEventListener('mouseenter', displayCloseButton);
       closeOverlayElement.addEventListener('mouseleave', hideCloseButton);
-      closeOverlayElement.addEventListener('mousemove', handleCloseMouseMove);
+      document.body.addEventListener('mousemove', handleCloseMouseMove);
     }
 
     return () => {
@@ -171,7 +200,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
         window.cancelAnimationFrame(closeButtonRAF.current);
         closeOverlayElement.removeEventListener('mouseenter', displayCloseButton);
         closeOverlayElement.removeEventListener('mouseleave', hideCloseButton);
-        closeOverlayElement.removeEventListener('mousemove', handleCloseMouseMove);
+        document.body.removeEventListener('mousemove', handleCloseMouseMove);
       }
     };
   }, [currentMedia, handleCloseMouseMove, positionCloseButton]);
@@ -215,7 +244,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                   return (
                     <motion.figure
                       key={i}
-                      className='bg-blurred relative rounded-cards border border-black/20 p-80'
+                      className='bg-blurred border-semi-transparent relative rounded-cards p-80'
                       initial='initial'
                       animate='animate'
                       exit='exit'
@@ -238,7 +267,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                           src={mediaBlock.image!}
                           width={mediaBlock.imageWidth!}
                           height={mediaBlock.imageHeight!}
-                          className='overflow-hidden rounded-cards border border-black/20'
+                          className='border-semi-transparent overflow-hidden rounded-cards'
                           alt='media'
                           data-media-element='true'
                         />
@@ -247,6 +276,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
                         {currentMedia.caption}
                       </figcaption>
                       <CloseButton
+                        label={closeButtonLabel}
                         onClick={closeMedia}
                         className='absolute right-20 top-20 lg:hidden'
                       />
@@ -290,10 +320,26 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           className='absolute left-0 top-0 transform-gpu transition-opacity duration-200'
           ref={closeButton}
         >
-          <CloseButton
-            onClick={closeMedia}
-            className='bg-blurred pointer-events-none -translate-x-1/2 -translate-y-1/2'
-          />
+          <div className='relative'>
+            <CloseButton
+              label={closeButtonLabel}
+              onClick={closeMedia}
+              className='bg-blurred pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2'
+            />
+            <div
+              className='bg-blurred border-semi-transparent absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
+              style={
+                {
+                  '--tw-translate-x': closeButtonLabelPositionedLeft
+                    ? 'calc(-100% - 24px)'
+                    : '24px',
+                } as React.CSSProperties
+              }
+              aria-hidden='true'
+            >
+              {closeButtonLabel}
+            </div>
+          </div>
         </div>
       </div>
     </section>
