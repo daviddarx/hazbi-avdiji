@@ -198,6 +198,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
     const closeOverlayElement = closeOverlay.current;
 
     if (currentMedia && closeOverlayElement) {
+      hideCloseButton();
       positionCloseButton();
       closeOverlayElement.addEventListener('mouseenter', displayCloseButton);
       closeOverlayElement.addEventListener('mouseleave', hideCloseButton);
