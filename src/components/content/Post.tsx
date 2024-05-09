@@ -10,7 +10,7 @@ export default function PostList(props: { post: Post }) {
     <PageLink
       href={`${postRoute}/${props.post._sys.filename}`}
       className={classNames(
-        'group relative h-full hashover:hover:z-100',
+        'group relative h-full hashover:hover:z-20',
         'before:bg-blurred before:border-semi-transparent before:pointer-events-none before:absolute before:-inset-80 before:scale-50 before:rounded-cards before:opacity-0',
         'before:transition-all before:duration-100 before:ease-in-quart',
         'hashover:hover:before:scale-100 hashover:hover:before:opacity-100 hashover:hover:before:duration-300 hashover:hover:before:ease-out-quart',
