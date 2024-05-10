@@ -5,7 +5,6 @@ import type {
   PageBlocksTextContentMediaBlocks,
   PostBlocksTextContentMediaBlocks,
 } from '@/tina/types';
-import { current } from '@reduxjs/toolkit';
 import classNames from 'classnames';
 import { AnimatePresence } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -35,6 +34,7 @@ export default function TextContentMedias({
   const [closeButtonLabelText, setCloseButtonLabelText] = useState('');
 
   const closeMedia = useCallback(() => {
+    hideCloseButton();
     onClose();
   }, [onClose]);
 
@@ -119,7 +119,7 @@ export default function TextContentMedias({
     if (currentMedia && closeOverlayElement && matchMedia('(pointer:fine)').matches) {
       hideCloseButton();
       positionCloseButton();
-      closeOverlayElement.addEventListener('mouseenter', displayCloseButton);
+      closeOverlayElement.addEventListener('mousemove', displayCloseButton);
       closeOverlayElement.addEventListener('mouseleave', hideCloseButton);
       document.body.addEventListener('mousemove', handleCloseMouseMove);
     }
@@ -127,7 +127,7 @@ export default function TextContentMedias({
     return () => {
       if (closeOverlayElement && matchMedia('(pointer:fine)').matches) {
         window.cancelAnimationFrame(closeButtonRAF.current);
-        closeOverlayElement.removeEventListener('mouseenter', displayCloseButton);
+        closeOverlayElement.removeEventListener('mousemove', displayCloseButton);
         closeOverlayElement.removeEventListener('mouseleave', hideCloseButton);
         document.body.removeEventListener('mousemove', handleCloseMouseMove);
       }
@@ -153,7 +153,7 @@ export default function TextContentMedias({
                 key={i.toString()}
                 caption={currentMedia.caption}
                 closeButtonLabelText={closeButtonLabelText}
-                onClick={closeMedia}
+                onClose={closeMedia}
                 onMount={(type: MediaType) => {
                   setCurrentMediaType(type);
                 }}
@@ -164,32 +164,31 @@ export default function TextContentMedias({
       </AnimatePresence>
       <div
         className={classNames(
-          'pointer-events-none fixed left-0 top-0 z-60 h-screen w-screen cursor-none opacity-0 transition-opacity duration-300',
+          'pointer-events-none fixed left-0 top-0 z-50 h-screen w-screen cursor-none opacity-0 transition-opacity duration-300',
           {
             'pointer-events-auto opacity-100': currentMedia,
           },
         )}
         ref={closeOverlay}
         onClick={closeMedia}
+      ></div>
+      <div
+        className='pointer-events-none fixed left-0 top-0 z-70 transform-gpu transition-opacity duration-200'
+        ref={closeButton}
       >
-        <div
-          className='absolute left-0 top-0 transform-gpu transition-opacity duration-200'
-          ref={closeButton}
-        >
-          <div className='relative'>
-            <CloseButton
-              label={closeButtonLabelText}
-              onClick={closeMedia}
-              className='bg-blurred pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2'
-            />
-            <span
-              className='bg-blurred border-semi-transparent absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
-              ref={closeButtonLabel}
-              aria-hidden='true'
-            >
-              {closeButtonLabelText}
-            </span>
-          </div>
+        <div className='relative'>
+          <CloseButton
+            label={closeButtonLabelText}
+            onClick={closeMedia}
+            className='bg-blurred pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2'
+          />
+          <span
+            className='bg-blurred border-semi-transparent absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
+            ref={closeButtonLabel}
+            aria-hidden='true'
+          >
+            {closeButtonLabelText}
+          </span>
         </div>
       </div>
     </React.Fragment>

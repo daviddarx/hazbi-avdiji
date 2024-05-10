@@ -38,13 +38,13 @@ export default function TextContentMedia({
   mediaBlock,
   caption,
   closeButtonLabelText,
-  onClick,
+  onClose,
   onMount,
 }: {
   mediaBlock: PageBlocksTextContentMediaBlocks | PostBlocksTextContentMediaBlocks;
   caption: string;
   closeButtonLabelText: string;
-  onClick: () => void;
+  onClose: () => void;
   onMount: (type: MediaType) => void;
 }) {
   const mediaContainer = useRef<HTMLDivElement | null>(null);
@@ -102,7 +102,7 @@ export default function TextContentMedia({
     mediaVideo.current = mediaContainer.current?.querySelector('video');
     onMount(mediaVideo.current ? 'video' : 'image');
 
-    handleResize();
+    requestAnimationFrame(handleResize);
     window.addEventListener('resize', handleResize);
 
     return () => {
@@ -112,7 +112,7 @@ export default function TextContentMedia({
 
   return (
     <motion.div
-      className='bg-blurred border-semi-transparent fixed z-70 rounded-cards p-80'
+      className='bg-blurred border-semi-transparent pointer-events-none fixed z-60 rounded-cards p-80'
       initial='initial'
       animate='animate'
       exit='exit'
@@ -127,13 +127,13 @@ export default function TextContentMedia({
             autoPlay={true}
             loop={true}
             data-media-element='true'
-            className='overflow-hidden rounded-cards'
+            className='pointer-events-auto overflow-hidden rounded-cards'
           >
             <source src={mediaBlock.videoURL} type='video/mp4' />
           </video>
         )}
         {mediaBlock?.image && (
-          <span className='border-semi-transparent block overflow-hidden rounded-cards'>
+          <span className='border-semi-transparent pointer-events-auto block overflow-hidden rounded-cards'>
             <LoadedImage
               src={mediaBlock.image!}
               width={mediaBlock.imageWidth!}
@@ -148,8 +148,8 @@ export default function TextContentMedia({
         </figcaption>
         <CloseButton
           label={closeButtonLabelText}
-          onClick={onClick}
-          className='absolute right-20 top-20 hasmouse:hidden'
+          onClick={onClose}
+          className='pointer-events-auto absolute right-20 top-20 hasmouse:hidden'
         />
       </figure>
     </motion.div>
