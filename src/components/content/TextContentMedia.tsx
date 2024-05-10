@@ -32,22 +32,20 @@ const motionVariants = {
   },
 };
 
-export type TextContentMediaType = 'image' | 'video' | null;
+export type MediaType = 'image' | 'video' | null;
 
 export default function TextContentMedia({
   mediaBlock,
-  key,
   caption,
   closeButtonLabelText,
   onClick,
   onMount,
 }: {
   mediaBlock: PageBlocksTextContentMediaBlocks | PostBlocksTextContentMediaBlocks;
-  key: string;
   caption: string;
   closeButtonLabelText: string;
   onClick: () => void;
-  onMount: (type: TextContentMediaType) => void;
+  onMount: (type: MediaType) => void;
 }) {
   const mediaContainer = useRef<HTMLDivElement | null>(null);
   const mediaVideo = useRef<HTMLVideoElement | null | undefined>(null);
@@ -114,7 +112,6 @@ export default function TextContentMedia({
 
   return (
     <motion.div
-      key={key}
       className='bg-blurred border-semi-transparent fixed z-70 rounded-cards p-80'
       initial='initial'
       animate='animate'
