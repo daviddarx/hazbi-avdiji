@@ -18,9 +18,9 @@ export default function PostList(props: { post: Post }) {
     >
       <QuoteIcon
         className={classNames(
-          'absolute right-0 top-0 z-20 !w-48 opacity-0',
+          'absolute right-40 top-4 z-20 !w-40 opacity-0',
           'transition-[opacity,transform] delay-[0s,200ms] duration-[200ms,200ms] ease-out-quart',
-          'hashover:group-hover:-translate-y-[30%] hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
+          'hashover:group-hover:-translate-y-[40%] hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
         )}
       />
       <div
