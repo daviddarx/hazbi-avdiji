@@ -1,4 +1,5 @@
 import ColoredBackground from '@/components/layout/ColoredBackground';
+import DarkModeSwitcher from '@/components/layout/DarkModeSwitcher';
 import Header from '@/components/layout/Header';
 import Navigation from '@/components/layout/Navigation';
 import { uiActions } from '@/store';
@@ -109,6 +110,7 @@ export default function Layout({
       className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
     >
       <Header />
+      <DarkModeSwitcher className='fixed right-gutter top-gutter z-60' />
       {navigationProps && <Navigation {...navigationProps} />}
       <main className='h-full'>
         <AnimatePresence mode='wait' initial={false} onExitComplete={handleExitComplete}>

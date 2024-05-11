@@ -1,4 +1,3 @@
-import DarkModeSwitcher from './DarkModeSwitcher';
 import Logo from '@/components/layout/Logo';
 import PageLink from '@/components/ui/PageLink';
 
@@ -18,7 +17,6 @@ export default function Header() {
           </span>
         </PageLink>
       </h2>
-      <DarkModeSwitcher className='fixed right-gutter top-gutter' />
     </header>
   );
 }

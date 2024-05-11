@@ -1,22 +1,72 @@
-import classNames from 'classnames';
+import DarkModeIcon from '@/components/layout/DarkModeIcon';
+import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
+import ease from '@/utils/eases';
+import { Menu, MenuButton, MenuItems } from '@headlessui/react';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-type darkModes = 'light' | 'dark' | 'auto';
+export type darkModeType = 'light' | 'dark' | 'system';
 
-export default function DarkModeSwitcher({ className }: { className?: string }) {
-  const [darkMode, setDarkMode] = useState<darkModes>();
+type darkModeOption = {
+  label: string;
+  value: darkModeType;
+};
+
+const options: darkModeOption[] = [
+  {
+    label: 'Clair',
+    value: 'light',
+  },
+  {
+    label: 'Sombre',
+    value: 'dark',
+  },
+  {
+    label: 'Système',
+    value: 'system',
+  },
+];
+
+const motionVariants = {
+  initial: () => {
+    return { opacity: 0, scale: 0.95, y: 30 };
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: ease.outQuart,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      duration: 0.25,
+      ease: ease.outQuart,
+    },
+  },
+};
+
+export default function DarkModeTypewitcher({ className }: { className?: string }) {
+  const [darkMode, setDarkMode] = useState<darkModeType>();
+  const [isDark, setIsDark] = useState(false);
 
   const applyDarkMode = () => {
     document.documentElement.classList.add('dark');
+    setIsDark(true);
   };
 
   const removeDarkMode = () => {
     document.documentElement.classList.remove('dark');
+    setIsDark(false);
   };
 
   useEffect(() => {
     if (!('theme' in localStorage)) {
-      setDarkMode('auto');
+      setDarkMode('system');
     } else {
       setDarkMode(localStorage.theme === 'dark' ? 'dark' : 'light');
     }
@@ -43,31 +93,44 @@ export default function DarkModeSwitcher({ className }: { className?: string }) 
   }, [darkMode]);
 
   return (
-    <div className={classNames('flex gap-12', className)}>
-      <button
-        onClick={() => {
-          setDarkMode('light');
-        }}
-        className={darkMode === 'light' ? 'underline' : ''}
-      >
-        Light
-      </button>
-      <button
-        onClick={() => {
-          setDarkMode('dark');
-        }}
-        className={darkMode === 'dark' ? 'underline' : ''}
-      >
-        Dark
-      </button>
-      <button
-        onClick={() => {
-          setDarkMode('auto');
-        }}
-        className={darkMode === 'auto' ? 'underline' : ''}
-      >
-        Auto
-      </button>
+    <div className={className}>
+      <Menu>
+        {({ open }) => (
+          <>
+            <MenuButton className='border-semi-transparent rounded-full p-16 transition-colors duration-200 ease-out data-[open]:!border-black data-[open]:bg-theme-prev'>
+              <DarkModeIcon name={isDark ? 'dark' : 'light'} />
+            </MenuButton>
+            <AnimatePresence>
+              {open && (
+                <MenuItems
+                  static
+                  as={motion.div}
+                  initial='initial'
+                  animate='animate'
+                  exit='exit'
+                  variants={motionVariants}
+                  anchor='bottom end'
+                  className='bg-blurred border-semi-transparent relative z-60 mt-16 min-w-[200px] origin-top rounded-xl'
+                >
+                  <div className='subtitle px-24 py-12 text-sm'>Apparence</div>
+
+                  {options.map((option) => (
+                    <DarkModeTypewitcherButton
+                      key={option.value}
+                      label={option.label}
+                      value={option.value}
+                      onClick={(value: darkModeType) => {
+                        setDarkMode(value);
+                      }}
+                      active={darkMode === option.value}
+                    />
+                  ))}
+                </MenuItems>
+              )}
+            </AnimatePresence>
+          </>
+        )}
+      </Menu>
     </div>
   );
 }
