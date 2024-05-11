@@ -78,7 +78,7 @@ export default function ColoredBackground() {
   }, []);
 
   return (
-    <div className='fixed left-0 top-0 -z-10 h-lvh w-screen overflow-hidden'>
+    <div className='fixed left-0 top-0 -z-10 h-lvh w-screen overflow-hidden dark:opacity-0'>
       <div
         className='transition-transform'
         style={{

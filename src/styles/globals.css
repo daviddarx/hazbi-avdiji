@@ -43,7 +43,7 @@
 @layer base {
   html,
   body {
-    @apply h-full w-full text-black;
+    @apply h-full w-full;
   }
 
   div#__next {
@@ -51,7 +51,11 @@
   }
 
   body {
-    @apply text-base leading-normal lg:text-2xl;
+    @apply bg-theme text-base leading-normal text-black lg:text-2xl dark:text-theme;
+
+    .dark & {
+      background-color: color-mix(in lab, theme('colors.black') 35%, black);
+    }
   }
 
   h1,
