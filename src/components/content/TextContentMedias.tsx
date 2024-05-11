@@ -135,6 +135,7 @@ export default function TextContentMedias({
   }, [currentMedia, handleCloseMouseMove, positionCloseButton]);
 
   useEffect(() => {
+    hideCloseButton();
     centerCloseButton();
   }, [centerCloseButton]);
 
