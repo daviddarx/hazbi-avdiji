@@ -69,17 +69,16 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
       setDarkMode('system');
     } else {
       setDarkMode(localStorage.theme === 'dark' ? 'dark' : 'light');
+      setIsDark(localStorage.theme === 'dark');
     }
   }, []);
 
-  useEffect(() => {
-    switch (darkMode) {
+  const handleChange = (mode: darkModeType) => {
+    switch (mode) {
       case 'light':
-        localStorage.theme = 'light';
         removeDarkMode();
         break;
       case 'dark':
-        localStorage.theme = 'dark';
         applyDarkMode();
         break;
       default:
@@ -88,9 +87,10 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
         } else {
           removeDarkMode();
         }
-        localStorage.removeItem('theme');
     }
-  }, [darkMode]);
+
+    setDarkMode(mode);
+  };
 
   return (
     <div className={className}>
@@ -120,7 +120,7 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
                       label={option.label}
                       value={option.value}
                       onClick={(value: darkModeType) => {
-                        setDarkMode(value);
+                        handleChange(value);
                       }}
                       active={darkMode === option.value}
                     />
