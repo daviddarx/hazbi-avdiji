@@ -26,7 +26,7 @@ export default function PostList(props: { post: Post }) {
       <div
         className={classNames(
           'border-light relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards p-gutter transition-colors',
-          'hashover:hover:bg-themed-prev hashover:hover:border-strong',
+          'hashover:hover:bg-themed-prev dark:hashover:hover:bg-darked hashover:hover:border-strong dark:hashover:hover:border-darked',
         )}
       >
         <h3 data-tina-field={tinaField(props.post, 'title')}>{props.post.title}</h3>

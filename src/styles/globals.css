@@ -22,7 +22,8 @@
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
   --radius-cards: theme('spacing.36');
-  --color-black-dark-themed: color-mix(in lab, theme('colors.black') 50%, black);
+  --color-black-darker: color-mix(in lab, theme('colors.black') 50%, black);
+  --color-black-darkest: color-mix(in lab, theme('colors.black') 25%, black);
 
   @screen lg {
     --spacer-8: theme('spacing.8');
@@ -143,7 +144,19 @@
     @apply bg-theme;
 
     .dark & {
-      background-color: var(--color-black-dark-themed);
+      background-color: var(--color-black-darker);
+    }
+  }
+
+  .bg-darked {
+    .dark & {
+      background-color: var(--color-black-darkest);
+    }
+  }
+
+  .border-darked {
+    .dark & {
+      border-color: var(--color-black-darkest);
     }
   }
 
@@ -168,7 +181,7 @@
     background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
 
     .dark & {
-      background-color: color-mix(in lab, var(--color-black-dark-themed) 40%, transparent);
+      background-color: color-mix(in lab, var(--color-black-darker) 50%, transparent);
     }
   }
 
@@ -176,7 +189,7 @@
     @apply bg-black text-theme dark:bg-theme;
 
     .dark & {
-      color: var(--color-black-dark-themed);
+      color: var(--color-black-darker);
     }
   }
 
