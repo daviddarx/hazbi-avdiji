@@ -21,6 +21,8 @@
   --color-theme: theme('colors.theme1');
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
+  --color-black-darker: color-mix(in lab, theme('colors.black') 40%, black);
+  --color-black-darkest: color-mix(in lab, theme('colors.black') 20%, black);
   --radius-cards: theme('spacing.36');
 
   @screen lg {
@@ -43,7 +45,7 @@
 @layer base {
   html,
   body {
-    @apply h-full w-full text-black;
+    @apply h-full w-full;
   }
 
   div#__next {
@@ -51,7 +53,11 @@
   }
 
   body {
-    @apply text-base leading-normal lg:text-2xl;
+    @apply bg-themed text-base leading-normal text-black lg:text-2xl;
+
+    .dark & {
+      color: color-mix(in lab, var(--color-theme) 70%, transparent);
+    }
   }
 
   h1,
@@ -93,14 +99,34 @@
   .h5,
   h6,
   .h6 {
-    @apply font-normal leading-title;
+    @apply font-normal leading-title dark:text-theme;
 
     font-family: var(--font-title);
   }
 
   ::selection {
-    @apply bg-black text-theme;
+    @apply bg-black text-theme dark:bg-theme dark:text-black;
     text-shadow: none;
+  }
+
+  :focus-visible {
+    @apply rounded-xl;
+    outline: 5px solid color-mix(in lab, theme('colors.black') 35%, transparent);
+
+    .dark & {
+      outline: 5px solid color-mix(in lab, var(--color-theme) 35%, transparent);
+    }
+
+    .ios & {
+      outline-color: transparent;
+    }
+  }
+
+  a,
+  button {
+    .dark & {
+      @apply text-theme;
+    }
   }
 }
 
@@ -129,23 +155,67 @@
     }
   }
 
+  .bg-themed {
+    @apply bg-theme;
+
+    .dark & {
+      background-color: var(--color-black-darker);
+    }
+  }
+
+  .bg-themed-prev {
+    @apply bg-theme-prev;
+
+    .dark & {
+      background-color: var(--color-black-darkest);
+    }
+  }
+
+  .bg-themed-next {
+    @apply bg-theme-next;
+
+    .dark & {
+      @apply bg-black;
+    }
+  }
+
   .bg-blurred {
     @apply backdrop-blur-md;
     background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
+
+    .dark & {
+      background-color: color-mix(in lab, var(--color-black-darker) 50%, transparent);
+    }
   }
 
-  .border-semi-transparent {
+  .bg-strong {
+    @apply bg-black text-theme dark:bg-theme;
+
+    .dark & {
+      color: var(--color-black-darker);
+    }
+  }
+
+  .border-strong {
+    @apply border-black dark:border-theme;
+  }
+
+  .border-light {
     @apply border border-black/20;
+
+    .dark & {
+      border-color: color-mix(in lab, var(--color-theme) 20%, transparent);
+    }
   }
 }
 
 @layer components {
   .button {
-    @apply border-semi-transparent inline-block rounded-full bg-theme px-16 py-4 font-bold transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev;
+    @apply border-light bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong inline-block rounded-full px-16 py-4 font-bold transition-colors duration-200 ease-out;
   }
 
   .button--primary {
-    @apply bg-black text-theme;
+    @apply bg-strong text-theme;
   }
 
   .subtitle {
@@ -153,7 +223,7 @@
   }
 
   .tag {
-    @apply rounded-full bg-black px-[1em] py-[0.25em] text-base font-bold text-theme;
+    @apply bg-strong rounded-full px-[1em] py-[0.25em] text-base font-bold;
   }
 
   .text-container {
@@ -226,7 +296,7 @@
         }
 
         & tr:first-of-type {
-          @apply border-b border-black font-bold;
+          @apply border-strong border-b font-bold;
         }
       }
     }
