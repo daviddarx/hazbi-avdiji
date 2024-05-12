@@ -97,7 +97,7 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
       <Menu>
         {({ open }) => (
           <>
-            <MenuButton className='border-semi-transparent rounded-full p-16 transition-colors duration-200 ease-out data-[open]:!border-black data-[open]:bg-theme-prev'>
+            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong relative z-100 rounded-full p-16 transition-colors duration-200 ease-out'>
               <DarkModeIcon name={isDark ? 'dark' : 'light'} />
             </MenuButton>
             <AnimatePresence>
@@ -110,7 +110,7 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
                   exit='exit'
                   variants={motionVariants}
                   anchor='bottom end'
-                  className='bg-blurred border-semi-transparent relative z-60 mt-16 min-w-[200px] origin-top rounded-xl'
+                  className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl'
                 >
                   <div className='subtitle px-24 py-12 text-sm'>Apparence</div>
 

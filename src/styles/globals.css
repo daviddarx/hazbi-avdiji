@@ -22,6 +22,7 @@
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
   --radius-cards: theme('spacing.36');
+  --color-black-dark-themed: color-mix(in lab, theme('colors.black') 50%, black);
 
   @screen lg {
     --spacer-8: theme('spacing.8');
@@ -51,11 +52,7 @@
   }
 
   body {
-    @apply bg-theme text-base leading-normal text-black lg:text-2xl dark:text-theme;
-
-    .dark & {
-      background-color: color-mix(in lab, theme('colors.black') 35%, black);
-    }
+    @apply bg-themed text-base leading-normal text-black lg:text-2xl dark:text-theme;
   }
 
   h1,
@@ -103,7 +100,7 @@
   }
 
   ::selection {
-    @apply bg-black text-theme;
+    @apply bg-black text-theme dark:bg-theme dark:text-black;
     text-shadow: none;
   }
 
@@ -142,23 +139,67 @@
     }
   }
 
+  .bg-themed {
+    @apply bg-theme;
+
+    .dark & {
+      background-color: var(--color-black-dark-themed);
+    }
+  }
+
+  .bg-themed-prev {
+    @apply bg-theme-prev;
+
+    .dark & {
+      background-color: color-mix(in lab, var(--color-theme-prev) 10%, transparent);
+    }
+  }
+
+  .bg-themed-next {
+    @apply bg-theme-next;
+
+    .dark & {
+      background-color: color-mix(in lab, var(--color-theme-next) 10%, transparent);
+    }
+  }
+
   .bg-blurred {
     @apply backdrop-blur-md;
     background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
+
+    .dark & {
+      background-color: color-mix(in lab, var(--color-black-dark-themed) 40%, transparent);
+    }
   }
 
-  .border-semi-transparent {
+  .bg-strong {
+    @apply bg-black text-theme dark:bg-theme;
+
+    .dark & {
+      color: var(--color-black-dark-themed);
+    }
+  }
+
+  .border-strong {
+    @apply border-black dark:border-theme;
+  }
+
+  .border-light {
     @apply border border-black/20;
+
+    .dark & {
+      border-color: color-mix(in lab, var(--color-theme) 20%, transparent);
+    }
   }
 }
 
 @layer components {
   .button {
-    @apply border-semi-transparent inline-block rounded-full bg-theme px-16 py-4 font-bold transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev;
+    @apply border-light bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong inline-block rounded-full px-16 py-4 font-bold transition-colors duration-200 ease-out;
   }
 
   .button--primary {
-    @apply bg-black text-theme;
+    @apply bg-strong text-theme;
   }
 
   .subtitle {
@@ -166,7 +207,7 @@
   }
 
   .tag {
-    @apply rounded-full bg-black px-[1em] py-[0.25em] text-base font-bold text-theme;
+    @apply bg-strong rounded-full px-[1em] py-[0.25em] text-base font-bold;
   }
 
   .text-container {
@@ -239,7 +280,7 @@
         }
 
         & tr:first-of-type {
-          @apply border-b border-black font-bold;
+          @apply border-strong border-b font-bold;
         }
       }
     }

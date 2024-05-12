@@ -17,7 +17,7 @@ const components: Components<{
         href={props?.url}
         className={
           props!.url.split(mediaLinksURLPrefix).length > 1
-            ? 'border-semi-transparent rounded-[1em] bg-theme px-[0.55em] py-[0.25em] font-bold !no-underline transition-colors duration-200 ease-out hashover:hover:border-black hashover:hover:bg-theme-prev'
+            ? 'border-light bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong rounded-[1em] px-[0.55em] py-[0.25em] font-bold !no-underline transition-colors duration-200 ease-out'
             : 'text-link'
         }
         target='_blank'

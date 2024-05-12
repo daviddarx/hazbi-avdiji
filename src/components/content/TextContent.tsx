@@ -61,7 +61,7 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
             <h1>Médias</h1>
             <ul>
               {props.mediaBlocks.map((mediaBlock, i) => (
-                <li key={`mediablock-${i}`} className='mt-20 border-t border-black pt-20'>
+                <li key={`mediablock-${i}`} className='border-strong mt-20 border-t pt-20'>
                   <div data-tina-field={tinaField(mediaBlock!, 'id')}>{mediaBlock!.id}</div>
                   {mediaBlock?.videoURL && (
                     <video controls>

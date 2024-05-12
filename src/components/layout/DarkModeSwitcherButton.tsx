@@ -21,9 +21,9 @@ export default function DarkModeSwitcherButton({
           onClick(value);
         }}
         className={classNames(
-          'border-semi-transparent flex w-full gap-16 !border-b-0 !border-l-0 !border-r-0 px-24 py-16 text-left text-base font-bold transition-colors duration-200 ease-out data-[focus]:bg-theme-prev hashover:hover:bg-theme-prev',
+          'border-light hashover:hover:bg-themed-prev data-[focus]:bg-themed-prev flex w-full gap-16 !border-b-0 !border-l-0 !border-r-0 py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out',
           {
-            'bg-theme-next': active,
+            'bg-themed-next': active,
           },
         )}
       >
