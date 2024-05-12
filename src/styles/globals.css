@@ -109,6 +109,10 @@
     @apply rounded-xl;
     outline: 5px solid color-mix(in lab, theme('colors.black') 35%, transparent);
 
+    .dark & {
+      outline: 5px solid color-mix(in lab, var(--color-theme) 35%, transparent);
+    }
+
     .ios & {
       outline-color: transparent;
     }
@@ -148,23 +152,11 @@
     }
   }
 
-  .bg-darked {
-    .dark & {
-      background-color: var(--color-black-darkest);
-    }
-  }
-
-  .border-darked {
-    .dark & {
-      border-color: var(--color-black-darkest);
-    }
-  }
-
   .bg-themed-prev {
     @apply bg-theme-prev;
 
     .dark & {
-      background-color: color-mix(in lab, var(--color-theme-prev) 10%, transparent);
+      background-color: var(--color-black-darkest);
     }
   }
 
@@ -172,7 +164,7 @@
     @apply bg-theme-next;
 
     .dark & {
-      background-color: color-mix(in lab, var(--color-theme-next) 10%, transparent);
+      @apply bg-black;
     }
   }
 

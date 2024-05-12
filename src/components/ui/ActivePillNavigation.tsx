@@ -130,13 +130,13 @@ export default function ActivePillNavigation({
           ))}
         <div
           className={classNames(
-            'bg-themed-next border-strong absolute -z-10 transform-gpu rounded-full border transition-all duration-500 ease-in-out-quart dark:!border-black dark:!bg-black',
+            'bg-themed-next border-strong dark:!border-light absolute -z-10 transform-gpu rounded-full border transition-all duration-500 ease-in-out-quart ',
           )}
           style={activeDimensions}
         ></div>
         <div
           className={classNames(
-            'bg-themed-prev border-strong dark:!bg-darked dark:!border-darked absolute -z-20 hidden transform-gpu rounded-full border transition-all duration-300 ease-out-quart hashover:block',
+            'bg-themed-prev border-strong dark:!border-light absolute -z-20 hidden transform-gpu rounded-full border transition-all duration-300 ease-out-quart hashover:block',
           )}
           style={hoverDimensions}
         ></div>

@@ -97,7 +97,7 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
       <Menu>
         {({ open }) => (
           <>
-            <MenuButton className='border-light data-[open]:bg-themed-prev dark:data-[open]:bg-darked bg-blurred data-[open]:!border-strong relative z-100 rounded-full p-16 transition-colors duration-200 ease-out'>
+            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong relative z-100 rounded-full p-16 transition-colors duration-200 ease-out'>
               <DarkModeIcon name={isDark ? 'dark' : 'light'} />
             </MenuButton>
             <AnimatePresence>
