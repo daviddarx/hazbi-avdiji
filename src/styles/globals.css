@@ -21,9 +21,9 @@
   --color-theme: theme('colors.theme1');
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
+  --color-black-darker: color-mix(in lab, theme('colors.black') 40%, black);
+  --color-black-darkest: color-mix(in lab, theme('colors.black') 20%, black);
   --radius-cards: theme('spacing.36');
-  --color-black-darker: color-mix(in lab, theme('colors.black') 50%, black);
-  --color-black-darkest: color-mix(in lab, theme('colors.black') 25%, black);
 
   @screen lg {
     --spacer-8: theme('spacing.8');
@@ -53,7 +53,11 @@
   }
 
   body {
-    @apply bg-themed text-base leading-normal text-black lg:text-2xl dark:text-theme;
+    @apply bg-themed text-base leading-normal text-black lg:text-2xl;
+
+    .dark & {
+      color: color-mix(in lab, var(--color-theme) 70%, transparent);
+    }
   }
 
   h1,
@@ -95,7 +99,7 @@
   .h5,
   h6,
   .h6 {
-    @apply font-normal leading-title;
+    @apply font-normal leading-title dark:text-theme;
 
     font-family: var(--font-title);
   }
@@ -115,6 +119,13 @@
 
     .ios & {
       outline-color: transparent;
+    }
+  }
+
+  a,
+  button {
+    .dark & {
+      @apply text-theme;
     }
   }
 }
