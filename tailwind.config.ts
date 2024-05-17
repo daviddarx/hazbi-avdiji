@@ -136,6 +136,7 @@ const config: Config = {
       },
       borderRadius: {
         cards: 'var(--radius-cards)',
+        'cards-extended': 'calc(var(--radius-cards)* 1.85)',
       },
     },
   },
