@@ -56,11 +56,13 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
 
   const applyDarkMode = () => {
     document.documentElement.classList.add('dark');
+    localStorage.theme = 'dark';
     setIsDark(true);
   };
 
   const removeDarkMode = () => {
     document.documentElement.classList.remove('dark');
+    localStorage.theme = 'light';
     setIsDark(false);
   };
 
