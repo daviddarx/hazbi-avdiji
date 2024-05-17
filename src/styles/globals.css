@@ -110,7 +110,7 @@
   }
 
   :focus-visible {
-    @apply rounded-xl;
+    @apply rounded-cards;
     outline: 5px solid color-mix(in lab, theme('colors.black') 35%, transparent);
 
     .dark & {
