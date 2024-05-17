@@ -112,7 +112,7 @@ export default function TextContentMedia({
 
   return (
     <motion.div
-      className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards p-80'
+      className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards-extended p-80'
       initial='initial'
       animate='animate'
       exit='exit'
