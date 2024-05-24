@@ -15,7 +15,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const fontText = Manrope({
-  weight: ['500', '600'],
+  weight: ['500', '700'],
   subsets: ['latin'],
   variable: '--font-text',
 });

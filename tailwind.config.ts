@@ -51,7 +51,7 @@ const config: Config = {
       hastouch: { raw: '(pointer: coarse)' },
     },
     lineHeight: {
-      normal: '1.65',
+      normal: '1.75',
       tight: '1.4',
       title: '1.15',
       none: '1',
