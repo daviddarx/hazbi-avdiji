@@ -23,7 +23,7 @@
   --color-theme-next: theme('colors.theme2');
   --color-black-darker: color-mix(in lab, theme('colors.black') 40%, black);
   --color-black-darkest: color-mix(in lab, theme('colors.black') 5%, black);
-  --radius-cards: theme('spacing.36');
+  --radius-cards: 1.8em;
 
   @screen lg {
     --spacer-8: theme('spacing.8');
