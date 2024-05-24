@@ -1,5 +1,5 @@
-import DarkModeIcon from '@/components/layout/DarkModeIcon';
 import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
+import Icon from '@/components/ui/Icon';
 import ease from '@/utils/eases';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -100,7 +100,7 @@ export default function DarkModeTypewitcher({ className }: { className?: string 
         {({ open }) => (
           <>
             <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong relative z-100 rounded-full p-16 transition-colors duration-200 ease-out'>
-              <DarkModeIcon name={isDark ? 'dark' : 'light'} />
+              <Icon name={isDark ? 'dark' : 'light'} />
             </MenuButton>
             <AnimatePresence>
               {open && (

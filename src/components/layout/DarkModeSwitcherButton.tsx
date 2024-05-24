@@ -1,5 +1,5 @@
-import DarkModeIcon from './DarkModeIcon';
 import type { darkModeType } from '@/components/layout/DarkModeSwitcher';
+import Icon from '@/components/ui/Icon';
 import { MenuItem } from '@headlessui/react';
 import classNames from 'classnames';
 
@@ -28,7 +28,7 @@ export default function DarkModeSwitcherButton({
         )}
       >
         <span className='flex-grow'>{label}</span>
-        <DarkModeIcon name={value} />
+        <Icon name={value} />
       </button>
     </MenuItem>
   );
