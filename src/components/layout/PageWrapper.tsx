@@ -1,4 +1,5 @@
 import Footer from '@/components/layout/Footer';
+import Header from '@/components/layout/Header';
 import { uiStateType } from '@/store/ui-slice';
 import { delayBeforeScrollRestoration } from '@/utils/core';
 import eases from '@/utils/eases';
@@ -75,8 +76,9 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
       custom={scrollToTopOnPageChange}
       className='h-full'
     >
-      <div className='flex h-full flex-col pt-[200px]'>
-        {children}
+      <div className='flex h-full flex-col'>
+        <Header />
+        <div className='pt-[120px]'>{children}</div>
         <Footer />
       </div>
     </motion.div>

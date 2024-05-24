@@ -1,6 +1,6 @@
 import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
 import Icon from '@/components/ui/Icon';
-import ease from '@/utils/eases';
+import { MenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -26,29 +26,6 @@ const options: darkModeOption[] = [
     value: 'system',
   },
 ];
-
-const motionVariants = {
-  initial: () => {
-    return { opacity: 0, scale: 0.95, y: 30 };
-  },
-  animate: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.35,
-      ease: ease.outQuart,
-    },
-  },
-  exit: {
-    opacity: 0,
-    scale: 0.95,
-    transition: {
-      duration: 0.25,
-      ease: ease.outQuart,
-    },
-  },
-};
 
 export default function DarkModeSwitcher({ className }: { className?: string }) {
   const [darkMode, setDarkMode] = useState<darkModeType>();
@@ -110,7 +87,7 @@ export default function DarkModeSwitcher({ className }: { className?: string }) 
                   initial='initial'
                   animate='animate'
                   exit='exit'
-                  variants={motionVariants}
+                  variants={MenuMotionVariants}
                   anchor='bottom end'
                   className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl'
                 >

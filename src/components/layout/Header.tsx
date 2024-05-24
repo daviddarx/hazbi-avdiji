@@ -4,16 +4,11 @@ import PageLink from '@/components/ui/PageLink';
 export default function Header() {
   return (
     <header>
-      <h2 className='p-gutter lg:fixed lg:left-0 lg:top-0'>
+      <h2 className='pl-gutter pt-gutter'>
         <PageLink href='/'>
-          <Logo className={'w-[120px]'} />
-          <span className='sr-only'>Dr. Hazbi Avdiji</span>
-          <span className='font-text mt-gutter-1/2 block text-sm leading-title'>
-            Diversity
-            <br />
-            Post-growth
-            <br />
-            Design
+          <Logo className={'w-[120px] lg:w-[148px]'} />
+          <span className='sr-only'>
+            Dr. Hazbi Avdiji - Votre généraliste en diversité et inclusion
           </span>
         </PageLink>
       </h2>

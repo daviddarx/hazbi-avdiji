@@ -1,3 +1,4 @@
+import ease from './eases';
 import { detect } from 'detect-browser';
 
 export function formatDate(date: string) {
@@ -67,3 +68,26 @@ export function getRandomBetween(min: number, max: number) {
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+export const MenuMotionVariants = {
+  initial: () => {
+    return { opacity: 0, scale: 0.95, y: 30 };
+  },
+  animate: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: ease.outQuart,
+    },
+  },
+  exit: {
+    opacity: 0,
+    scale: 0.95,
+    transition: {
+      duration: 0.25,
+      ease: ease.outQuart,
+    },
+  },
+};
