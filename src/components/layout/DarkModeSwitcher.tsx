@@ -50,7 +50,7 @@ const motionVariants = {
   },
 };
 
-export default function DarkModeTypewitcher({ className }: { className?: string }) {
+export default function DarkModeSwitcher({ className }: { className?: string }) {
   const [darkMode, setDarkMode] = useState<darkModeType>();
   const [isDark, setIsDark] = useState(false);
 
