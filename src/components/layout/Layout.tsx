@@ -8,14 +8,14 @@ import { NavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
 import classNames from 'classnames';
 import { AnimatePresence } from 'framer-motion';
-import { Bricolage_Grotesque } from 'next/font/google';
+import { Manrope } from 'next/font/google';
 import localFont from 'next/font/local';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const fontText = Bricolage_Grotesque({
-  weight: ['400', '600'],
+const fontText = Manrope({
+  weight: ['500', '600'],
   subsets: ['latin'],
   variable: '--font-text',
 });
