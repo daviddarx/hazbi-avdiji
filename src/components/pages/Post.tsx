@@ -11,10 +11,12 @@ export default function Post(props: PostResult) {
   return (
     <div>
       <Metas title={post.title} />
-      <div className='layout-grid'>
-        <header className='text-container col-start-4 col-end-10 mb-spacer-20'>
+      <div className='grid-layout'>
+        <header className='text-container grid-item-left mb-spacer-20'>
           <h1 data-tina-field={tinaField(post, 'title')}>{post.title}</h1>
-          <div data-tina-field={tinaField(post, 'category')}>{post.category.title}</div>
+          <div className='tag' data-tina-field={tinaField(post, 'category')}>
+            {post.category.title}
+          </div>
         </header>
       </div>
       <div className='mb-spacer-120 flex flex-col gap-spacer-80'>

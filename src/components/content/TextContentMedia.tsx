@@ -112,7 +112,7 @@ export default function TextContentMedia({
 
   return (
     <motion.div
-      className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards-extended p-80'
+      className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards-extended border p-80'
       initial='initial'
       animate='animate'
       exit='exit'
@@ -133,7 +133,7 @@ export default function TextContentMedia({
           </video>
         )}
         {mediaBlock?.image && (
-          <span className='border-light pointer-events-auto block overflow-hidden rounded-cards'>
+          <span className='border-light pointer-events-auto block overflow-hidden rounded-cards border'>
             <LoadedImage
               src={mediaBlock.image!}
               width={mediaBlock.imageWidth!}

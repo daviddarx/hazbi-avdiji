@@ -38,8 +38,8 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
   }, []);
 
   return (
-    <section className='layout-grid'>
-      <div className='text-container relative col-start-4 col-end-10'>
+    <section className='grid-layout'>
+      <div className='text-container grid-item-right relative'>
         {props.content && (
           <div ref={textContainer} data-tina-field={tinaField(props, 'content')}>
             <CustomMarkdown content={props.content} />

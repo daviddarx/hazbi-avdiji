@@ -184,7 +184,7 @@ export default function TextContentMedias({
             className='bg-blurred pointer-events-none absolute z-20 -translate-x-1/2 -translate-y-1/2'
           />
           <span
-            className='bg-blurred border-light absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
+            className='bg-blurred border-light absolute z-10 inline-block -translate-y-1/2 transform-gpu whitespace-nowrap rounded-full border px-[1em] py-[0.35em] text-base font-bold transition-transform duration-500 ease-in-out-quart'
             ref={closeButtonLabel}
             aria-hidden='true'
           >

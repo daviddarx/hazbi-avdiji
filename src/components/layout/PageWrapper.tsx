@@ -78,7 +78,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     >
       <div className='flex h-full flex-col'>
         <Header />
-        <div className='pt-[120px]'>{children}</div>
+        <div className='pt-spacer-120'>{children}</div>
         <Footer />
       </div>
     </motion.div>

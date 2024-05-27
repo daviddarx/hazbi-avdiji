@@ -16,13 +16,16 @@ export default function Page(props: {
   return (
     <div>
       <Metas title={page.title} />
-      <div className='layout-grid'>
-        <div className='col-start-4 col-end-10 flex flex-col gap-16'>
-          <span className='subtitle' data-tina-field={tinaField(page, 'title')}>
+      <div className='grid-layout'>
+        <div className='grid-item-left mb-spacer-80 xl:mb-spacer-120'>
+          <span
+            className='subtitle mb-spacer-80 block xl:mb-spacer-120'
+            data-tina-field={tinaField(page, 'title')}
+          >
             {page.title}
           </span>
           {page.longTitle && (
-            <h1 className='mb-48' data-tina-field={tinaField(page, 'longTitle')}>
+            <h1 className='mb-spacer-24' data-tina-field={tinaField(page, 'longTitle')}>
               {page.longTitle}
             </h1>
           )}
@@ -30,7 +33,7 @@ export default function Page(props: {
         </div>
       </div>
 
-      <div className='mb-spacer-120 flex flex-col gap-spacer-80'>
+      <div className='mb-spacer-80 flex flex-col gap-spacer-80 xl:mb-spacer-120'>
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {
             case 'PageBlocksTextContent': {

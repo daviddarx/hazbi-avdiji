@@ -77,8 +77,8 @@ export default function PostList(props: {
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
-        <div className='layout-grid mt-gutter'>
-          <div className='col-start-4 col-end-10'>
+        <div className='grid-layout mt-gutter'>
+          <div className='grid-item-full'>
             <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
               {props.filterProps.map((filter) => (
                 <button
@@ -98,16 +98,16 @@ export default function PostList(props: {
           <AnimatePresence mode='wait' initial={false}>
             <motion.div
               key={Math.random() * Math.random()}
-              className='col-start-2 col-end-12 mt-gutter'
+              className='grid-item-full mt-gutter'
               initial='initial'
               animate='animate'
               exit='exit'
               variants={motionVariants}
             >
-              <div className='subtitle col-start-2 col-end-12 mb-gutter'>
+              <div className='subtitle grid-item-full mb-gutter text-center'>
                 {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
               </div>
-              <ul className='grid grid-cols-3 gap-4'>
+              <ul className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
                 {filteredPosts!.map((edge) => {
                   const post = edge?.node as PostType;
 

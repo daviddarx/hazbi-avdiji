@@ -115,7 +115,7 @@ export default function ActivePillNavigation({
   return (
     <nav
       ref={container}
-      className={classNames('bg-blurred border-light rounded-cards p-12', className)}
+      className={classNames('bg-blurred border-light rounded-cards border p-12', className)}
     >
       <h2 className='sr-only'>{title}</h2>
       <ul className='relative flex flex-wrap items-start px-4'>
@@ -123,20 +123,20 @@ export default function ActivePillNavigation({
           React.Children.map(children, (child, i) => (
             <li key={i}>
               {React.cloneElement(child as React.ReactElement, {
-                className: 'inline-block px-16 py-8 font-bold',
+                className: 'pill block border-0 font-bold text-base',
                 'data-clickable': true,
               })}
             </li>
           ))}
         <div
           className={classNames(
-            'bg-themed-next border-strong dark:!border-light absolute -z-10 transform-gpu rounded-full border transition-all duration-500 ease-in-out-quart ',
+            'bg-themed-next border-strong dark:!border-light absolute -z-10 transform-gpu rounded-full  border transition-all duration-500 ease-in-out-quart ',
           )}
           style={activeDimensions}
         ></div>
         <div
           className={classNames(
-            'bg-themed-prev border-strong dark:!border-light absolute -z-20 hidden transform-gpu rounded-full border transition-all duration-300 ease-out-quart hashover:block',
+            'bg-themed-prev border-strong dark:!border-light absolute -z-20 hidden transform-gpu rounded-full  border transition-all duration-300 ease-out-quart hashover:block',
           )}
           style={hoverDimensions}
         ></div>

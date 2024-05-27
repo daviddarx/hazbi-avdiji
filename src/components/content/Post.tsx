@@ -11,7 +11,7 @@ export default function PostList(props: { post: Post }) {
       href={`${postRoute}/${props.post._sys.filename}`}
       className={classNames(
         'group relative block h-full rounded-cards hashover:hover:z-20',
-        'before:bg-blurred before:border-light before:pointer-events-none before:absolute before:-inset-40 before:scale-50 before:rounded-cards-extended before:opacity-0',
+        'before:bg-blurred before:border-light before:pointer-events-none before:absolute before:-inset-40 before:scale-50 before:rounded-cards-extended before:border before:opacity-0',
         'before:transition-all before:duration-100 before:ease-in-quart',
         'hashover:hover:before:scale-100 hashover:hover:before:opacity-100 hashover:hover:before:duration-300 hashover:hover:before:ease-out-quart',
       )}
@@ -25,7 +25,7 @@ export default function PostList(props: { post: Post }) {
       />
       <span
         className={classNames(
-          'border-light relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards p-gutter transition-colors',
+          'border-light relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards border p-gutter transition-colors',
           'hashover:hover:bg-themed-prev hashover:hover:border-strong dark:hashover:hover:border-light',
         )}
       >

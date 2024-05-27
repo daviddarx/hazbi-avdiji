@@ -109,12 +109,16 @@ export default function Layout({
     <div
       className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
     >
-      <div className='fixed right-gutter top-gutter z-60 flex gap-12 lg:absolute'>
-        <DarkModeSwitcher />
-        {navigationProps && <MobileNavigation {...navigationProps} />}
+      <div className='fixed z-60 w-full'>
+        <div className='grid-layout pt-gutter'>
+          <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>
+            {navigationProps && <Navigation {...navigationProps} />}
+            <DarkModeSwitcher />
+            {navigationProps && <MobileNavigation {...navigationProps} />}
+          </div>
+        </div>
       </div>
 
-      {navigationProps && <Navigation {...navigationProps} />}
       <main className='h-full'>
         <AnimatePresence mode='wait' initial={false} onExitComplete={handleExitComplete}>
           {children}

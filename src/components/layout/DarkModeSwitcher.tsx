@@ -27,7 +27,7 @@ const options: darkModeOption[] = [
   },
 ];
 
-export default function DarkModeSwitcher({ className }: { className?: string }) {
+export default function DarkModeSwitcher() {
   const [darkMode, setDarkMode] = useState<darkModeType>();
   const [isDark, setIsDark] = useState(false);
 
@@ -72,11 +72,11 @@ export default function DarkModeSwitcher({ className }: { className?: string }) 
   };
 
   return (
-    <div className={className}>
+    <div className='xl:-mr-28'>
       <Menu>
         {({ open }) => (
           <>
-            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong relative z-100 rounded-full p-16 transition-colors duration-200 ease-out'>
+            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong hashover:hover:bg-themed-prev hashover:hover:!border-strong relative z-100 rounded-full border p-16 transition-colors duration-200 ease-out lg:p-20'>
               <Icon name={isDark ? 'dark' : 'light'} />
             </MenuButton>
             <AnimatePresence>
@@ -89,7 +89,7 @@ export default function DarkModeSwitcher({ className }: { className?: string }) 
                   exit='exit'
                   variants={MenuMotionVariants}
                   anchor='bottom end'
-                  className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl'
+                  className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl border'
                 >
                   <div className='subtitle px-24 py-12 text-sm'>Apparence</div>
 

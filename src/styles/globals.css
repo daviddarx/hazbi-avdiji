@@ -17,13 +17,17 @@
   --spacer-80: theme('spacing.48');
   --spacer-96: theme('spacing.56');
   --spacer-120: theme('spacing.64');
-  --gutter: var(--spacer-40);
+  --gutter: theme('spacing.16');
   --color-theme: theme('colors.theme1');
   --color-theme-prev: theme('colors.theme6');
   --color-theme-next: theme('colors.theme2');
   --color-black-darker: color-mix(in lab, theme('colors.black') 40%, black);
   --color-black-darkest: color-mix(in lab, theme('colors.black') 5%, black);
   --radius-cards: 1.8em;
+
+  @screen xs {
+    --gutter: theme('spacing.24');
+  }
 
   @screen lg {
     --spacer-8: theme('spacing.8');
@@ -39,6 +43,11 @@
     --spacer-80: theme('spacing.80');
     --spacer-96: theme('spacing.96');
     --spacer-120: theme('spacing.120');
+    --gutter: theme('spacing.32');
+  }
+
+  @screen xl {
+    --gutter: theme('spacing.40');
   }
 }
 
@@ -181,7 +190,7 @@
 
   .bg-blurred {
     @apply backdrop-blur-md;
-    background-color: color-mix(in lab, var(--color-theme) 20%, transparent);
+    background-color: color-mix(in lab, var(--color-theme) 30%, transparent);
 
     .dark & {
       background-color: color-mix(in lab, var(--color-black-darker) 50%, transparent);
@@ -201,7 +210,7 @@
   }
 
   .border-light {
-    @apply border border-black/20;
+    @apply border-black/20;
 
     .dark & {
       border-color: color-mix(in lab, var(--color-theme) 20%, transparent);
@@ -210,8 +219,12 @@
 }
 
 @layer components {
+  .pill {
+    @apply border-light inline-block rounded-full border px-[1.5em] py-[0.5em];
+  }
+
   .button {
-    @apply border-light bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong inline-block rounded-full px-16 py-4 font-bold transition-colors duration-200 ease-out;
+    @apply pill bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong font-bold !no-underline transition-colors duration-200 ease-out;
   }
 
   .button--primary {
@@ -223,7 +236,7 @@
   }
 
   .tag {
-    @apply bg-strong rounded-full px-[1em] py-[0.25em] text-base font-bold;
+    @apply pill bg-blurred text-base font-bold;
   }
 
   .text-container {
@@ -305,6 +318,10 @@
       @apply underline transition-opacity duration-200 ease-out hashover:hover:no-underline hashover:hover:opacity-50;
     }
 
+    & .button {
+      @apply px-[0.75em] py-[0em] dark:!bg-black/25;
+    }
+
     & blockquote {
       @apply rounded-lg bg-black/5 p-spacer-20;
     }
@@ -316,7 +333,19 @@
     @apply first-mt-0 last-mb-0;
   }
 
-  .layout-grid {
-    @apply grid grid-cols-12 p-gutter;
+  .grid-layout {
+    @apply mx-auto max-w-[1280px] px-gutter lg:grid lg:grid-cols-12;
+  }
+
+  .grid-item-full {
+    @apply col-start-1 col-end-13;
+  }
+
+  .grid-item-left {
+    @apply col-start-1 col-end-10;
+  }
+
+  .grid-item-right {
+    @apply col-start-4 col-end-13;
   }
 }

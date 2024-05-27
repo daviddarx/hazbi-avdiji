@@ -16,7 +16,7 @@ export default function Navigation(props: NavigationResult) {
         <ActivePillNavigation
           title={'Navigation'}
           currentActiveValue={pathName.split('/')[1]}
-          className='fixed left-1/2 top-gutter z-50 -translate-x-1/2 max-lg:hidden'
+          className='relative max-lg:hidden xl:-ml-40'
         >
           {navigation.links.map((link) => (
             <PageLink
