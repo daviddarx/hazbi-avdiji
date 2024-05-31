@@ -1,10 +1,13 @@
 import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
 import Icon from '@/components/ui/Icon';
 import t from '@/content/translations';
+import { uiStateType } from '@/store/ui-slice';
 import { MenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
+import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 export type darkModeType = 'light' | 'dark' | 'system';
 
@@ -31,6 +34,7 @@ const options: darkModeOption[] = [
 export default function DarkModeSwitcher() {
   const [darkMode, setDarkMode] = useState<darkModeType>();
   const [isDark, setIsDark] = useState(false);
+  const hiddenTopBar = useSelector((state: uiStateType) => state.ui.hiddenTopBar);
 
   const applyDarkMode = () => {
     document.documentElement.classList.add('dark');
@@ -73,7 +77,11 @@ export default function DarkModeSwitcher() {
   };
 
   return (
-    <div>
+    <div
+      className={classNames('lg:transition-opacity lg:duration-300', {
+        'lg:opacity-0 lg:duration-1000': hiddenTopBar,
+      })}
+    >
       <Menu>
         {({ open }) => (
           <>
