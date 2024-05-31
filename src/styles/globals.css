@@ -238,7 +238,7 @@
   }
 
   .subtitle {
-    @apply font-text text-base font-bold uppercase tracking-widest;
+    @apply font-text text-sm font-bold uppercase tracking-widest lg:text-base;
   }
 
   .tag {

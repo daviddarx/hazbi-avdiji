@@ -5,7 +5,7 @@ import { postRoute } from '@/utils/tina';
 import { classNames } from 'tinacms';
 import { tinaField } from 'tinacms/dist/react';
 
-export default function PostList(props: { post: Post }) {
+export default function PostCard(props: { post: Post }) {
   return (
     <PageLink
       href={`${postRoute}/${props.post._sys.filename}`}
@@ -29,7 +29,10 @@ export default function PostList(props: { post: Post }) {
           'hashover:hover:bg-themed-prev hashover:hover:border-strong dark:hashover:hover:border-light',
         )}
       >
-        <h3 data-tina-field={tinaField(props.post, 'title')}>{props.post.title}</h3>
+        <h3
+          data-tina-field={tinaField(props.post, 'title')}
+          dangerouslySetInnerHTML={{ __html: props.post.title }}
+        />
         <span
           className={classNames(
             'tag absolute bottom-0 translate-y-full opacity-0',

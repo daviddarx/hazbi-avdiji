@@ -1,4 +1,4 @@
-import Post from '@/components/content/Post';
+import PostCard from '@/components/content/PostCard';
 import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
 import t from '@/content/translations';
 import useStuck from '@/hooks/useStuck';
@@ -131,7 +131,7 @@ export default function PostList(props: {
 
                   return (
                     <li key={post._sys.filename}>
-                      <Post post={post} />
+                      <PostCard post={post} />
                     </li>
                   );
                 })}
