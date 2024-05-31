@@ -40,6 +40,8 @@ export default function Layout({
     (state: uiStateType) => state.ui.scrollToTopOnPageChange,
   );
 
+  const hiddenTopBar = useSelector((state: uiStateType) => state.ui.hiddenTopBar);
+
   useEffect(() => {
     const handleBeforeHistoryChange = () => {
       /**
@@ -109,7 +111,11 @@ export default function Layout({
     <div
       className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
     >
-      <div className='fixed z-60 w-full'>
+      <div
+        className={classNames('fixed z-60 w-full transition-opacity duration-100', {
+          'lg:opacity-0 lg:duration-1000': hiddenTopBar,
+        })}
+      >
         <div className='grid-layout pt-gutter'>
           <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>
             {navigationProps && <Navigation {...navigationProps} />}

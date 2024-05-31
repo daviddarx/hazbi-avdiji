@@ -226,7 +226,7 @@
 
 @layer components {
   .pill {
-    @apply border-light inline-block rounded-full border px-[1.5em] py-[0.5em];
+    @apply border-light inline-block rounded-full border px-[0.8em] py-[0.5em] lg:px-[1.5em];
   }
 
   .button {

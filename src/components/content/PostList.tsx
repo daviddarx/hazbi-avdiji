@@ -1,6 +1,7 @@
 import Post from '@/components/content/Post';
 import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
 import t from '@/content/translations';
+import useStuck from '@/hooks/useStuck';
 import { uiActions } from '@/store';
 import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
@@ -74,11 +75,24 @@ export default function PostList(props: {
     filterlist(category || POSTS_CATEGORY_ALL_VALUE);
   }, [filterlist]);
 
+  const handleStuck = () => {
+    dispatch(uiActions.setHiddenTopBar(true));
+  };
+
+  const handleUnStuck = () => {
+    dispatch(uiActions.setHiddenTopBar(false));
+  };
+
+  const filterElement = useStuck<HTMLDivElement>({
+    onStuck: handleStuck,
+    onUnStuck: handleUnStuck,
+  });
+
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='grid-layout'>
-          <div className='grid-item-full'>
+          <div className='grid-item-full top-gutter z-60 lg:sticky' ref={filterElement}>
             <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
               {props.filterProps.map((filter) => (
                 <button
