@@ -1,12 +1,19 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Post from '@/components/pages/Post';
+import t from '@/content/translations';
 import client from '@/tina/client';
 import { PostResult } from '@/types';
 
-export default function BlogPage({ postProps }: { postProps: PostResult }) {
+export default function BlogPage({
+  postProps,
+  postListLink,
+}: {
+  postProps: PostResult;
+  postListLink: string;
+}) {
   return (
     <PageWrapper>
-      <Post {...postProps} />
+      <Post postProps={postProps} postListLink={postListLink} />
     </PageWrapper>
   );
 }
@@ -24,10 +31,14 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
     };
   }
 
+  const postListLink = `${navigationResult.data.navigation.links?.find((item) => item?.isPostPage)
+    ?.link}?${t.postCategorySlug}=${postResult.data.post.category._sys.filename}`;
+
   return {
     props: {
       navigationProps: navigationResult,
       postProps: postResult,
+      postListLink: postListLink,
     },
     revalidate: 10,
   };

@@ -109,6 +109,7 @@ export default defineConfig({
             fields: [
               { name: 'label', label: 'Label', type: 'string', required: true },
               { name: 'link', label: 'Link', type: 'string', required: true },
+              { name: 'isPostPage', label: 'Is it the post page?', type: 'boolean' },
             ],
           },
         ],
