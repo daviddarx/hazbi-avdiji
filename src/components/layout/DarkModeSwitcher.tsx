@@ -73,7 +73,7 @@ export default function DarkModeSwitcher() {
   };
 
   return (
-    <div className='xl:-mr-28'>
+    <div>
       <Menu>
         {({ open }) => (
           <>

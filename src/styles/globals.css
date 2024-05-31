@@ -216,7 +216,7 @@
   }
 
   .border-light {
-    @apply border-black/20;
+    @apply border-black/25;
 
     .dark & {
       border-color: color-mix(in lab, var(--color-theme) 20%, transparent);
@@ -230,7 +230,7 @@
   }
 
   .button {
-    @apply pill bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong font-bold !no-underline transition-colors duration-200 ease-out;
+    @apply pill bg-themed hashover:hover:bg-themed-prev hashover:hover:border-strong font-bold !no-underline transition-colors duration-300;
   }
 
   .button--primary {
