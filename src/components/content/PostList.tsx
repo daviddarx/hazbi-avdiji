@@ -77,7 +77,7 @@ export default function PostList(props: {
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
-        <div className='grid-layout mt-gutter'>
+        <div className='grid-layout'>
           <div className='grid-item-full'>
             <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
               {props.filterProps.map((filter) => (

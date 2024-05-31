@@ -17,6 +17,7 @@
   --spacer-80: theme('spacing.48');
   --spacer-96: theme('spacing.56');
   --spacer-120: theme('spacing.64');
+  --v-spacer-120: theme('spacing.64');
   --gutter: theme('spacing.16');
   --color-theme: theme('colors.theme1');
   --color-theme-prev: theme('colors.theme6');
@@ -43,7 +44,12 @@
     --spacer-80: theme('spacing.80');
     --spacer-96: theme('spacing.96');
     --spacer-120: theme('spacing.120');
+    --v-spacer-120: theme('spacing.120');
     --gutter: theme('spacing.32');
+
+    @media (max-height: 1024px) {
+      --v-spacer-120: theme('spacing.80');
+    }
   }
 
   @screen xl {

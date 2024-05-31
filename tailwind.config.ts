@@ -95,6 +95,7 @@ const config: Config = {
       'spacer-80': 'var(--spacer-80)',
       'spacer-96': 'var(--spacer-96)',
       'spacer-120': 'var(--spacer-120)',
+      'v-spacer-120': 'var(--v-spacer-120)',
       gutter: 'var(--gutter)',
       'gutter-1/2': 'calc(var(--gutter)*0.5)',
     },
