@@ -1,11 +1,11 @@
 import Post from '@/components/content/Post';
 import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
+import t from '@/content/translations';
 import { uiActions } from '@/store';
 import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
 import ease from '@/utils/eases';
-import t from '@/utils/translations';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';

@@ -1,9 +1,9 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Page from '@/components/pages/Page';
+import t from '@/content/translations';
 import client from '@/tina/client';
 import { PageResult, PostsFilter, PostsResult } from '@/types/';
 import { POSTS_CATEGORY_ALL_VALUE } from '@/utils/core';
-import t from '@/utils/translations';
 
 export default function PageComponent({
   pageProps,
