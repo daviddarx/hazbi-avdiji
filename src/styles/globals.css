@@ -23,7 +23,7 @@
   --color-theme-next: theme('colors.theme2');
   --color-black-darker: color-mix(in lab, theme('colors.black') 40%, black);
   --color-black-darkest: color-mix(in lab, theme('colors.black') 5%, black);
-  --radius-cards: 1.8em;
+  --radius-cards: 1.4em;
 
   @screen xs {
     --gutter: theme('spacing.24');
