@@ -1,5 +1,6 @@
 import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
 import Icon from '@/components/ui/Icon';
+import t from '@/content/translations';
 import { MenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -14,15 +15,15 @@ type darkModeOption = {
 
 const options: darkModeOption[] = [
   {
-    label: 'Clair',
+    label: t.darkModeSwitcher.options.light,
     value: 'light',
   },
   {
-    label: 'Sombre',
+    label: t.darkModeSwitcher.options.dark,
     value: 'dark',
   },
   {
-    label: 'Système',
+    label: t.darkModeSwitcher.options.system,
     value: 'system',
   },
 ];
@@ -91,7 +92,7 @@ export default function DarkModeSwitcher() {
                   anchor='bottom end'
                   className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl border'
                 >
-                  <div className='subtitle px-24 py-12 text-sm'>Apparence</div>
+                  <div className='subtitle px-24 py-12 text-sm'>{t.darkModeSwitcher.title}</div>
 
                   {options.map((option) => (
                     <DarkModeTypewitcherButton

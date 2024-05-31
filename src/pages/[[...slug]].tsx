@@ -50,7 +50,6 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
   }
 
   if (hasPostListBlock) {
-    const categoryParams = params.slug![1];
     const categoryConnectionResult = await client.queries.categoryConnection({
       sort: 'priority',
     });
@@ -58,7 +57,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
     postsFilters = [
       {
         label: t.allPosts,
-        link: `/${pageMdPath}?categorie=${POSTS_CATEGORY_ALL_VALUE}`,
+        link: `/${pageMdPath}?${t.postCategorySlug}=${POSTS_CATEGORY_ALL_VALUE}`,
         category: POSTS_CATEGORY_ALL_VALUE,
       },
     ];
@@ -68,7 +67,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
         const node = edge!.node!;
         return {
           label: node.title,
-          link: `/${params.slug![0]}?categorie=${node._sys.filename}`,
+          link: `/${params.slug![0]}?${t.postCategorySlug}=${node._sys.filename}`,
           category: node._sys.filename,
         };
       }),
