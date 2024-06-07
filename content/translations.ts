@@ -19,7 +19,7 @@ const t = {
     options: {
       light: 'Clair',
       dark: 'Sombre',
-      system: 'Système',
+      system: 'Auto',
     },
   },
 };
