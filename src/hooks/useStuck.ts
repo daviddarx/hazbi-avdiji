@@ -99,7 +99,7 @@ export default function useStuck<T extends HTMLElement>({
         }
       }
     };
-  }, [onStuck, onStuckClass, onUnStuck, onMount, onUnmount, stickToTop]);
+  }, [onStuck, onStuckClass, onUnStuck, onMount, onUnmount, stickToTop, positionDelay]);
 
   return ref;
 }
