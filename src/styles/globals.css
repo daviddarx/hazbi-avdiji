@@ -77,17 +77,17 @@
 
   h1,
   .h1 {
-    @apply text-4xl xl:text-7xl;
+    @apply text-4xl lg:text-7xl;
   }
 
   h2,
   .h2 {
-    @apply text-3xl xl:text-5xl;
+    @apply text-3xl lg:text-5xl;
   }
 
   h3,
   .h3 {
-    @apply text-2xl xl:text-4xl;
+    @apply text-2xl lg:text-4xl;
   }
 
   h4,
@@ -96,7 +96,7 @@
   .h5,
   h6,
   .h6 {
-    @apply text-xl xl:text-3xl;
+    @apply text-xl lg:text-3xl;
   }
 
   h1,
@@ -358,5 +358,32 @@
 
   .grid-item-right {
     @apply col-start-4 col-end-13;
+  }
+
+  .grid-item-right-leftover {
+    @apply col-start-1 col-end-4;
+  }
+
+  .post-title {
+    @apply pr-[1em] indent-[1em];
+
+    &:before,
+    &:after {
+      @apply absolute size-24 bg-contain bg-no-repeat text-black lg:size-40;
+
+      content: '';
+      background-color: currentColor;
+      mask-image: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2040%2040%22%3E%3Cpath%20d%3D%22M22.763%2032.01c5.494-2.87%207.052-7.298%207.052-9.84-5.084.246-8.528-3.198-8.446-7.626C21.451%2010.28%2025.06%207%2029.323%207c4.674%200%208.364%204.018%208.364%209.922%200%206.232-4.1%2012.956-11.562%2015.088h-3.362Zm-18.368%200c5.494-2.87%207.052-7.298%207.052-9.84-5.084.246-8.528-3.198-8.446-7.626C3.083%2010.28%206.691%207%2010.955%207c4.674%200%208.364%204.018%208.364%209.922%200%206.232-4.1%2012.956-11.562%2015.088H4.395Z%22%20fill%3D%22%23000%22/%3E%3C/svg%3E');
+      mask-size: contain;
+      mask-repeat: no-repeat;
+    }
+
+    &:before {
+      @apply -ml-[1em] mt-[0.025em] rotate-180;
+    }
+
+    &:after {
+      @apply ml-[0.3em] mt-[0.1em];
+    }
   }
 }

@@ -16,12 +16,12 @@ export default function PageHeader({
         <h2 className='subtitle mb-v-spacer-120 block' data-tina-field={tinaField(post, 'title')}>
           {t.post}
         </h2>
-        <h1 className='mb-spacer-24' data-tina-field={tinaField(post, 'title')}>
+        <h1 className='post-title' data-tina-field={tinaField(post, 'title')}>
           {post.title}
         </h1>
         <PageLink
           href={postListLink}
-          className='button tag'
+          className='button tag mt-40 lg:hidden'
           data-tina-field={tinaField(post, 'category')}
         >
           {post.category.title}

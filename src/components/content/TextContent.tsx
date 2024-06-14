@@ -3,10 +3,16 @@ import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import LoadedImage from '@/components/ui/LoadedImage';
 import { PageBlocksTextContent, PostBlocksTextContent } from '@/tina/types';
 import { mediaLinksURLPrefix } from '@/utils/core';
-import { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
 
-export default function TextContent(props: PageBlocksTextContent | PostBlocksTextContent) {
+export default function TextContent({
+  content,
+  children,
+}: {
+  content: PageBlocksTextContent | PostBlocksTextContent;
+  children?: ReactNode;
+}) {
   const textContainer = useRef<HTMLDivElement | null>(null);
   const [currentMedia, setCurrentMedia] = useState<CurrentMediaType>(null);
 
@@ -39,16 +45,17 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
 
   return (
     <section className='grid-layout'>
+      {children && <div className='grid-item-right-leftover pr-20 max-lg:hidden'>{children}</div>}
       <div className='text-container grid-item-right relative'>
-        {props.content && (
-          <div ref={textContainer} data-tina-field={tinaField(props, 'content')}>
-            <CustomMarkdown content={props.content} />
+        {content.content && (
+          <div ref={textContainer} data-tina-field={tinaField(content, 'content')}>
+            <CustomMarkdown content={content.content} />
           </div>
         )}
 
-        {props.mediaBlocks && (
+        {content.mediaBlocks && (
           <TextContentMedias
-            mediaBlocks={props.mediaBlocks}
+            mediaBlocks={content.mediaBlocks}
             currentMedia={currentMedia}
             onClose={() => {
               setCurrentMedia(null);
@@ -56,11 +63,11 @@ export default function TextContent(props: PageBlocksTextContent | PostBlocksTex
           />
         )}
 
-        {props.mediaBlocks && (
+        {content.mediaBlocks && (
           <section className='admin-only mt-64'>
             <h1>Médias</h1>
             <ul>
-              {props.mediaBlocks.map((mediaBlock, i) => (
+              {content.mediaBlocks.map((mediaBlock, i) => (
                 <li key={`mediablock-${i}`} className='border-strong mt-20 border-t pt-20'>
                   <div data-tina-field={tinaField(mediaBlock!, 'id')}>{mediaBlock!.id}</div>
                   {mediaBlock?.videoURL && (

@@ -1,8 +1,9 @@
 import TextContent from '@/components/content/TextContent';
 import Metas from '@/components/layout/Metas';
 import PostHeader from '@/components/layout/PostHeader';
+import PageLink from '@/components/ui/PageLink';
 import { PostResult } from '@/types/';
-import { useTina } from 'tinacms/dist/react';
+import { tinaField, useTina } from 'tinacms/dist/react';
 
 export default function Post({
   postProps,
@@ -22,7 +23,17 @@ export default function Post({
         {post.blocks?.map((block, i) => {
           switch (block?.__typename) {
             case 'PostBlocksTextContent': {
-              return <TextContent {...block} key={i} />;
+              return (
+                <TextContent content={{ ...block }} key={i}>
+                  <PageLink
+                    href={postListLink}
+                    className='button tag mt-8'
+                    data-tina-field={tinaField(post, 'category')}
+                  >
+                    {post.category.title}
+                  </PageLink>
+                </TextContent>
+              );
             }
           }
         })}
