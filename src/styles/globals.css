@@ -82,24 +82,21 @@
 
   h2,
   .h2 {
-    @apply text-3xl xl:text-4xl;
+    @apply text-3xl xl:text-5xl;
   }
 
   h3,
   .h3 {
-    @apply text-2xl xl:text-3xl;
+    @apply text-2xl xl:text-4xl;
   }
 
   h4,
-  .h4 {
-    @apply text-xl xl:text-2xl;
-  }
-
+  .h4,
   h5,
   .h5,
   h6,
   .h6 {
-    @apply text-lg xl:text-xl;
+    @apply text-xl xl:text-3xl;
   }
 
   h1,
@@ -142,6 +139,10 @@
     .dark & {
       @apply text-theme;
     }
+  }
+
+  hr {
+    @apply border-light my-spacer-40 border-t;
   }
 }
 
@@ -196,7 +197,7 @@
 
   .bg-blurred {
     @apply backdrop-blur-md;
-    background-color: color-mix(in lab, var(--color-theme) 30%, transparent);
+    background-color: color-mix(in lab, var(--color-theme) 40%, transparent);
 
     .dark & {
       background-color: color-mix(in lab, var(--color-black-darker) 50%, transparent);
@@ -245,6 +246,10 @@
     @apply pill bg-blurred text-base font-bold;
   }
 
+  a.text-link {
+    @apply underline transition-opacity duration-200 ease-out hashover:hover:no-underline hashover:hover:opacity-50;
+  }
+
   .text-container {
     & > {
       & p,
@@ -268,17 +273,21 @@
 
       & h2,
       & .h2 {
-        @apply mb-spacer-24 mt-spacer-48;
+        @apply mb-spacer-24 mt-spacer-120;
       }
 
       & h3,
       & .h3 {
-        @apply mb-spacer-12 mt-spacer-24;
+        @apply mb-spacer-40 mt-spacer-80;
       }
 
       & h4,
-      & .h4 {
-        @apply mb-spacer-8 mt-spacer-16;
+      & .h4,
+      & h5,
+      & .h5,
+      & h6,
+      & .h6 {
+        @apply mb-spacer-32 mt-spacer-80;
       }
 
       & ol,
@@ -320,10 +329,6 @@
       }
     }
 
-    & a.text-link {
-      @apply underline transition-opacity duration-200 ease-out hashover:hover:no-underline hashover:hover:opacity-50;
-    }
-
     & .button {
       @apply px-[0.75em] py-[0em] dark:!bg-black/25;
     }
@@ -340,7 +345,7 @@
   }
 
   .grid-layout {
-    @apply mx-auto max-w-[1280px] px-gutter lg:grid lg:grid-cols-12;
+    @apply mx-auto w-full max-w-[1280px] px-gutter lg:grid lg:grid-cols-12;
   }
 
   .grid-item-full {
