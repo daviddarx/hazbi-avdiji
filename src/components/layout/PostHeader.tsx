@@ -13,7 +13,7 @@ export default function PageHeader({
   return (
     <header className='grid-layout'>
       <div className='grid-item-left mb-v-spacer-120'>
-        <h2 className='subtitle mb-v-spacer-120 block' data-tina-field={tinaField(post, 'title')}>
+        <h2 className='subtitle mb-spacer-40 block' data-tina-field={tinaField(post, 'title')}>
           {t.post}
         </h2>
         <h1 className='post-title' data-tina-field={tinaField(post, 'title')}>

@@ -4,6 +4,7 @@ import Metas from '@/components/layout/Metas';
 import PageHeader from '@/components/layout/PageHeader';
 import { PageResult, PostsFilter, PostsResult } from '@/types';
 import { useTina } from 'tinacms/dist/react';
+import { tinaField } from 'tinacms/dist/react';
 
 export default function Page(props: {
   pageProps: PageResult;
@@ -21,7 +22,20 @@ export default function Page(props: {
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {
             case 'PageBlocksTextContent': {
-              return <TextContent content={{ ...block }} key={i} />;
+              return (
+                <section className='grid-layout'>
+                  <div className='grid-item-right-leftover pr-32 max-lg:hidden'>
+                    <div className='border-light mt-12 border-t pt-32'>
+                      <h1 className='subtitle block' data-tina-field={tinaField(page, 'title')}>
+                        {page.title}
+                      </h1>
+                    </div>
+                  </div>
+                  <div className='grid-item-right'>
+                    <TextContent content={{ ...block }} key={i} />
+                  </div>
+                </section>
+              );
             }
             case 'PageBlocksPostList': {
               return (
