@@ -45,7 +45,11 @@ export default function TextContent({
 
   return (
     <section className='grid-layout'>
-      {children && <div className='grid-item-right-leftover pr-20 max-lg:hidden'>{children}</div>}
+      {children && (
+        <div className='grid-item-right-leftover sticky top-[calc(var(--gutter)+4px)] self-start pr-20 max-lg:hidden'>
+          {children}
+        </div>
+      )}
       <div className='text-container grid-item-right relative'>
         {content.content && (
           <div ref={textContainer} data-tina-field={tinaField(content, 'content')}>
