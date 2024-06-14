@@ -21,7 +21,7 @@ export default function Page(props: {
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {
             case 'PageBlocksTextContent': {
-              return <TextContent {...block} key={i} />;
+              return <TextContent content={{ ...block }} key={i} />;
             }
             case 'PageBlocksPostList': {
               return (
