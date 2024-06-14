@@ -71,17 +71,17 @@ export default function PostList(props: {
     [posts, setFilteredPosts],
   );
 
-  const handleStuck = () => {
+  const hideTopBar = () => {
     dispatch(uiActions.setHiddenTopBar(true));
   };
 
-  const handleUnStuck = () => {
+  const showTopBar = useCallback(() => {
     dispatch(uiActions.setHiddenTopBar(false));
-  };
+  }, [dispatch]);
 
   const filterElement = useStuck<HTMLDivElement>({
-    onStuck: handleStuck,
-    onUnStuck: handleUnStuck,
+    onStuck: hideTopBar,
+    onUnStuck: showTopBar,
   });
 
   const updateContainerHeight = () => {
@@ -101,8 +101,9 @@ export default function PostList(props: {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+      showTopBar();
     };
-  }, [filterlist, handleResize]);
+  }, [filterlist, handleResize, showTopBar]);
 
   return (
     <section>
