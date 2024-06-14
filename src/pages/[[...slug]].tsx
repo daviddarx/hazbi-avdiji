@@ -2,20 +2,22 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Page from '@/components/pages/Page';
 import t from '@/content/translations';
 import client from '@/tina/client';
-import { PageResult, PostsFilter, PostsResult } from '@/types/';
+import { FooteNavigationResult, PageResult, PostsFilter, PostsResult } from '@/types/';
 import { POSTS_CATEGORY_ALL_VALUE } from '@/utils/core';
 
 export default function PageComponent({
+  footerNavigationProps,
   pageProps,
   postsProps,
   filterProps,
 }: {
+  footerNavigationProps: FooteNavigationResult;
   pageProps: PageResult;
   postsProps?: PostsResult;
   filterProps?: PostsFilter[];
 }) {
   return (
-    <PageWrapper>
+    <PageWrapper footerNavigationProps={footerNavigationProps}>
       <Page pageProps={pageProps} postsProps={postsProps} filterProps={filterProps} />
     </PageWrapper>
   );
@@ -23,6 +25,9 @@ export default function PageComponent({
 
 export const getStaticProps = async ({ params }: { params: { slug?: string[] } }) => {
   const navigationResult = await client.queries.navigation({ relativePath: 'navigation.md' });
+  const footerNavigationResult = await client.queries.footerNavigation({
+    relativePath: 'footer-navigation.md',
+  });
 
   let pageResult: PageResult;
   let hasPostListBlock: boolean | undefined;
@@ -83,6 +88,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
   return {
     props: {
       navigationProps: { ...navigationResult },
+      footerNavigationProps: { ...footerNavigationResult },
       pageProps: { ...pageResult },
       postsProps: { ...postsResult },
       filterProps: postsFilters,

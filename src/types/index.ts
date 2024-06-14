@@ -1,7 +1,19 @@
-import { NavigationQuery, PageQuery, PostConnectionQuery, PostQuery } from '@/tina/types';
+import {
+  FooterNavigationQuery,
+  NavigationQuery,
+  PageQuery,
+  PostConnectionQuery,
+  PostQuery,
+} from '@/tina/types';
 
 export type NavigationResult = {
   data: NavigationQuery;
+  variables: object;
+  query: string;
+};
+
+export type FooteNavigationResult = {
+  data: FooterNavigationQuery;
   variables: object;
   query: string;
 };

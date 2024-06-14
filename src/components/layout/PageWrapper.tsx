@@ -1,6 +1,7 @@
 import Footer from '@/components/layout/Footer';
 import Header from '@/components/layout/Header';
 import { uiStateType } from '@/store/ui-slice';
+import { FooteNavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
 import eases from '@/utils/eases';
 import { motion } from 'framer-motion';
@@ -62,7 +63,13 @@ const motionVariants = {
   },
 };
 
-export default function PageWrapper({ children }: { children: ReactNode }) {
+export default function PageWrapper({
+  footerNavigationProps,
+  children,
+}: {
+  footerNavigationProps: FooteNavigationResult;
+  children: ReactNode;
+}) {
   const scrollToTopOnPageChange = useSelector(
     (state: uiStateType) => state.ui.scrollToTopOnPageChange,
   );
@@ -79,7 +86,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
       <div className='flex h-full flex-col'>
         <Header />
         <div className='pt-v-spacer-120'>{children}</div>
-        <Footer />
+        <Footer {...footerNavigationProps} />
       </div>
     </motion.div>
   );
