@@ -118,7 +118,7 @@ export default function ActivePillNavigation({
       className={classNames('bg-blurred border-light rounded-cards border p-12', className)}
     >
       <h2 className='sr-only'>{title}</h2>
-      <ul className='relative flex flex-wrap items-start px-4 max-lg:justify-center'>
+      <ul className='relative flex flex-wrap items-start px-4 max-xl:justify-center'>
         {children &&
           React.Children.map(children, (child, i) => (
             <li key={i}>
