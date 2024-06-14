@@ -8,7 +8,7 @@ import { PostsFilter, PostsResult } from '@/types';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
 import ease from '@/utils/eases';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTina } from 'tinacms/dist/react';
 
@@ -44,6 +44,8 @@ export default function PostList(props: {
   const [filteredPosts, setFilteredPosts] = useState(posts);
   const [currentCategory, setCurrentCategory] = useState(POSTS_CATEGORY_ALL_VALUE);
   const dispatch = useDispatch();
+  const container = useRef<HTMLDivElement | null>(null);
+  const [height, setHeight] = useState<string | number>('auto');
 
   const filterlist = useCallback(
     (category: string) => {
@@ -69,12 +71,6 @@ export default function PostList(props: {
     [posts, setFilteredPosts],
   );
 
-  useEffect(() => {
-    const queryParams = new URLSearchParams(window.location.search);
-    const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
-    filterlist(category || POSTS_CATEGORY_ALL_VALUE);
-  }, [filterlist]);
-
   const handleStuck = () => {
     dispatch(uiActions.setHiddenTopBar(true));
   };
@@ -88,11 +84,31 @@ export default function PostList(props: {
     onUnStuck: handleUnStuck,
   });
 
+  const updateContainerHeight = () => {
+    setHeight(container.current ? container.current.offsetHeight : 'auto');
+  };
+
+  const handleResize = useCallback(() => {
+    updateContainerHeight();
+  }, []);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
+    filterlist(category || POSTS_CATEGORY_ALL_VALUE);
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [filterlist, handleResize]);
+
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
         <div className='grid-layout'>
-          <div className='grid-item-full top-gutter z-60 lg:sticky' ref={filterElement}>
+          <div className='grid-item-full top-gutter z-70 lg:sticky' ref={filterElement}>
             <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
               {props.filterProps.map((filter) => (
                 <button
@@ -109,35 +125,42 @@ export default function PostList(props: {
             </ActivePillNavigation>
           </div>
 
-          <AnimatePresence mode='wait' initial={false}>
-            <motion.div
-              key={Math.random() * Math.random()}
-              className='grid-item-full mt-gutter'
-              initial='initial'
-              animate='animate'
-              exit='exit'
-              variants={motionVariants}
-            >
-              <div className='subtitle grid-item-full mb-gutter text-center'>
-                {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
-              </div>
-              <ul className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
-                {filteredPosts!.map((edge) => {
-                  const post = edge?.node as PostType;
+          <div
+            className='grid-item-full mt-gutter transition-[height] duration-1000'
+            style={{ height }}
+          >
+            <AnimatePresence mode='wait' initial={false}>
+              <motion.div
+                key={Math.random() * Math.random()}
+                initial='initial'
+                animate='animate'
+                exit='exit'
+                onAnimationStart={updateContainerHeight}
+                variants={motionVariants}
+              >
+                <div ref={container}>
+                  <div className='subtitle grid-item-full mb-gutter text-center'>
+                    {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
+                  </div>
+                  <ul className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
+                    {filteredPosts!.map((edge) => {
+                      const post = edge?.node as PostType;
 
-                  if (!post) {
-                    return null;
-                  }
+                      if (!post) {
+                        return null;
+                      }
 
-                  return (
-                    <li key={post._sys.filename}>
-                      <PostCard post={post} />
-                    </li>
-                  );
-                })}
-              </ul>
-            </motion.div>
-          </AnimatePresence>
+                      return (
+                        <li key={post._sys.filename}>
+                          <PostCard post={post} />
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
       )}
     </section>
