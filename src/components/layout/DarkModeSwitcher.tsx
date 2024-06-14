@@ -78,7 +78,7 @@ export default function DarkModeSwitcher() {
 
   return (
     <div
-      className={classNames('lg:transition-opacity lg:duration-300', {
+      className={classNames('pointer-events-auto lg:transition-opacity lg:duration-300', {
         'lg:opacity-0 lg:duration-1000': hiddenTopBar,
       })}
     >

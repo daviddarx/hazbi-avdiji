@@ -14,7 +14,7 @@ export default function MobileNavigation(props: NavigationResult) {
   const pathName = usePathname();
 
   return (
-    <div className='lg:hidden'>
+    <div className='pointer-events-auto lg:hidden'>
       <Menu>
         {({ open }) => (
           <>

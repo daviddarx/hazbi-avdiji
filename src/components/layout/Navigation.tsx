@@ -20,9 +20,12 @@ export default function Navigation(props: NavigationResult) {
         <ActivePillNavigation
           title={'Navigation'}
           currentActiveValue={pathName.split('/')[1]}
-          className={classNames('relative transition-opacity duration-300 max-lg:hidden', {
-            'opacity-0 duration-1000': hiddenTopBar,
-          })}
+          className={classNames(
+            'pointer-events-auto relative transition-opacity duration-300 max-lg:hidden',
+            {
+              'opacity-0 duration-1000': hiddenTopBar,
+            },
+          )}
         >
           {navigation.links.map((link) => (
             <PageLink

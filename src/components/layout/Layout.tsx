@@ -109,7 +109,7 @@ export default function Layout({
     <div
       className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
     >
-      <div className='fixed z-60 w-full'>
+      <div className='pointer-events-none fixed z-60 w-full'>
         <div className='grid-layout pt-gutter'>
           <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>
             {navigationProps && <Navigation {...navigationProps} />}
