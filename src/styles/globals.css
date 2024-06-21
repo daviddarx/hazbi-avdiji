@@ -345,7 +345,11 @@
   }
 
   .grid-layout {
-    @apply mx-auto w-full max-w-[1280px] px-gutter lg:grid lg:grid-cols-12;
+    @apply mx-auto w-full max-w-screen-xl px-gutter lg:grid lg:grid-cols-12;
+  }
+
+  .grid-layout--extended {
+    @apply max-w-[1600px];
   }
 
   .grid-item-full {

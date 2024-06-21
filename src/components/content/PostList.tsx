@@ -8,7 +8,7 @@ import { PostsFilter, PostsResult } from '@/types';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
 import ease from '@/utils/eases';
 import { AnimatePresence, motion } from 'framer-motion';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTina } from 'tinacms/dist/react';
 
@@ -108,61 +108,64 @@ export default function PostList(props: {
   return (
     <section>
       {posts && posts?.length > 0 && props.filterProps && (
-        <div className='grid-layout'>
-          <div className='grid-item-full top-gutter z-70 lg:sticky' ref={filterElement}>
-            <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
-              {props.filterProps.map((filter) => (
-                <button
-                  key={filter.link}
-                  onClick={() => {
-                    filterlist(filter.category);
-                    dispatch(uiActions.changeCurrentColors(Math.random()));
-                  }}
-                  data-active-value={filter.category}
+        <React.Fragment>
+          <div className='grid-layout'>
+            <div className='grid-item-full top-gutter z-70 lg:sticky' ref={filterElement}>
+              <ActivePillNavigation title={'Navigation'} currentActiveValue={currentCategory}>
+                {props.filterProps.map((filter) => (
+                  <button
+                    key={filter.link}
+                    onClick={() => {
+                      filterlist(filter.category);
+                      dispatch(uiActions.changeCurrentColors(Math.random()));
+                    }}
+                    data-active-value={filter.category}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </ActivePillNavigation>
+            </div>
+          </div>
+          <div className='grid-layout grid-layout--extended'>
+            <div
+              className='grid-item-full mt-gutter transition-[height] duration-1000'
+              style={{ height }}
+            >
+              <AnimatePresence mode='wait' initial={false}>
+                <motion.div
+                  key={Math.random() * Math.random()}
+                  initial='initial'
+                  animate='animate'
+                  exit='exit'
+                  onAnimationStart={updateContainerHeight}
+                  variants={motionVariants}
                 >
-                  {filter.label}
-                </button>
-              ))}
-            </ActivePillNavigation>
-          </div>
+                  <div ref={container}>
+                    <div className='subtitle grid-item-full mb-gutter text-center'>
+                      {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
+                    </div>
+                    <ul className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
+                      {filteredPosts!.map((edge) => {
+                        const post = edge?.node as PostType;
 
-          <div
-            className='grid-item-full mt-gutter transition-[height] duration-1000'
-            style={{ height }}
-          >
-            <AnimatePresence mode='wait' initial={false}>
-              <motion.div
-                key={Math.random() * Math.random()}
-                initial='initial'
-                animate='animate'
-                exit='exit'
-                onAnimationStart={updateContainerHeight}
-                variants={motionVariants}
-              >
-                <div ref={container}>
-                  <div className='subtitle grid-item-full mb-gutter text-center'>
-                    {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
+                        if (!post) {
+                          return null;
+                        }
+
+                        return (
+                          <li key={post._sys.filename}>
+                            <PostCard post={post} />
+                          </li>
+                        );
+                      })}
+                    </ul>
                   </div>
-                  <ul className='grid gap-8 md:grid-cols-2 lg:grid-cols-3 lg:gap-4'>
-                    {filteredPosts!.map((edge) => {
-                      const post = edge?.node as PostType;
-
-                      if (!post) {
-                        return null;
-                      }
-
-                      return (
-                        <li key={post._sys.filename}>
-                          <PostCard post={post} />
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </motion.div>
-            </AnimatePresence>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
-        </div>
+        </React.Fragment>
       )}
     </section>
   );
