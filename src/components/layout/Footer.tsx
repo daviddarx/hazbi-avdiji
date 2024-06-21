@@ -9,7 +9,7 @@ export default function Footer(props: FooteNavigationResult) {
 
   return (
     <footer className='grid-layout mt-auto '>
-      <div className='grid-item-full border-light flex justify-between border-t py-gutter text-base lg:py-80'>
+      <div className='grid-item-full border-light flex justify-between border-t py-gutter text-base'>
         <div>© {date.getFullYear()} Hazbi Avdiji</div>
         {footerNavigation.links && (
           <nav className='flex gap-gutter lg:gap-40'>
