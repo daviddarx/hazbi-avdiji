@@ -61,7 +61,7 @@ export default function TextContentMedia({
     }
   }, []);
 
-  const resizeMedia = useCallback(() => {
+  const handleResize = useCallback(() => {
     if (mediaContainer.current) {
       const element = mediaContainer.current.querySelector(
         '[data-media-element="true"]',
@@ -81,34 +81,36 @@ export default function TextContentMedia({
     }
   }, [positionMedia]);
 
-  const handleResize = useCallback(() => {
-    resizeMedia();
-
+  const handleVideoLoading = useCallback(() => {
+    console.log('handle video loading');
     if (mediaVideo.current && mediaVideo.current.getAttribute('data-loaded') !== 'true') {
+      console.log('listen loading', mediaVideo.current);
       mediaVideo.current.classList.add('opacity-0');
       mediaVideo.current.addEventListener(
         'loadedmetadata',
         () => {
+          console.log('loaded');
           mediaVideo.current?.classList.remove('opacity-0');
           mediaVideo.current?.setAttribute('data-loaded', 'true');
-          resizeMedia();
+          handleResize();
         },
         { once: true },
       );
     }
-  }, [resizeMedia]);
+  }, [handleResize]);
 
   useEffect(() => {
     mediaVideo.current = mediaContainer.current?.querySelector('video');
     onMount(mediaVideo.current ? 'video' : 'image');
 
     requestAnimationFrame(handleResize);
+    requestAnimationFrame(handleVideoLoading);
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [handleResize, onMount]);
+  }, [handleResize, handleVideoLoading, onMount]);
 
   return (
     <motion.div
