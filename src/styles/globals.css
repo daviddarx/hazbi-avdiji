@@ -291,7 +291,7 @@
       }
 
       & .subtitle-title {
-        @apply mb-spacer-32 mt-spacer-120;
+        @apply mb-spacer-40 mt-spacer-120;
       }
 
       & ol,
