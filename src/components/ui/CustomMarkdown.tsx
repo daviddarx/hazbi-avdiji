@@ -10,6 +10,10 @@ const components: Components<{
     label: string;
     blank: boolean;
   };
+  subtitleTitle: {
+    subtitle: string;
+    title: string;
+  };
 }> = {
   a: (props) => {
     if (props!.url.split('/').length > 1) {
@@ -56,6 +60,14 @@ const components: Components<{
       <a href={props.url} className='button' target={props.blank ? '_blank' : '_self'}>
         {props.label}
       </a>
+    );
+  },
+  subtitleTitle: (props) => {
+    return (
+      <div className='subtitle-title flex flex-col-reverse gap-16'>
+        <h2>{props.title}</h2>
+        <h3 className='subtitle'>{props.subtitle}</h3>
+      </div>
     );
   },
 };

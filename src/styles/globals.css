@@ -290,6 +290,10 @@
         @apply mb-spacer-32 mt-spacer-80;
       }
 
+      & .subtitle-title {
+        @apply mb-spacer-32 mt-spacer-120;
+      }
+
       & ol,
       & ul {
         li:last-child {

@@ -74,6 +74,14 @@ export const richTextTemplates: Template[] = [
       },
     ],
   },
+  {
+    name: 'subtitleTitle',
+    label: 'Subtitle & Title',
+    fields: [
+      { name: 'subtitle', label: 'Subtitle', type: 'string' },
+      { name: 'title', label: 'Title', type: 'string' },
+    ],
+  },
   tinaTableTemplate,
 ];
 
