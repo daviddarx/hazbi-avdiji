@@ -82,6 +82,9 @@ const config: Config = {
       80: '5rem', // 80px
       96: '6rem', // 96px
       120: '7.5rem', // 120px
+      '1/2': '50%',
+      '1/3': '33%',
+      '1/4': '25%',
       'spacer-8': 'var(--spacer-8)',
       'spacer-12': 'var(--spacer-12)',
       'spacer-16': 'var(--spacer-16)',

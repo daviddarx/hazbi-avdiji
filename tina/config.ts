@@ -56,6 +56,24 @@ export default defineConfig({
             templates: [
               textContentTemplate,
               {
+                name: 'homeContent',
+                label: 'Home-Content',
+                ui: {
+                  itemProps: () => {
+                    return { label: `Home-Content` };
+                  },
+                },
+                fields: [
+                  { name: 'title', label: 'Title', type: 'string', isTitle: true, required: true },
+                  {
+                    name: 'introduction',
+                    label: 'Introduction',
+                    type: 'rich-text',
+                    required: true,
+                  },
+                ],
+              },
+              {
                 name: 'postList',
                 label: 'Post-List',
                 ui: {

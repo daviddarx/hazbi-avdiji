@@ -1,4 +1,5 @@
 import LoadedImage from '@/components/ui/LoadedImage';
+import PageLink from '@/components/ui/PageLink';
 import { mediaLinksURLPrefix } from '@/utils/core';
 import classNames from 'classnames';
 import { type Components, TinaMarkdown, type TinaMarkdownContent } from 'tinacms/dist/rich-text';
@@ -11,16 +12,25 @@ const components: Components<{
   };
 }> = {
   a: (props) => {
-    // Place media links on top of the close overlay in TextContent.tsx
-    return (
-      <a
-        href={props?.url}
-        className={props!.url.split(mediaLinksURLPrefix).length > 1 ? 'button' : 'text-link'}
-        target='_blank'
-      >
-        {props?.children}
-      </a>
-    );
+    if (props!.url.split('/').length > 1) {
+      return (
+        <PageLink href={props!.url} className='text-link'>
+          {props?.children}
+        </PageLink>
+      );
+    } else if (props!.url.split(mediaLinksURLPrefix).length > 1) {
+      return (
+        <a href={props?.url} className='button'>
+          {props?.children}
+        </a>
+      );
+    } else {
+      return (
+        <a href={props?.url} className='text-link' target='_blank'>
+          {props?.children}
+        </a>
+      );
+    }
   },
   img: (props) => {
     const url = props!.url;

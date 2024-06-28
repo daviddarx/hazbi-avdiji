@@ -1,3 +1,4 @@
+import HomeContent from '@/components/content/HomeContent';
 import PostList from '@/components/content/PostList';
 import TextContent from '@/components/content/TextContent';
 import Metas from '@/components/layout/Metas';
@@ -17,8 +18,8 @@ export default function Page(props: {
   return (
     <article>
       <Metas title={page.title} />
-      <PageHeader page={page} />
-      <div className='mb-v-spacer-120 flex flex-col gap-spacer-80'>
+      {page.longTitle && <PageHeader page={page} />}
+      <div className='mb-v-spacer-120 flex h-full flex-col gap-spacer-80'>
         {page.blocks?.map((block, i) => {
           switch (block?.__typename) {
             case 'PageBlocksTextContent': {
@@ -37,6 +38,9 @@ export default function Page(props: {
                 </section>
               );
             }
+            case 'PageBlocksHomeContent':
+              return <HomeContent content={{ ...block }} />;
+
             case 'PageBlocksPostList': {
               return (
                 <PostList
