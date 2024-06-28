@@ -25,7 +25,7 @@ export default function Post({
           switch (block?.__typename) {
             case 'PostBlocksTextContent': {
               return (
-                <section className='grid-layout'>
+                <section className='grid-layout' key={i}>
                   <div className='grid-item-right-leftover pr-32 max-lg:hidden'>
                     <div className='border-light mt-12 border-t pt-32'>
                       <PageLink
@@ -38,7 +38,7 @@ export default function Post({
                     </div>
                   </div>
                   <div className='grid-item-right'>
-                    <TextContent content={{ ...block }} key={i} />
+                    <TextContent content={{ ...block }} />
                   </div>
                 </section>
               );
