@@ -112,9 +112,6 @@ export default function TextContentMedia({
     };
   }, [handleResize, handleVideoLoading, onMount]);
 
-  // Generate a cache-busting query parameter
-  const cacheBuster = `?v=${new Date().getTime()}`;
-
   return (
     <motion.div
       className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards-extended border p-80'
@@ -134,13 +131,13 @@ export default function TextContentMedia({
             data-media-element='true'
             className='pointer-events-auto overflow-hidden rounded-cards'
           >
-            <source src={mediaBlock.videoURL + cacheBuster} type='video/mp4' />
+            <source src={mediaBlock.videoURL} type='video/mp4' />
           </video>
         )}
         {mediaBlock?.image && (
           <span className='border-light pointer-events-auto block overflow-hidden rounded-cards border'>
             <LoadedImage
-              src={mediaBlock.image! + cacheBuster}
+              src={mediaBlock.image!}
               width={mediaBlock.imageWidth!}
               height={mediaBlock.imageHeight!}
               alt='media'
