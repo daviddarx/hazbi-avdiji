@@ -351,7 +351,7 @@
     }
 
     & .button {
-      @apply px-[0.75em] py-[0em] dark:!bg-black/25;
+      @apply mx-[0.1em] px-[0.6em] py-[0.15em] dark:!bg-black/25;
     }
 
     & blockquote {

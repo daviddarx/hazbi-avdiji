@@ -24,7 +24,7 @@ const components: Components<{
       );
     } else if (props!.url.split(mediaLinksURLPrefix).length > 1) {
       return (
-        <a href={props?.url} className='button'>
+        <a href={props?.url} className='button inline'>
           {props?.children}
         </a>
       );
