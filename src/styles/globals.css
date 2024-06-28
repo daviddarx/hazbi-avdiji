@@ -369,7 +369,7 @@
   }
 
   .post-title {
-    @apply pr-[1em] indent-[1em];
+    @apply pr-[0.9em] indent-[0.9em];
 
     &:before,
     &:after {
@@ -383,11 +383,11 @@
     }
 
     &:before {
-      @apply -ml-[1em] mt-[0.025em] rotate-180;
+      @apply -ml-[0.9em] mt-[0.025em] rotate-180;
     }
 
     &:after {
-      @apply ml-[0.3em] mt-[0.1em];
+      @apply ml-[0.05em] mt-[0.1em];
     }
   }
 }
