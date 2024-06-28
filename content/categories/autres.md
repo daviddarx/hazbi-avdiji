@@ -1,5 +1,5 @@
 ---
-title: Autres
+title: Divers
 priority: 800
 ---
 
