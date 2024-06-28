@@ -15,6 +15,7 @@ const config: Config = {
       theme: 'var(--color-theme)',
       'theme-prev': 'var(--color-theme-prev)',
       'theme-next': 'var(--color-theme-next)',
+      current: 'currentColor',
       ...themeColors,
     },
     fontSize: {

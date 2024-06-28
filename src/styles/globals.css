@@ -297,21 +297,38 @@
         }
       }
 
+      & ul,
       & ol {
-        @apply list-decimal;
+        @apply flex flex-col gap-16;
+
+        & li {
+          @apply flex gap-16;
+
+          div {
+            @apply flex-1;
+          }
+        }
       }
 
       & ul {
-        @apply list-disc;
+        & li {
+          &::before {
+            content: '';
+            @apply mt-[0.75em] block size-[0.25em] rounded-full bg-current;
+          }
+        }
       }
 
-      & ul,
-      ol {
-        @apply list-inside;
+      & ol {
+        counter-reset: my-awesome-counter;
 
         & li {
-          & div {
-            @apply inline-block;
+          counter-increment: my-awesome-counter;
+
+          &::before {
+            content: counter(my-awesome-counter);
+
+            @apply mt-[0.2em] min-w-[0.75em] text-sm lg:mt-[0.4em] lg:text-base;
           }
         }
       }
