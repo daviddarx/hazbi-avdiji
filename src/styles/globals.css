@@ -303,10 +303,10 @@
 
       & ul,
       & ol {
-        @apply flex flex-col gap-16;
+        @apply flex flex-col gap-[0.5em];
 
         & li {
-          @apply flex gap-16;
+          @apply flex gap-[1em];
 
           div {
             @apply flex-1;
