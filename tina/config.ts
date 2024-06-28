@@ -46,10 +46,7 @@ export default defineConfig({
           {
             name: 'lead',
             label: 'Lead-text',
-            type: 'string',
-            ui: {
-              component: 'textarea',
-            },
+            type: 'rich-text',
           },
           {
             name: 'blocks',
