@@ -82,14 +82,11 @@ export default function TextContentMedia({
   }, [positionMedia]);
 
   const handleVideoLoading = useCallback(() => {
-    console.log('handle video loading');
     if (mediaVideo.current && mediaVideo.current.getAttribute('data-loaded') !== 'true') {
-      console.log('listen loading', mediaVideo.current);
       mediaVideo.current.classList.add('opacity-0');
       mediaVideo.current.addEventListener(
         'loadedmetadata',
         () => {
-          console.log('loaded');
           mediaVideo.current?.classList.remove('opacity-0');
           mediaVideo.current?.setAttribute('data-loaded', 'true');
           handleResize();
