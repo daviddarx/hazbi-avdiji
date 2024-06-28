@@ -3,6 +3,7 @@ import Post from '@/components/pages/Post';
 import t from '@/content/translations';
 import client from '@/tina/client';
 import { FooteNavigationResult, PostResult } from '@/types';
+import { formatPostTitle } from '@/utils/core';
 
 export default function BlogPage({
   footerNavigationProps,
@@ -35,6 +36,8 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
       notFound: true,
     };
   }
+
+  postResult.data.post.title = formatPostTitle(postResult.data.post.title);
 
   const postListLink = `${navigationResult.data.navigation.links?.find((item) => item?.isPostPage)
     ?.link}?${t.postCategorySlug}=${postResult.data.post.category._sys.filename}`;

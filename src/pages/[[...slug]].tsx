@@ -3,7 +3,7 @@ import Page from '@/components/pages/Page';
 import t from '@/content/translations';
 import client from '@/tina/client';
 import { FooteNavigationResult, PageResult, PostsFilter, PostsResult } from '@/types/';
-import { POSTS_CATEGORY_ALL_VALUE } from '@/utils/core';
+import { POSTS_CATEGORY_ALL_VALUE, formatPostTitle } from '@/utils/core';
 
 export default function PageComponent({
   footerNavigationProps,
@@ -82,6 +82,12 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       filter: { published: { eq: true } },
       sort: 'createdAt',
       last: 100,
+    });
+
+    postsResult.data.postConnection.edges?.forEach((post) => {
+      if (post?.node?.title) {
+        post.node.title = formatPostTitle(post.node.title);
+      }
     });
   }
 

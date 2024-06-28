@@ -91,3 +91,13 @@ export const MenuMotionVariants = {
     },
   },
 };
+
+/**
+ * Post titles have the format XX--[title] for the titles
+ * to help hazbi have an overview on the list in the admin.
+ * Let's remove this number at the beginning
+ */
+export const formatPostTitle = (numberedTitle: string) => {
+  const parsedTitle = numberedTitle.split('--');
+  return parsedTitle.length > 1 ? parsedTitle[1] : parsedTitle[0];
+};
