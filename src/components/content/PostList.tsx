@@ -6,7 +6,8 @@ import { uiActions } from '@/store';
 import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
-import ease from '@/utils/eases';
+import ease, { cubicBezier } from '@/utils/eases';
+import smoothScrollTo, { getScrollMarginTop, getScrollTop } from '@/utils/smooth-scroll';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -45,7 +46,8 @@ export default function PostList(props: {
   const defaultCategory = props.filterProps[0].category;
   const [currentCategory, setCurrentCategory] = useState(defaultCategory);
   const dispatch = useDispatch();
-  const container = useRef<HTMLDivElement | null>(null);
+  const container = useRef<HTMLElement | null>(null);
+  const postContainer = useRef<HTMLDivElement | null>(null);
   const [height, setHeight] = useState<string | number>('auto');
 
   const filterlist = useCallback(
@@ -85,13 +87,29 @@ export default function PostList(props: {
     onUnStuck: showTopBar,
   });
 
-  const updateContainerHeight = () => {
-    setHeight(container.current ? container.current.offsetHeight : 'auto');
+  const updatePostsContainerHeight = () => {
+    setHeight(postContainer.current ? postContainer.current.offsetHeight : 'auto');
   };
 
   const handleResize = useCallback(() => {
-    updateContainerHeight();
+    updatePostsContainerHeight();
   }, []);
+
+  const getContainerPosY = () => {
+    return container.current
+      ? getScrollTop(container.current, getScrollMarginTop(container.current) - 2) // -2 to be sure the onStuck in triggered to hide the main navigation.
+      : 0;
+  };
+
+  const scrollToFiltersWhileFiltering = () => {
+    if (container.current) {
+      const containerPosY = getContainerPosY();
+
+      if (window.scrollY > containerPosY) {
+        smoothScrollTo(window, containerPosY, 500, 'scrollTop', cubicBezier(ease.inOutQuart));
+      }
+    }
+  };
 
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
@@ -107,7 +125,7 @@ export default function PostList(props: {
   }, [filterlist, defaultCategory, handleResize, showTopBar]);
 
   return (
-    <section>
+    <section ref={container} className='scroll-mt-gutter '>
       {posts && posts?.length > 0 && props.filterProps && (
         <React.Fragment>
           <div className='grid-layout top-gutter z-70 lg:sticky' ref={filterElement}>
@@ -121,6 +139,7 @@ export default function PostList(props: {
                   key={filter.link}
                   onClick={() => {
                     filterlist(filter.category);
+                    scrollToFiltersWhileFiltering();
                     dispatch(uiActions.changeCurrentColors(Math.random()));
                   }}
                   data-active-value={filter.category}
@@ -140,11 +159,11 @@ export default function PostList(props: {
                 initial='initial'
                 animate='animate'
                 exit='exit'
-                onAnimationStart={updateContainerHeight}
+                onAnimationStart={updatePostsContainerHeight}
                 variants={motionVariants}
                 className='grid-item-full'
               >
-                <div ref={container}>
+                <div ref={postContainer}>
                   <div className='subtitle grid-item-full mb-gutter text-center'>
                     {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
                   </div>

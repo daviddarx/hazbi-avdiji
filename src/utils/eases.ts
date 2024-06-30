@@ -30,3 +30,25 @@ const ease = {
 };
 
 export default ease;
+
+export function cubicBezier(p: number[]) {
+  const p0 = p[0];
+  const p1 = p[1];
+  const p2 = p[2];
+  const p3 = p[3];
+
+  return function (t: number) {
+    const cX = 3 * p0;
+    const bX = 3 * (p2 - p0) - cX;
+    const aX = 1 - cX - bX;
+
+    const cY = 3 * p1;
+    const bY = 3 * (p3 - p1) - cY;
+    const aY = 1 - cY - bY;
+
+    const x = ((aX * t + bX) * t + cX) * t;
+    const y = ((aY * t + bY) * t + cY) * t;
+
+    return y;
+  };
+}
