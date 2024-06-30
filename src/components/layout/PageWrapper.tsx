@@ -1,5 +1,4 @@
 import Footer from '@/components/layout/Footer';
-import Header from '@/components/layout/Header';
 import { uiStateType } from '@/store/ui-slice';
 import { FooteNavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
@@ -84,8 +83,7 @@ export default function PageWrapper({
       className='h-full'
     >
       <div className='flex h-full flex-col'>
-        <Header />
-        <div className='pt-v-spacer-120'>{children}</div>
+        <div className='page-content'>{children}</div>
         <Footer {...footerNavigationProps} />
       </div>
     </motion.div>

@@ -1,5 +1,6 @@
 import ColoredBackground from '@/components/layout/ColoredBackground';
 import DarkModeSwitcher from '@/components/layout/DarkModeSwitcher';
+import Header from '@/components/layout/Header';
 import MobileNavigation from '@/components/layout/MobileNavigation';
 import Navigation from '@/components/layout/Navigation';
 import { uiActions } from '@/store';
@@ -109,6 +110,8 @@ export default function Layout({
     <div
       className={classNames('h-full', fontText.className, fontText.variable, fontTitle.variable)}
     >
+      <Header />
+
       <div className='pointer-events-none fixed z-60 w-full'>
         <div className='grid-layout pt-gutter'>
           <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>

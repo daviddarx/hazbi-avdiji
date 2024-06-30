@@ -389,6 +389,22 @@
     @apply col-start-1 col-end-4;
   }
 
+  .page-content {
+    padding-top: 200px;
+
+    @screen xs {
+      padding-top: 250px;
+    }
+
+    @screen lg {
+      padding-top: 300px;
+
+      @media (min-height: 1024px) {
+        padding-top: 350px;
+      }
+    }
+  }
+
   .post-title {
     @apply pr-[0.9em] indent-[0.9em];
 
