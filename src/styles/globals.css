@@ -394,7 +394,7 @@
 
     &:before,
     &:after {
-      @apply absolute size-24 bg-contain bg-no-repeat text-black lg:size-40;
+      @apply absolute size-24 bg-contain bg-no-repeat text-current lg:size-40;
 
       content: '';
       background-color: currentColor;
