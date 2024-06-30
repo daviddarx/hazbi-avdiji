@@ -1,10 +1,10 @@
 import TextContent from '@/components/content/TextContent';
+import ContentLeftColumn from '@/components/layout/ContentLeftColumn';
 import Metas from '@/components/layout/Metas';
 import PostHeader from '@/components/layout/PostHeader';
-import PageLink from '@/components/ui/PageLink';
 import t from '@/content/translations';
 import { PostResult } from '@/types/';
-import { tinaField, useTina } from 'tinacms/dist/react';
+import { useTina } from 'tinacms/dist/react';
 
 export default function Post({
   postProps,
@@ -26,17 +26,12 @@ export default function Post({
             case 'PostBlocksTextContent': {
               return (
                 <section className='grid-layout' key={i}>
-                  <div className='grid-item-right-leftover pr-32 max-lg:hidden'>
-                    <div className='border-light mt-12 border-t pt-32'>
-                      <PageLink
-                        href={postListLink}
-                        className='button tag'
-                        data-tina-field={tinaField(post, 'category')}
-                      >
-                        {post.category.title}
-                      </PageLink>
-                    </div>
-                  </div>
+                  <ContentLeftColumn
+                    title={t.post}
+                    tinaFieldObject={post}
+                    postCategoryName={post.category.title}
+                    postCategoryLink={postListLink}
+                  />
                   <div className='grid-item-right'>
                     <TextContent content={{ ...block }} />
                   </div>

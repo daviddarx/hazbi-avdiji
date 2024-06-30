@@ -1,11 +1,11 @@
 import HomeContent from '@/components/content/HomeContent';
 import PostList from '@/components/content/PostList';
 import TextContent from '@/components/content/TextContent';
+import ContentLeftColumn from '@/components/layout/ContentLeftColumn';
 import Metas from '@/components/layout/Metas';
 import PageHeader from '@/components/layout/PageHeader';
 import { PageResult, PostsFilter, PostsResult } from '@/types';
 import { useTina } from 'tinacms/dist/react';
-import { tinaField } from 'tinacms/dist/react';
 
 export default function Page(props: {
   pageProps: PageResult;
@@ -25,13 +25,7 @@ export default function Page(props: {
             case 'PageBlocksTextContent': {
               return (
                 <section className='grid-layout' key={i}>
-                  <div className='grid-item-right-leftover pr-32 max-lg:hidden'>
-                    <div className='border-light mt-12 border-t pt-32'>
-                      <h1 className='subtitle block' data-tina-field={tinaField(page, 'title')}>
-                        {page.title}
-                      </h1>
-                    </div>
-                  </div>
+                  <ContentLeftColumn title={page.title} tinaFieldObject={page} />
                   <div className='grid-item-right'>
                     <TextContent content={{ ...block }} />
                   </div>
