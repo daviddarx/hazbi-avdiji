@@ -39,7 +39,7 @@ export default function Page(props: {
               );
             }
             case 'PageBlocksHomeContent':
-              return <HomeContent content={{ ...block }} />;
+              return <HomeContent content={{ ...block }} key={i} />;
 
             case 'PageBlocksPostList': {
               return (
