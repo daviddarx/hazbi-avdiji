@@ -9,7 +9,6 @@ const t = {
   },
   allPosts: 'Tout',
   post: 'Idée reçue',
-  postCategorySlug: 'categorie',
   postResults: (amount: Number) => (amount === 1 ? 'Idée reçue' : 'Idées reçues'),
   errorPage: {
     title: "This page doesn't exist",

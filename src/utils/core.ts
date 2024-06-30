@@ -10,6 +10,8 @@ export function formatDate(date: string) {
 }
 
 export const POSTS_CATEGORY_SEARCH_PARAMS = 'categorie';
+export const POSTS_LIST_VIEW_SEARCH_PARAMS = 'liste';
+export const POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE = '1';
 export const POSTS_CATEGORY_ALL_VALUE = 'tout';
 
 export function getSystem() {

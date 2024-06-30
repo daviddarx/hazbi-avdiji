@@ -1,9 +1,13 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Post from '@/components/pages/Post';
-import t from '@/content/translations';
 import client from '@/tina/client';
 import { FooteNavigationResult, PostResult } from '@/types';
-import { formatPostTitle } from '@/utils/core';
+import {
+  POSTS_CATEGORY_SEARCH_PARAMS,
+  POSTS_LIST_VIEW_SEARCH_PARAMS,
+  POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE,
+  formatPostTitle,
+} from '@/utils/core';
 
 export default function BlogPage({
   footerNavigationProps,
@@ -40,7 +44,9 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
   postResult.data.post.title = formatPostTitle(postResult.data.post.title);
 
   const postListLink = `${navigationResult.data.navigation.links?.find((item) => item?.isPostPage)
-    ?.link}?${t.postCategorySlug}=${postResult.data.post.category._sys.filename}`;
+    ?.link}?${POSTS_LIST_VIEW_SEARCH_PARAMS}=${POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE}&${POSTS_CATEGORY_SEARCH_PARAMS}=${
+    postResult.data.post.category._sys.filename
+  }`;
 
   return {
     props: {

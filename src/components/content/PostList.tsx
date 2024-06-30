@@ -5,7 +5,12 @@ import useStuck from '@/hooks/useStuck';
 import { uiActions } from '@/store';
 import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
-import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
+import {
+  POSTS_CATEGORY_ALL_VALUE,
+  POSTS_CATEGORY_SEARCH_PARAMS,
+  POSTS_LIST_VIEW_SEARCH_PARAMS,
+  POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE,
+} from '@/utils/core';
 import ease, { cubicBezier } from '@/utils/eases';
 import smoothScrollTo, { getScrollMarginTop, getScrollTop } from '@/utils/smooth-scroll';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -111,10 +116,26 @@ export default function PostList(props: {
     }
   };
 
+  const scrollToFilterOnMount = useCallback(() => {
+    if (container.current) {
+      const containerPosY = getContainerPosY();
+
+      setTimeout(() => {
+        smoothScrollTo(window, containerPosY, 0, 'scrollTop', cubicBezier(ease.inOutQuart));
+      }, 100);
+    }
+  }, []);
+
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
+    const listView = queryParams.get(POSTS_LIST_VIEW_SEARCH_PARAMS);
+
     filterlist(category || defaultCategory);
+
+    if (listView === POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE) {
+      scrollToFilterOnMount();
+    }
 
     window.addEventListener('resize', handleResize);
 
@@ -122,7 +143,7 @@ export default function PostList(props: {
       window.removeEventListener('resize', handleResize);
       showTopBar();
     };
-  }, [filterlist, defaultCategory, handleResize, showTopBar]);
+  }, [filterlist, defaultCategory, handleResize, showTopBar, scrollToFilterOnMount]);
 
   return (
     <section ref={container} className='scroll-mt-gutter '>

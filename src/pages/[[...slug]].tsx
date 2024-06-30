@@ -3,7 +3,11 @@ import Page from '@/components/pages/Page';
 import t from '@/content/translations';
 import client from '@/tina/client';
 import { FooteNavigationResult, PageResult, PostsFilter, PostsResult } from '@/types/';
-import { POSTS_CATEGORY_ALL_VALUE, formatPostTitle } from '@/utils/core';
+import {
+  POSTS_CATEGORY_ALL_VALUE,
+  POSTS_CATEGORY_SEARCH_PARAMS,
+  formatPostTitle,
+} from '@/utils/core';
 
 export default function PageComponent({
   footerNavigationProps,
@@ -65,14 +69,14 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
         const node = edge!.node!;
         return {
           label: node.title,
-          link: `/${params.slug![0]}?${t.postCategorySlug}=${node._sys.filename}`,
+          link: `/${params.slug![0]}?${POSTS_CATEGORY_SEARCH_PARAMS}=${node._sys.filename}`,
           category: node._sys.filename,
         };
       }),
     );
     postsFilters.push({
       label: t.allPosts,
-      link: `/${pageMdPath}?${t.postCategorySlug}=${POSTS_CATEGORY_ALL_VALUE}`,
+      link: `/${pageMdPath}?${POSTS_CATEGORY_SEARCH_PARAMS}=${POSTS_CATEGORY_ALL_VALUE}`,
       category: POSTS_CATEGORY_ALL_VALUE,
     });
 
