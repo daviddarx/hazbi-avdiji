@@ -42,7 +42,8 @@ export default function PostList(props: {
   const { data } = useTina(props.postsProps);
   const posts = data.postConnection.edges;
   const [filteredPosts, setFilteredPosts] = useState(posts);
-  const [currentCategory, setCurrentCategory] = useState(POSTS_CATEGORY_ALL_VALUE);
+  const defaultCategory = props.filterProps[0].category;
+  const [currentCategory, setCurrentCategory] = useState(defaultCategory);
   const dispatch = useDispatch();
   const container = useRef<HTMLDivElement | null>(null);
   const [height, setHeight] = useState<string | number>('auto');
@@ -95,7 +96,7 @@ export default function PostList(props: {
   useEffect(() => {
     const queryParams = new URLSearchParams(window.location.search);
     const category = queryParams.get(POSTS_CATEGORY_SEARCH_PARAMS);
-    filterlist(category || POSTS_CATEGORY_ALL_VALUE);
+    filterlist(category || defaultCategory);
 
     window.addEventListener('resize', handleResize);
 
@@ -103,7 +104,7 @@ export default function PostList(props: {
       window.removeEventListener('resize', handleResize);
       showTopBar();
     };
-  }, [filterlist, handleResize, showTopBar]);
+  }, [filterlist, defaultCategory, handleResize, showTopBar]);
 
   return (
     <section>

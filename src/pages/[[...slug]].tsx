@@ -59,14 +59,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       sort: 'priority',
     });
 
-    postsFilters = [
-      {
-        label: t.allPosts,
-        link: `/${pageMdPath}?${t.postCategorySlug}=${POSTS_CATEGORY_ALL_VALUE}`,
-        category: POSTS_CATEGORY_ALL_VALUE,
-      },
-    ];
-
+    postsFilters = [];
     postsFilters = postsFilters.concat(
       categoryConnectionResult.data.categoryConnection.edges!.map((edge) => {
         const node = edge!.node!;
@@ -77,6 +70,11 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
         };
       }),
     );
+    postsFilters.push({
+      label: t.allPosts,
+      link: `/${pageMdPath}?${t.postCategorySlug}=${POSTS_CATEGORY_ALL_VALUE}`,
+      category: POSTS_CATEGORY_ALL_VALUE,
+    });
 
     postsResult = await client.queries.postConnection({
       filter: { published: { eq: true } },
