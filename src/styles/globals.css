@@ -408,7 +408,7 @@
     }
 
     &:after {
-      @apply ml-[0.05em] mt-[0.1em];
+      @apply ml-[0.1em] mt-[0.1em];
     }
   }
 }
