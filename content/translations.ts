@@ -10,6 +10,7 @@ const t = {
   allPosts: 'Tout',
   post: 'Idée reçue',
   postResults: (amount: Number) => (amount === 1 ? 'Idée reçue' : 'Idées reçues'),
+  postReadMore: 'A lire aussi',
   errorPage: {
     title: "Cette page n'existe pas",
   },

@@ -2,12 +2,10 @@ import PageWrapper from '@/components/layout/PageWrapper';
 import Page from '@/components/pages/Page';
 import t from '@/content/translations';
 import client from '@/tina/client';
+import { CategoryConnectionEdges, Post, PostConnectionEdges } from '@/tina/types';
 import { FooteNavigationResult, PageResult, PostsFilter, PostsResult } from '@/types/';
-import {
-  POSTS_CATEGORY_ALL_VALUE,
-  POSTS_CATEGORY_SEARCH_PARAMS,
-  formatPostTitle,
-} from '@/utils/core';
+import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
+import { formatPostTitle, sortPostsToCategories } from '@/utils/tina';
 
 export default function PageComponent({
   footerNavigationProps,
@@ -86,11 +84,21 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       last: 100,
     });
 
-    postsResult.data.postConnection.edges?.forEach((post) => {
-      if (post?.node?.title) {
-        post.node.title = formatPostTitle(post.node.title);
-      }
-    });
+    const posts = postsResult.data.postConnection.edges;
+    const categories = categoryConnectionResult.data.categoryConnection.edges;
+
+    if (posts && categories) {
+      posts.forEach((post) => {
+        if (post?.node?.title) {
+          formatPostTitle(post.node as Post);
+        }
+      });
+
+      sortPostsToCategories(
+        posts as PostConnectionEdges[],
+        categories as CategoryConnectionEdges[],
+      );
+    }
   }
 
   return {

@@ -1,4 +1,5 @@
 import { mediaLinksURLPrefix } from './core';
+import { CategoryConnectionEdges, Post, PostConnectionEdges } from '@/tina/types';
 import { type Template, type TinaField, tinaTableTemplate } from 'tinacms';
 
 export const postRoute = '/idee-recue';
@@ -128,4 +129,33 @@ export const textContentTemplate: Template = {
       },
     },
   ],
+};
+
+/**
+ * Post titles have the format XX--[title] for the titles
+ * to help hazbi have an overview on the list in the admin.
+ * Let's remove this number at the beginning
+ */
+export const formatPostTitle = (post: Post) => {
+  const parsedTitle = post.title.split('--');
+  post.title = parsedTitle.length > 1 ? parsedTitle[1] : parsedTitle[0];
+};
+
+export const sortPostsToCategories = (
+  posts: PostConnectionEdges[],
+  categories: CategoryConnectionEdges[],
+) => {
+  const categoriesMap = new Map();
+  categories.forEach((category, index) => {
+    if (category?.node?.id) {
+      categoriesMap.set(category.node.id, index);
+    }
+  });
+
+  posts.sort((a, b) => {
+    const indexA = categoriesMap.get(a?.node?.category?.id);
+    const indexB = categoriesMap.get(b?.node?.category?.id);
+
+    return indexA - indexB;
+  });
 };

@@ -389,6 +389,10 @@
     @apply col-start-1 col-end-4;
   }
 
+  .grid-item-center {
+    @apply col-start-4 col-end-10;
+  }
+
   .page-content {
     padding-top: 200px;
 
@@ -425,6 +429,17 @@
 
     &:after {
       @apply ml-[0.1em] mt-[0.1em];
+    }
+  }
+
+  .post-read-more-title {
+    @apply subtitle flex w-full items-center gap-20;
+
+    &::before,
+    &::after {
+      content: '';
+
+      @apply border-light flex-grow border-b;
     }
   }
 }

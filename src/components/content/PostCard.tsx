@@ -1,3 +1,4 @@
+import Icon from '@/components/ui/Icon';
 import PageLink from '@/components/ui/PageLink';
 import QuoteIcon from '@/components/ui/QuoteIcon';
 import type { Post } from '@/tina/types';
@@ -5,10 +6,16 @@ import { postRoute } from '@/utils/tina';
 import { classNames } from 'tinacms';
 import { tinaField } from 'tinacms/dist/react';
 
-export default function PostCard(props: { post: Post }) {
+export default function PostCard({
+  post,
+  direction,
+}: {
+  post: Post;
+  direction?: 'left' | 'right';
+}) {
   return (
     <PageLink
-      href={`${postRoute}/${props.post._sys.filename}`}
+      href={`${postRoute}/${post._sys.filename}`}
       className={classNames(
         'group relative block h-full rounded-cards hashover:hover:z-60',
         'before:bg-blurred before:border-light before:pointer-events-none before:absolute before:-inset-40 before:scale-50 before:rounded-cards-extended before:border before:opacity-0',
@@ -30,8 +37,8 @@ export default function PostCard(props: { post: Post }) {
         )}
       >
         <h3
-          data-tina-field={tinaField(props.post, 'title')}
-          dangerouslySetInnerHTML={{ __html: props.post.title }}
+          data-tina-field={tinaField(post, 'title')}
+          dangerouslySetInnerHTML={{ __html: post.title }}
         />
         <span
           className={classNames(
@@ -40,8 +47,11 @@ export default function PostCard(props: { post: Post }) {
             'hashover:group-hover:translate-y-1/2 hashover:group-hover:opacity-100 hashover:group-hover:delay-100 hashover:group-hover:duration-[300ms,300ms]',
           )}
         >
-          {props.post.category.title}
+          {post.category.title}
         </span>
+        {direction && (
+          <Icon name='arrow' className={direction === 'left' ? '-scale-x-100' : 'self-end'} />
+        )}
       </span>
     </PageLink>
   );
