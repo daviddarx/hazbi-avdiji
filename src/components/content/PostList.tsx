@@ -40,6 +40,8 @@ const motionVariants = {
   },
 };
 
+const containerHeightAnimationDuration = 700;
+
 export default function PostList(props: {
   blockProps: PageBlocksPostList;
   postsProps: PostsResult;
@@ -111,7 +113,11 @@ export default function PostList(props: {
       const containerPosY = getContainerPosY();
 
       if (window.scrollY > containerPosY) {
-        smoothScrollTo(window, containerPosY, 500, 'scrollTop', cubicBezier(ease.inOutQuart));
+        smoothScrollTo(window, containerPosY, 500, 'scrollTop', cubicBezier(ease.inOutSine));
+      } else {
+        setTimeout(() => {
+          smoothScrollTo(window, containerPosY, 500, 'scrollTop', cubicBezier(ease.inOutSine));
+        }, containerHeightAnimationDuration);
       }
     }
   };
@@ -171,8 +177,8 @@ export default function PostList(props: {
             </ActivePillNavigation>
           </div>
           <div
-            className='grid-layout grid-layout--extended mt-gutter transition-[height] duration-1000'
-            style={{ height }}
+            className='grid-layout grid-layout--extended mt-gutter transition-[height]'
+            style={{ height, transitionDuration: `${containerHeightAnimationDuration}ms` }}
           >
             <AnimatePresence mode='wait' initial={false}>
               <motion.div
