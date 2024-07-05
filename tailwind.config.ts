@@ -76,6 +76,7 @@ const config: Config = {
       32: '2rem', // 32px
       36: '2.25rem', // 36px
       40: '2.5rem', // 40px
+      44: '2.75rem', // 44px
       48: '3rem', // 48px
       56: '3.5rem', // 56px
       64: '4rem', // 64px

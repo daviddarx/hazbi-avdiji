@@ -45,7 +45,7 @@
     --spacer-96: theme('spacing.96');
     --spacer-120: theme('spacing.120');
     --v-spacer-120: theme('spacing.120');
-    --gutter: theme('spacing.32');
+    --gutter: theme('spacing.64');
 
     @media (max-height: 1024px) {
       --v-spacer-120: theme('spacing.80');
@@ -53,7 +53,7 @@
   }
 
   @screen xl {
-    --gutter: theme('spacing.40');
+    --gutter: theme('spacing.96');
   }
 }
 
@@ -410,10 +410,10 @@
     }
 
     @screen lg {
-      padding-top: 300px;
+      padding-top: 370px;
 
       @media (min-height: 1024px) {
-        padding-top: 350px;
+        padding-top: 400px;
       }
     }
   }

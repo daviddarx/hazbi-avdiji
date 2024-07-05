@@ -179,7 +179,7 @@ export default function TextContentMedias({
         onClick={closeMedia}
       ></div>
       <div
-        className='pointer-events-none fixed left-0 top-0 z-70 transform-gpu transition-opacity duration-200'
+        className='pointer-events-none fixed left-0 top-0 z-70 transform-gpu opacity-0 transition-opacity duration-200'
         ref={closeButton}
       >
         <div className='relative'>

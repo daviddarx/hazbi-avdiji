@@ -32,7 +32,7 @@ export default function PostCard({
       />
       <span
         className={classNames(
-          'border-light relative z-10 flex h-full flex-col items-start justify-between gap-gutter rounded-cards border p-gutter transition-colors',
+          'border-light relative z-10 flex h-full flex-col items-start justify-between gap-40 rounded-cards border px-20 py-16 transition-colors md:px-32 md:py-28 lg:px-44 lg:py-40',
           'hashover:hover:bg-themed-prev hashover:hover:border-strong dark:hashover:hover:border-light',
         )}
       >

@@ -46,7 +46,7 @@ const components: Components<{
       height = parseInt(dimensions[1]);
     }
     return (
-      <span className='image-custom-markdown border-light !my-spacer-80 block overflow-hidden rounded-cards-extended border p-gutter'>
+      <span className='image-custom-markdown border-light !my-spacer-80 block overflow-hidden rounded-cards-extended border p-spacer-40'>
         <span className='border-light block overflow-hidden rounded-cards border'>
           <LoadedImage
             src={url}

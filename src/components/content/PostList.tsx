@@ -177,7 +177,7 @@ export default function PostList(props: {
             </ActivePillNavigation>
           </div>
           <div
-            className='grid-layout grid-layout--extended mt-gutter transition-[height]'
+            className='grid-layout grid-layout--extended mt-spacer-48 transition-[height]'
             style={{ height, transitionDuration: `${containerHeightAnimationDuration}ms` }}
           >
             <AnimatePresence mode='wait' initial={false}>
@@ -191,7 +191,7 @@ export default function PostList(props: {
                 className='grid-item-full'
               >
                 <div ref={postContainer}>
-                  <div className='subtitle grid-item-full mb-gutter text-center'>
+                  <div className='subtitle grid-item-full mb-spacer-48 text-center'>
                     {filteredPosts!.length} {t.postResults(filteredPosts!.length)}
                   </div>
                   <ul className='grid gap-8 md:grid-cols-2 lg:gap-4 xl:grid-cols-3'>
