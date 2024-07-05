@@ -393,6 +393,15 @@
     @apply col-start-4 col-end-10;
   }
 
+  .image-custom-markdown {
+    @screen lg {
+      /*
+        Make the images in custom markdown take the full width of the grid parent element.
+      */
+      margin-left: calc((min(100vw, 1280px) / 12 * 3) * -1 + var(--gutter) * 0.5);
+    }
+  }
+
   .page-content {
     padding-top: 200px;
 

@@ -46,13 +46,17 @@ const components: Components<{
       height = parseInt(dimensions[1]);
     }
     return (
-      <LoadedImage
-        src={url}
-        alt={props?.alt || ''}
-        width={width}
-        height={height}
-        className='h-auto w-full'
-      />
+      <span className='image-custom-markdown border-light !my-spacer-80 block overflow-hidden rounded-cards-extended border p-gutter'>
+        <span className='border-light block overflow-hidden rounded-cards border'>
+          <LoadedImage
+            src={url}
+            alt={props?.alt || ''}
+            width={width}
+            height={height}
+            className='h-auto w-full'
+          />
+        </span>
+      </span>
     );
   },
   CTA: (props) => {
