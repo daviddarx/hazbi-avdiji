@@ -13,6 +13,10 @@ const t = {
   errorPage: {
     title: "This page doesn't exist",
   },
+  textContentMediaCloseLabel: {
+    image: "Fermer l'image",
+    video: 'Fermer la vidéo',
+  },
   darkModeSwitcher: {
     title: 'Apparence',
     options: {

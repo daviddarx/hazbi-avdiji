@@ -1,5 +1,6 @@
 import TextContentMedia, { type MediaType } from '@/components/content/TextContentMedia';
 import CloseButton from '@/components/ui/CloseButton';
+import t from '@/content/translations';
 import type {
   Maybe,
   PageBlocksTextContentMediaBlocks,
@@ -39,7 +40,11 @@ export default function TextContentMedias({
   }, [onClose]);
 
   useEffect(() => {
-    setCloseButtonLabelText(currentMediaType === 'image' ? "Fermer l'image" : 'Fermer la vidéo');
+    setCloseButtonLabelText(
+      currentMediaType === 'image'
+        ? t.textContentMediaCloseLabel.image
+        : t.textContentMediaCloseLabel.video,
+    );
   }, [currentMediaType]);
 
   const handleCloseMouseMove = useCallback((e: MouseEvent) => {
