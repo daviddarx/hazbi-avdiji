@@ -36,13 +36,14 @@ export default function PostCard({
       <span
         className={classNames(
           'border-light relative z-10 flex h-full flex-col items-start justify-between gap-40 rounded-cards border transition-colors',
-          'px-20 py-16 md:px-32 md:py-28 lg:px-44 lg:pb-80 lg:pt-40',
+          'px-20 py-16 md:px-32 md:py-28 lg:px-44 lg:py-40',
           'hashover:hover:bg-themed-prev hashover:hover:border-strong dark:hashover:hover:border-light',
         )}
       >
         <h3
           data-tina-field={tinaField(post, 'title')}
           dangerouslySetInnerHTML={{ __html: post.title }}
+          className='lg:pb-40'
         />
         <span
           className={classNames(
