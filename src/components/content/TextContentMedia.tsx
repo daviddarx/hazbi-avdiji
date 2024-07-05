@@ -143,7 +143,7 @@ export default function TextContentMedia({
           </span>
         )}
         <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
-          {caption}
+          {mediaBlock.title || caption}
         </figcaption>
         <CloseButton
           label={closeButtonLabelText}

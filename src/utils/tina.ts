@@ -117,6 +117,7 @@ export const textContentTemplate: Template = {
       list: true,
       fields: [
         { name: 'id', label: 'ID', type: 'string', required: true },
+        { name: 'title', label: 'Title', type: 'string' },
         { name: 'videoURL', label: 'Video URL', type: 'string' },
         ...imageFields,
       ],
