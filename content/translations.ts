@@ -11,7 +11,7 @@ const t = {
   post: 'Idée reçue',
   postResults: (amount: Number) => (amount === 1 ? 'Idée reçue' : 'Idées reçues'),
   errorPage: {
-    title: "This page doesn't exist",
+    title: "Cette page n'existe pas",
   },
   textContentMediaCloseLabel: {
     image: "Fermer l'image",
