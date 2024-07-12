@@ -1,6 +1,6 @@
 {
-  "name": "Boilerplate NextJS & TinaCMS",
-  "short_name": "Boilerplate NextJS & TinaCMS",
+  "name": "Dr. Hazbi Avdiji",
+  "short_name": "Dr. Hazbi Avdiji",
   "icons": [
     {
       "src": "/apple-touch-icon.png",
@@ -13,8 +13,8 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#fff",
-  "background_color": "#fff",
+  "theme_color": "#FFE5ED",
+  "background_color": "#3917A1",
   "display": "fullscreen",
   "orientation": "portrait"
 }

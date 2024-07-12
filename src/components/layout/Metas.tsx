@@ -16,8 +16,8 @@ const Metas = ({ title }: Props) => {
       <meta property='og:description' content={description} />
       <meta property='og:url' content={t.metaData.url} />
       <meta property='og:title' content={combinedTitle} />
-      <meta property='og:image:url' content='/website-poster.jpg' />
-      <meta property='og:image:secure_url' content='/website-poster.jpg' />
+      <meta property='og:image:url' content='/hazbi-avdiji.jpg' />
+      <meta property='og:image:secure_url' content='/hazbi-avdiji.jpg' />
       <meta property='og:image:type' content='image/jpeg' />
       <meta property='og:image:width' content='1200' />
       <meta property='og:image:height' content='630' />
