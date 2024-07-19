@@ -98,7 +98,7 @@ export default function DarkModeSwitcher() {
                   exit='exit'
                   variants={MenuMotionVariants}
                   anchor='bottom end'
-                  className='bg-blurred border-light relative z-60 mt-16 min-w-[200px] origin-top rounded-xl border'
+                  className='bg-blurred border-light relative z-80 mt-16 min-w-[200px] origin-top rounded-xl border'
                 >
                   <div className='subtitle px-24 py-12 text-sm'>{t.darkModeSwitcher.title}</div>
 
