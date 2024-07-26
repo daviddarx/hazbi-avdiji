@@ -404,8 +404,6 @@
 
   .page-content {
     padding-top: 200px;
-    height: 100%;
-    align-content: center;
 
     @screen xs {
       padding-top: 250px;
