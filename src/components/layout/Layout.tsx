@@ -1,3 +1,4 @@
+import AnimatedBackground from '@/components/layout/AnimatedBackground';
 import ColoredBackground from '@/components/layout/ColoredBackground';
 import DarkModeSwitcher from '@/components/layout/DarkModeSwitcher';
 import Header from '@/components/layout/Header';
@@ -130,6 +131,7 @@ export default function Layout({
       <div className='fixed left-0 top-0 z-90 h-20 w-full backdrop-blur-md max-lg:hidden'></div>
       <div className='border-light pointer-events-none fixed bottom-20 left-20 right-20 top-20 z-100 rounded-cards border max-lg:hidden'></div>
       <div className='fixed bottom-0 left-0 z-90 h-20 w-full backdrop-blur-md max-lg:hidden'></div>
+      <AnimatedBackground />
       <ColoredBackground />
     </div>
   );

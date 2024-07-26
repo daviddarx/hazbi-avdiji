@@ -455,10 +455,14 @@
   .home-visual {
     --size: 80vh;
 
-    @apply pointer-events-none fixed left-1/2 top-1/2 origin-center rotate-45;
+    @apply pointer-events-none fixed left-1/2 top-1/2 -z-10 origin-center rotate-45 transition-opacity duration-500;
+
+    &.paused {
+      @apply opacity-50;
+    }
 
     & div {
-      @apply border-light absolute z-0 rounded-cards border;
+      @apply border-light absolute rounded-cards border;
       @apply size-[--size];
 
       margin-left: calc(var(--size) * -0.5);
