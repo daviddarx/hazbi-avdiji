@@ -16,7 +16,12 @@ const config: Config = {
       'theme-prev': 'var(--color-theme-prev)',
       'theme-next': 'var(--color-theme-next)',
       current: 'currentColor',
-      ...themeColors,
+      theme1: themeColors[0],
+      theme2: themeColors[1],
+      theme3: themeColors[2],
+      theme4: themeColors[3],
+      theme5: themeColors[4],
+      theme6: themeColors[5],
     },
     fontSize: {
       xs: ['0.75rem', '1.5'], // 12px

@@ -52,14 +52,14 @@ export function getSystem() {
 
 export const delayBeforeScrollRestoration = 50;
 
-export const themeColors = {
-  theme1: '#FFE5ED',
-  theme2: '#FFEECE',
-  theme3: '#FFFCB7',
-  theme4: '#E8FFB7',
-  theme5: '#CFFFFC',
-  theme6: '#F5F1FF',
-};
+export const themeColors = [
+  '#DFFF9A', // green
+  '#CFFFFC', // blue
+  '#F2E5FF', // violet
+  '#FFE0E0', // red
+  '#FFE9BF', // orange
+  '#FFFA8A', // yellow
+];
 
 export type Timeout = ReturnType<typeof setTimeout>;
 

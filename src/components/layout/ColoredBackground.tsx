@@ -1,10 +1,9 @@
 import { uiStateType } from '@/store/ui-slice';
-import { type Timeout, themeColors } from '@/utils/core';
+import { type Timeout, themeColors as colors } from '@/utils/core';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const colors = Object.values(themeColors);
 const animationDuration = 1000;
 const colorsStepsAmount = colors.length + 1;
 let wasInitialized = false;
