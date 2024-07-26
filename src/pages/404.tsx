@@ -12,18 +12,23 @@ export default function Custom404({
   return (
     <PageWrapper footerNavigationProps={footerNavigationProps}>
       <Metas title={t.errorPage.title} />
-      <h1>{t.errorPage.title}</h1>
+      <div className='grid-layout'>
+        <h1 className='grid-item-full'>{t.errorPage.title}</h1>
+      </div>
     </PageWrapper>
   );
 }
 
 export const getStaticProps = async ({ params }: { params: { slug?: string[] } }) => {
+  const navigationResult = await client.queries.navigation({ relativePath: 'navigation.md' });
+
   const footerNavigationResult = await client.queries.footerNavigation({
     relativePath: 'footer-navigation.md',
   });
 
   return {
     props: {
+      navigationProps: { ...navigationResult },
       footerNavigationProps: { ...footerNavigationResult },
     },
     revalidate: 10,
