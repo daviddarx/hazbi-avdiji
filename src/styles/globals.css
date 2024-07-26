@@ -71,7 +71,7 @@
     @apply bg-themed text-base !leading-normal text-black lg:text-2xl;
 
     .dark & {
-      color: color-mix(in lab, var(--color-theme) 70%, transparent);
+      color: color-mix(in lab, var(--color-theme) 80%, transparent);
     }
   }
 
