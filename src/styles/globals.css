@@ -452,6 +452,26 @@
     }
   }
 
+  .navigation-menu-items {
+    @apply bg-blurred border-light z-60 origin-top;
+
+    @screen max-lg {
+      @apply !fixed !left-auto !right-0 !top-0 h-screen !max-h-screen w-[280px] !max-w-[80vw] border-l;
+    }
+
+    @screen lg {
+      @apply mt-16 min-w-[200px] rounded-xl border;
+    }
+  }
+
+  .navigation-subtitle {
+    @apply subtitle px-24 py-12 text-sm max-lg:pb-48 max-lg:pt-20;
+  }
+
+  .navigation-link {
+    @apply border-light data-[focus]:bg-themed-prev flex w-full gap-16 border-t py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out max-lg:last-of-type:border-b;
+  }
+
   .home-visual {
     --size: 80vh;
 

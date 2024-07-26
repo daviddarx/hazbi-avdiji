@@ -21,6 +21,9 @@ const t = {
     image: "Fermer l'image",
     video: 'Fermer la vidéo',
   },
+  mobileNavigation: {
+    title: 'Navigation',
+  },
   darkModeSwitcher: {
     title: 'Apparence',
     options: {
