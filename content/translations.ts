@@ -3,9 +3,12 @@ const t = {
   logoSubline: 'Votre généraliste en diversité et inclusion',
   metaData: {
     title: (pageTitle?: string) =>
-      `${pageTitle ? `${pageTitle} – ` : ''}Boilerplate NextJS & TinaCMS`,
-    description: 'Boilerplate for Next.js website with TinaCMS',
-    url: 'https://boilerplate-nextjs-page-tinacms.vercel.app',
+      `${
+        pageTitle ? `${pageTitle} – ` : ''
+      }Hazbi Avdiji – Votre généraliste en diversité et inclusion (D&I)`,
+    description:
+      'Accompagnement et conseil pour initiatives D&I en Suisse romande, déconstruction des idées reçues sur la D&I.',
+    url: 'https://avdiji.com/',
   },
   allPosts: 'Tout',
   post: 'Idée reçue',

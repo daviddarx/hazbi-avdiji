@@ -5,6 +5,7 @@ import ContentLeftColumn from '@/components/layout/ContentLeftColumn';
 import Metas from '@/components/layout/Metas';
 import PageHeader from '@/components/layout/PageHeader';
 import { PageResult, PostsFilter, PostsResult } from '@/types';
+import { usePathname } from 'next/navigation';
 import { useTina } from 'tinacms/dist/react';
 
 export default function Page(props: {
@@ -14,10 +15,11 @@ export default function Page(props: {
 }) {
   const pageData = useTina(props.pageProps);
   const { page } = pageData.data;
+  const path = usePathname();
 
   return (
     <article>
-      <Metas title={page.title} />
+      <Metas title={path === '/' ? '' : page.title} />
       {page.longTitle && <PageHeader page={page} />}
       <div className='mb-v-spacer-120 flex h-full flex-col gap-spacer-80'>
         {page.blocks?.map((block, i) => {
