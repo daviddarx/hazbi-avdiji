@@ -472,10 +472,14 @@
     @apply border-light data-[focus]:bg-themed-prev flex w-full gap-16 border-t py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out max-lg:last-of-type:border-b;
   }
 
+  .home-visual-container {
+    @apply pointer-events-none fixed left-0 top-0 h-screen w-screen overflow-hidden;
+  }
+
   .home-visual {
     --size: 80vh;
 
-    @apply pointer-events-none fixed left-1/2 top-1/2 origin-center rotate-45;
+    @apply absolute left-1/2 top-1/2 origin-center rotate-45;
 
     & div {
       @apply border-light absolute z-0 rounded-cards border;

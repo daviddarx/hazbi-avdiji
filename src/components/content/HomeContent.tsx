@@ -42,21 +42,23 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
           <CustomMarkdown content={content.introduction} />
         </div>
       </div>
-      <div className='home-visual' ref={container}>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+      <div className='home-visual-container'>
+        <div className='home-visual' ref={container}>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </section>
   );
