@@ -6,6 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import classNames from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { usePathname } from 'next/navigation';
+import React from 'react';
 import { tinaField, useTina } from 'tinacms/dist/react';
 
 export default function MobileNavigation(props: NavigationResult) {
@@ -18,7 +19,7 @@ export default function MobileNavigation(props: NavigationResult) {
       <Menu>
         {({ open }) => (
           <>
-            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong hashover:hover:bg-themed-prev hashover:hover:!border-strong relative z-100 rounded-full border p-16 transition-colors duration-200 ease-out'>
+            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong hashover:hover:bg-themed-prev hashover:hover:!border-strong relative z-100 rounded-full border p-16 outline outline-[red] transition-colors duration-200 ease-out'>
               <Icon name='menu' />
             </MenuButton>
             <AnimatePresence>
@@ -37,19 +38,23 @@ export default function MobileNavigation(props: NavigationResult) {
                   {navigation.links &&
                     navigation.links.map((link) => (
                       <MenuItem key={link!.link}>
-                        <PageLink
-                          href={link!.link}
-                          data-tina-field={tinaField(link!, 'label')}
-                          data-active-value={link!.link.split('/')[1]}
-                          className={classNames(
-                            'border-light data-[focus]:bg-themed-prev flex w-full gap-16 border-t py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out',
-                            {
-                              'bg-themed-next': pathName.split('/')[1] === link!.link.split('/')[1],
-                            },
-                          )}
-                        >
-                          {link!.label}
-                        </PageLink>
+                        {/* Fragment to avoid error of slot giving ref to functional component PageLink. */}
+                        <React.Fragment>
+                          <PageLink
+                            href={link!.link}
+                            data-tina-field={tinaField(link!, 'label')}
+                            data-active-value={link!.link.split('/')[1]}
+                            className={classNames(
+                              'border-light data-[focus]:bg-themed-prev flex w-full gap-16 border-t py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out',
+                              {
+                                'bg-themed-next':
+                                  pathName.split('/')[1] === link!.link.split('/')[1],
+                              },
+                            )}
+                          >
+                            {link!.label}
+                          </PageLink>
+                        </React.Fragment>
                       </MenuItem>
                     ))}
                 </MenuItems>
