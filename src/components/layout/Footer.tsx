@@ -8,7 +8,7 @@ export default function Footer(props: FooteNavigationResult) {
   const { footerNavigation } = navigationData.data;
 
   return (
-    <footer className='grid-layout mt-auto '>
+    <footer className='grid-layout'>
       <div className='grid-item-full border-light flex flex-wrap justify-between gap-20 border-t py-gutter text-sm md:py-spacer-48 md:text-base lg:pb-72'>
         {footerNavigation.links && (
           <nav className='flex gap-4 max-md:flex-col md:gap-40'>
