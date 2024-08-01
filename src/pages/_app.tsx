@@ -2,6 +2,7 @@ import Layout from '@/components/layout/Layout';
 import store, { uiActions } from '@/store';
 import '@/styles/globals.css';
 import { getSystem } from '@/utils/core';
+import { MotionConfig } from 'framer-motion';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
@@ -27,9 +28,11 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <Provider store={store}>
-      <Layout {...pageProps}>
-        <Component key={pageKey} {...pageProps} />
-      </Layout>
+      <MotionConfig reducedMotion='user'>
+        <Layout {...pageProps}>
+          <Component key={pageKey} {...pageProps} />
+        </Layout>
+      </MotionConfig>
     </Provider>
   );
 }
