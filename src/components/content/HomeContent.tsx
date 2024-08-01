@@ -1,5 +1,6 @@
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksHomeContent } from '@/tina/types';
+import { reducedMotion } from '@/utils/core';
 import { useGSAP } from '@gsap/react';
 import { gsap } from 'gsap';
 import { useRef } from 'react';
@@ -12,7 +13,7 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
 
   useGSAP(
     () => {
-      if (container.current) {
+      if (container.current && !reducedMotion()) {
         const divs = container.current.querySelectorAll('div');
         divs.forEach((div, i) => {
           gsap.set(div, { rotation: i * 2 });
@@ -42,7 +43,7 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
           <CustomMarkdown content={content.introduction} />
         </div>
       </div>
-      <div className='home-visual-container'>
+      <div className='home-visual-container motion-reduce:hidden'>
         <div className='home-visual' ref={container}>
           <div></div>
           <div></div>
