@@ -71,7 +71,20 @@ export function getRandomBetween(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+export const reducedMotion = () => {
+  const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  return !mediaQuery || mediaQuery.matches;
+};
+
 export const getMenuMotionVariants = (screenW: number) => {
+  if (reducedMotion()) {
+    return {
+      initial: {},
+      animate: {},
+      exit: {},
+    };
+  }
+
   if (screenW < 1024) {
     return {
       initial: { x: '100%' },
