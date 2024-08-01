@@ -2,9 +2,9 @@ import Footer from '@/components/layout/Footer';
 import { uiStateType } from '@/store/ui-slice';
 import { FooteNavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
+import { reducedMotion } from '@/utils/core';
 import eases from '@/utils/eases';
 import { motion } from 'framer-motion';
-import { useReducedMotion } from 'framer-motion';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
@@ -69,7 +69,6 @@ export default function PageWrapper({
   const scrollToTopOnPageChange = useSelector(
     (state: uiStateType) => state.ui.scrollToTopOnPageChange,
   );
-  const prefersReducedMotion = useReducedMotion();
 
   const [animated, setAnimated] = useState(true);
 
@@ -81,7 +80,7 @@ export default function PageWrapper({
        * user doesn't prefer reduced motion. Make test on mount
        * with delay to avoid SSR hydration error.
        */
-      setAnimated(scrollToTopOnPageChange && !prefersReducedMotion);
+      setAnimated(scrollToTopOnPageChange && !reducedMotion());
     }, 10);
   });
 
