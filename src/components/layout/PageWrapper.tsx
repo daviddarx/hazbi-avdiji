@@ -4,23 +4,20 @@ import { FooteNavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
 import eases from '@/utils/eases';
 import { motion } from 'framer-motion';
-import React, { ReactNode } from 'react';
+import { useReducedMotion } from 'framer-motion';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-/**
- * Only provide page transition when the scroll
- * to top on page change wasn't disabled by a PageLink
- */
 const motionVariants = {
-  initial: (scrollToTopOnPageChange: boolean) => {
-    if (scrollToTopOnPageChange) {
+  initial: (animated: boolean) => {
+    if (animated) {
       return { opacity: 0, y: 30 };
     } else {
       return { opacity: 1 };
     }
   },
-  animate: (scrollToTopOnPageChange: boolean) => {
-    if (scrollToTopOnPageChange) {
+  animate: (animated: boolean) => {
+    if (animated) {
       return {
         opacity: 1,
         y: 0,
@@ -41,8 +38,8 @@ const motionVariants = {
       };
     }
   },
-  exit: (scrollToTopOnPageChange: boolean) => {
-    if (scrollToTopOnPageChange) {
+  exit: (animated: boolean) => {
+    if (animated) {
       return {
         opacity: 0,
         y: 0,
@@ -72,6 +69,21 @@ export default function PageWrapper({
   const scrollToTopOnPageChange = useSelector(
     (state: uiStateType) => state.ui.scrollToTopOnPageChange,
   );
+  const prefersReducedMotion = useReducedMotion();
+
+  const [animated, setAnimated] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      /**
+       * Only provide page transition when the scroll to top
+       * on page change wasn't disabled by a PageLink and when
+       * user doesn't prefer reduced motion. Make test on mount
+       * with delay to avoid SSR hydration error.
+       */
+      setAnimated(scrollToTopOnPageChange && !prefersReducedMotion);
+    }, 10);
+  });
 
   return (
     <motion.div
@@ -79,7 +91,7 @@ export default function PageWrapper({
       animate='animate'
       exit='exit'
       variants={motionVariants}
-      custom={scrollToTopOnPageChange}
+      custom={animated}
       className='h-full'
     >
       <div className='flex h-full flex-col'>
