@@ -84,11 +84,9 @@ export default function TextContentMedia({
 
   const handleVideoLoading = useCallback(() => {
     if (mediaVideo.current && mediaVideo.current.getAttribute('data-loaded') !== 'true') {
-      mediaVideo.current.classList.add('opacity-0');
       mediaVideo.current.addEventListener(
         'loadedmetadata',
         () => {
-          mediaVideo.current?.classList.remove('opacity-0');
           mediaVideo.current?.setAttribute('data-loaded', 'true');
           handleResize();
         },
