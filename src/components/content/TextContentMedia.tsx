@@ -5,6 +5,7 @@ import type {
   PostBlocksTextContentMediaBlocks,
 } from '@/tina/types';
 import { getRandomBetween } from '@/utils/core';
+import { reducedMotion } from '@/utils/core';
 import ease from '@/utils/eases';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef } from 'react';
@@ -116,7 +117,7 @@ export default function TextContentMedia({
       animate='animate'
       exit='exit'
       data-media-id={mediaBlock!.id}
-      variants={motionVariants}
+      variants={typeof window !== 'undefined' && !reducedMotion() ? motionVariants : undefined}
       ref={mediaContainer}
     >
       <figure>

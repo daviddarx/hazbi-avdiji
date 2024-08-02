@@ -6,6 +6,7 @@ import type {
   PageBlocksTextContentMediaBlocks,
   PostBlocksTextContentMediaBlocks,
 } from '@/tina/types';
+import { reducedMotion } from '@/utils/core';
 import classNames from 'classnames';
 import { AnimatePresence } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
@@ -31,7 +32,7 @@ export default function TextContentMedias({
   const closeButtonCurrentPosition = useRef({ x: 0, y: 0 });
   const closeButtonTargetPosition = useRef({ x: 0, y: 0 });
   const closeButtonRAF = useRef(0);
-  const closeButtonPositionEase = 0.15;
+  const closeButtonPositionEase = typeof window !== 'undefined' && !reducedMotion() ? 0.15 : 1;
   const [closeButtonLabelText, setCloseButtonLabelText] = useState('');
 
   const closeMedia = useCallback(() => {

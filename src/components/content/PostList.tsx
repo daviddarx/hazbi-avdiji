@@ -11,6 +11,7 @@ import {
   POSTS_LIST_VIEW_SEARCH_PARAMS,
   POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE,
 } from '@/utils/core';
+import { reducedMotion } from '@/utils/core';
 import ease, { cubicBezier } from '@/utils/eases';
 import smoothScrollTo, { getScrollMarginTop, getScrollTop } from '@/utils/smooth-scroll';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -109,7 +110,7 @@ export default function PostList(props: {
   };
 
   const scrollToFiltersWhileFiltering = () => {
-    if (container.current) {
+    if (container.current && !reducedMotion()) {
       const containerPosY = getContainerPosY();
 
       if (window.scrollY > containerPosY) {
@@ -187,7 +188,9 @@ export default function PostList(props: {
                 animate='animate'
                 exit='exit'
                 onAnimationStart={updatePostsContainerHeight}
-                variants={motionVariants}
+                variants={
+                  typeof window !== 'undefined' && !reducedMotion() ? motionVariants : undefined
+                }
                 className='grid-item-full'
               >
                 <div ref={postContainer}>
