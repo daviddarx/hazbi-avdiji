@@ -115,7 +115,7 @@ export default function TextContentMedia({
       animate='animate'
       exit='exit'
       data-media-id={mediaBlock!.id}
-      variants={typeof window !== 'undefined' && !reducedMotion() ? motionVariants : undefined}
+      variants={typeof window === 'undefined' || !reducedMotion() ? motionVariants : undefined}
       ref={mediaContainer}
     >
       <figure>

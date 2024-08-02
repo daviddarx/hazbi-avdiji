@@ -189,7 +189,7 @@ export default function PostList(props: {
                 exit='exit'
                 onAnimationStart={updatePostsContainerHeight}
                 variants={
-                  typeof window !== 'undefined' && !reducedMotion() ? motionVariants : undefined
+                  typeof window === 'undefined' || !reducedMotion() ? motionVariants : undefined
                 }
                 className='grid-item-full'
               >

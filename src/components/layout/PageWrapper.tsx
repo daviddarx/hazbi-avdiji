@@ -56,8 +56,10 @@ export default function PageWrapper({
       animate='animate'
       exit='exit'
       variants={
-        typeof window !== 'undefined' && scrollToTopOnPageChange && !reducedMotion()
-          ? motionVariants
+        typeof window === 'undefined' || !reducedMotion()
+          ? scrollToTopOnPageChange
+            ? motionVariants
+            : undefined
           : undefined
       }
       className='h-full'
