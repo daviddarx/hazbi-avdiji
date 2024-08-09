@@ -67,50 +67,84 @@ export default function TextContentMedia({
       const element = mediaContainer.current.querySelector(
         '[data-media-element="true"]',
       ) as HTMLElement;
+
       positionMedia();
 
-      if (mediaContainer.current.offsetHeight > window.innerHeight) {
-        const height =
-          element.offsetHeight - (mediaContainer.current.offsetHeight - window.innerHeight);
-        element.style.height = `${height}px`;
-        element.style.width = 'auto';
+      let naturalWidth = 0;
 
-        requestAnimationFrame(() => {
-          positionMedia();
-        });
+      if (element instanceof HTMLImageElement) {
+        naturalWidth = element.naturalWidth * window.devicePixelRatio;
+      }
+
+      if (element instanceof HTMLVideoElement) {
+        naturalWidth = element.videoWidth * window.devicePixelRatio;
+      }
+
+      if (naturalWidth) {
+        mediaContainer.current.style.width = 'auto';
+        element.style.width = `${naturalWidth}px`;
+        element.style.height = 'auto';
+
+        if (mediaContainer.current.offsetWidth > window.innerWidth) {
+          mediaContainer.current.style.width = window.innerWidth + 'px';
+          element.style.width = '100%';
+          element.style.height = 'auto';
+        }
+
+        if (mediaContainer.current.offsetHeight > window.innerHeight) {
+          const height =
+            element.offsetHeight - (mediaContainer.current.offsetHeight - window.innerHeight);
+          mediaContainer.current.style.width = 'auto';
+          element.style.height = `${height}px`;
+          element.style.width = 'auto';
+        }
+
+        positionMedia();
       }
     }
   }, [positionMedia]);
 
-  const handleVideoLoading = useCallback(() => {
-    if (mediaVideo.current && mediaVideo.current.getAttribute('data-loaded') !== 'true') {
-      mediaVideo.current.addEventListener(
-        'loadedmetadata',
-        () => {
-          mediaVideo.current?.setAttribute('data-loaded', 'true');
-          handleResize();
-        },
-        { once: true },
-      );
+  const onLoadComplete = useCallback(
+    (e: Event) => {
+      const element = e.target as HTMLElement;
+      if (element) {
+        element.removeEventListener('load', onLoadComplete);
+        element.removeEventListener('loadedmetadata', onLoadComplete);
+        element.setAttribute('data-loaded', 'true');
+        handleResize();
+      }
+    },
+    [handleResize],
+  );
+
+  const handleLoading = useCallback(() => {
+    if (mediaContainer.current) {
+      const element = mediaContainer.current.querySelector(
+        '[data-media-element="true"]',
+      ) as HTMLElement;
+      if (element.getAttribute('data-loaded') !== 'true') {
+        element.addEventListener('load', onLoadComplete);
+        element.addEventListener('loadedmetadata', onLoadComplete);
+      }
     }
-  }, [handleResize]);
+  }, [onLoadComplete]);
 
   useEffect(() => {
     mediaVideo.current = mediaContainer.current?.querySelector('video');
     onMount(mediaVideo.current ? 'video' : 'image');
 
     requestAnimationFrame(handleResize);
-    requestAnimationFrame(handleVideoLoading);
+    requestAnimationFrame(handleLoading);
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [handleResize, handleVideoLoading, onMount]);
+  }, [handleResize, handleLoading, onMount]);
 
   return (
     <motion.div
-      className='bg-blurred border-light pointer-events-none fixed z-60 rounded-cards-extended border p-80'
+      className='bg-blurred border-light pointer-events-none fixed z-110 rounded-cards-extended border p-gutter py-80 lg:p-80'
       initial='initial'
       animate='animate'
       exit='exit'
@@ -125,19 +159,20 @@ export default function TextContentMedia({
             autoPlay={true}
             loop={true}
             data-media-element='true'
-            className='pointer-events-auto overflow-hidden rounded-cards'
+            className='pointer-events-auto max-w-none overflow-hidden rounded-cards'
           >
             <source src={mediaBlock.videoURL} type='video/mp4' />
           </video>
         )}
         {mediaBlock?.image && (
-          <span className='border-light pointer-events-auto block overflow-hidden rounded-cards border'>
+          <span className='border-light block overflow-hidden rounded-cards border'>
             <LoadedImage
               src={mediaBlock.image!}
               width={mediaBlock.imageWidth!}
               height={mediaBlock.imageHeight!}
               alt='media'
               data-media-element='true'
+              className='max-w-none'
             />
           </span>
         )}
