@@ -68,79 +68,43 @@ export default function TextContentMedia({
         '[data-media-element="true"]',
       ) as HTMLElement;
 
+      const width = parseInt(element.getAttribute('data-media-width') || '');
+      const height = parseInt(element.getAttribute('data-media-height') || '');
+
+      const computedStyle = window.getComputedStyle(mediaContainer.current);
+
+      element.style.width = `${width}px`;
+      element.style.height = `${height}px`;
+
+      if (mediaContainer.current.offsetWidth > window.innerWidth) {
+        element.style.width = `${
+          window.innerWidth - 2 * parseInt(computedStyle.paddingLeft.split('px')[0])
+        }px`;
+        element.style.height = `auto`;
+      }
+
+      if (mediaContainer.current.offsetHeight > window.innerHeight) {
+        element.style.height = `${
+          window.innerHeight - 2 * parseInt(computedStyle.paddingTop.split('px')[0])
+        }px`;
+        element.style.width = `auto`;
+      }
+
       positionMedia();
-
-      let naturalWidth = 0;
-
-      if (element instanceof HTMLImageElement) {
-        naturalWidth = element.naturalWidth * window.devicePixelRatio;
-      }
-
-      if (element instanceof HTMLVideoElement) {
-        naturalWidth = element.videoWidth * window.devicePixelRatio;
-      }
-
-      if (naturalWidth) {
-        mediaContainer.current.style.width = 'auto';
-        element.style.width = `${naturalWidth}px`;
-        element.style.height = 'auto';
-
-        if (mediaContainer.current.offsetWidth > window.innerWidth) {
-          mediaContainer.current.style.width = window.innerWidth + 'px';
-          element.style.width = '100%';
-          element.style.height = 'auto';
-        }
-
-        if (mediaContainer.current.offsetHeight > window.innerHeight) {
-          const height =
-            element.offsetHeight - (mediaContainer.current.offsetHeight - window.innerHeight);
-          mediaContainer.current.style.width = 'auto';
-          element.style.height = `${height}px`;
-          element.style.width = 'auto';
-        }
-
-        positionMedia();
-      }
     }
   }, [positionMedia]);
-
-  const onLoadComplete = useCallback(
-    (e: Event) => {
-      const element = e.target as HTMLElement;
-      if (element) {
-        element.removeEventListener('load', onLoadComplete);
-        element.removeEventListener('loadedmetadata', onLoadComplete);
-        element.setAttribute('data-loaded', 'true');
-        handleResize();
-      }
-    },
-    [handleResize],
-  );
-
-  const handleLoading = useCallback(() => {
-    if (mediaContainer.current) {
-      const element = mediaContainer.current.querySelector(
-        '[data-media-element="true"]',
-      ) as HTMLElement;
-      if (element.getAttribute('data-loaded') !== 'true') {
-        element.addEventListener('load', onLoadComplete);
-        element.addEventListener('loadedmetadata', onLoadComplete);
-      }
-    }
-  }, [onLoadComplete]);
 
   useEffect(() => {
     mediaVideo.current = mediaContainer.current?.querySelector('video');
     onMount(mediaVideo.current ? 'video' : 'image');
 
     requestAnimationFrame(handleResize);
-    requestAnimationFrame(handleLoading);
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, [handleResize, handleLoading, onMount]);
+  }, [handleResize, onMount]);
 
   return (
     <motion.div
@@ -159,6 +123,8 @@ export default function TextContentMedia({
             autoPlay={true}
             loop={true}
             data-media-element='true'
+            data-media-width={mediaBlock.imageWidth!}
+            data-media-height={mediaBlock.imageHeight!}
             className='pointer-events-auto max-w-none overflow-hidden rounded-cards'
           >
             <source src={mediaBlock.videoURL} type='video/mp4' />
@@ -172,12 +138,14 @@ export default function TextContentMedia({
               height={mediaBlock.imageHeight!}
               alt='media'
               data-media-element='true'
+              data-media-width={mediaBlock.imageWidth!}
+              data-media-height={mediaBlock.imageHeight!}
               className='max-w-none'
             />
           </span>
         )}
         <figcaption className='absolute left-0 right-0 top-0 flex h-80 items-center pl-gutter pr-80 text-base font-bold lg:justify-center lg:px-80'>
-          {mediaBlock.title || caption}
+          <span className='inline-block lg:truncate'>{mediaBlock.title || caption}</span>
         </figcaption>
         <CloseButton
           label={closeButtonLabelText}

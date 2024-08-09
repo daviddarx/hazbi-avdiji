@@ -23,6 +23,16 @@ export const getImageDimensions = (src: string): Promise<{ width: number; height
   });
 };
 
+export const getVideoDimensions = (src: string): Promise<{ width: number; height: number }> => {
+  return new Promise((resolve) => {
+    const video = document.createElement('video');
+    video.addEventListener('loadedmetadata', () => {
+      resolve({ width: video.videoWidth, height: video.videoHeight });
+    });
+    video.src = src;
+  });
+};
+
 export const addImagesDimensions = async (obj: any): Promise<any> => {
   if (Array.isArray(obj)) {
     return Promise.all(obj.map(async (item: any) => addImagesDimensions(item)));
@@ -44,6 +54,15 @@ export const addImagesDimensions = async (obj: any): Promise<any> => {
         } else if (key === 'type' && obj[key] === 'img') {
           const { width, height } = await getImageDimensions(obj.url);
           obj.caption = `${width}x${height}`;
+        } else if (key === 'videoURL') {
+          if (obj[key]) {
+            const { width, height } = await getVideoDimensions(obj[key]);
+            obj.imageWidth = width;
+            obj.imageHeight = height;
+          } else {
+            obj.imageWidth = 0;
+            obj.imageHeight = 0;
+          }
         } else {
           await addImagesDimensions(obj[key]);
         }
