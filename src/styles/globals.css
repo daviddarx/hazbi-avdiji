@@ -174,10 +174,22 @@
   }
 
   .admin-only {
-    display: none;
+    @apply invisible absolute h-0 w-0 overflow-hidden;
+
+    /*
+      Places images on top of screen in order
+      to preload them on page load.
+    */
+    & .loaded-image {
+      @apply fixed left-0 top-0 w-1;
+    }
 
     .__tina-quick-editing-enabled & {
-      display: block;
+      @apply visible relative h-auto w-auto;
+
+      & .loaded-image {
+        @apply relative left-auto top-auto w-auto;
+      }
     }
   }
 

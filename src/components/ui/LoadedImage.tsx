@@ -20,7 +20,7 @@ export default function LoadedImage({ alt, src, className = '', ...props }: Load
       alt={alt}
       src={src}
       className={classNames(
-        'transition-opacity duration-200 ease-out',
+        'loaded-image transition-opacity duration-200 ease-out',
         isLoaded ? 'opacity-100' : 'opacity-0',
         className,
       )}

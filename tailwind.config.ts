@@ -116,6 +116,7 @@ const config: Config = {
         '80': '80',
         '90': '90',
         '100': '100',
+        '110': '110',
       },
       transitionTimingFunction: {
         'in-quad': 'cubic-bezier(0.55, 0.085, 0.68, 0.53)',
