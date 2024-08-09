@@ -176,7 +176,7 @@ export default function TextContentMedia({
             />
           </span>
         )}
-        <figcaption className='absolute left-0 right-0 top-28 mx-auto text-center text-base font-bold'>
+        <figcaption className='absolute left-0 right-0 top-0 flex h-80 items-center pl-gutter pr-80 text-base font-bold lg:justify-center lg:px-80'>
           {mediaBlock.title || caption}
         </figcaption>
         <CloseButton
