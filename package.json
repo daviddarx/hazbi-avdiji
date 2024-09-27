@@ -17,7 +17,7 @@
     "detect-browser": "^5.3.0",
     "framer-motion": "^11.0.8",
     "gsap": "^3.12.5",
-    "next": "14.0.2",
+    "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.1.0",
