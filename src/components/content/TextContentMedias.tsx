@@ -98,7 +98,7 @@ export default function TextContentMedias({
     closeButtonCurrentPosition.current = { x: posX, y: posY };
 
     closeButtonRAF.current = window.requestAnimationFrame(positionCloseButton);
-  }, []);
+  }, [closeButtonPositionEase]);
 
   const displayCloseButton = () => {
     if (closeButton.current) {
