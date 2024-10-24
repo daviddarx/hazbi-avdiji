@@ -1,5 +1,5 @@
 ---
-title: Etat d’esprit
+title: En pratique
 priority: 200
 ---
 
