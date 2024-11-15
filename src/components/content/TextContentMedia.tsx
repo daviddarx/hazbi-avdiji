@@ -51,17 +51,6 @@ export default function TextContentMedia({
   const mediaContainer = useRef<HTMLDivElement | null>(null);
   const mediaVideo = useRef<HTMLVideoElement | null | undefined>(null);
 
-  const positionMedia = useCallback(() => {
-    if (mediaContainer.current) {
-      mediaContainer.current.style.left = `${
-        (window.innerWidth - mediaContainer.current.offsetWidth) * 0.5
-      }px`;
-      mediaContainer.current.style.top = `${
-        (window.innerHeight - mediaContainer.current.offsetHeight) * 0.5
-      }px`;
-    }
-  }, []);
-
   const handleResize = useCallback(() => {
     if (mediaContainer.current) {
       const element = mediaContainer.current.querySelector(
@@ -70,29 +59,35 @@ export default function TextContentMedia({
 
       const width = parseInt(element.getAttribute('data-media-width') || '');
       const height = parseInt(element.getAttribute('data-media-height') || '');
-
       const computedStyle = window.getComputedStyle(mediaContainer.current);
 
       element.style.width = `${width}px`;
       element.style.height = `${height}px`;
 
+      let cappedWidth = 0;
+      let cappedHeight = 0;
+
       if (mediaContainer.current.offsetWidth > window.innerWidth) {
-        element.style.width = `${
-          window.innerWidth - 2 * parseInt(computedStyle.paddingLeft.split('px')[0])
-        }px`;
-        element.style.height = `auto`;
+        cappedWidth = window.innerWidth - 2 * parseInt(computedStyle.paddingLeft.split('px')[0]);
+        cappedHeight = (cappedWidth * height) / width;
       }
 
       if (mediaContainer.current.offsetHeight > window.innerHeight) {
-        element.style.height = `${
-          window.innerHeight - 2 * parseInt(computedStyle.paddingTop.split('px')[0])
-        }px`;
-        element.style.width = `auto`;
+        cappedHeight = window.innerHeight - 2 * parseInt(computedStyle.paddingTop.split('px')[0]);
+        cappedWidth = (cappedHeight * width) / height;
       }
 
-      positionMedia();
+      element.style.width = `${cappedWidth}px`;
+      element.style.height = `${cappedHeight}px`;
+
+      mediaContainer.current.style.left = `${
+        (window.innerWidth - mediaContainer.current.offsetWidth) * 0.5
+      }px`;
+      mediaContainer.current.style.top = `${
+        (window.innerHeight - mediaContainer.current.offsetHeight) * 0.5
+      }px`;
     }
-  }, [positionMedia]);
+  }, []);
 
   useEffect(() => {
     mediaVideo.current = mediaContainer.current?.querySelector('video');
