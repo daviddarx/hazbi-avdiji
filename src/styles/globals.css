@@ -224,6 +224,9 @@
     .dark & {
       background-color: color-mix(in lab, var(--color-black-darker) 50%, transparent);
     }
+
+    will-change: transform;
+    transform: translate3d(0, 0, -1);
   }
 
   .bg-strong {
