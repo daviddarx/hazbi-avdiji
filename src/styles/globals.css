@@ -527,7 +527,7 @@
         rotate(calc(var(--rotation-base) + var(--rotation)));
 
       @screen lg {
-        --size: 120vh;
+        --size: 180vh;
       }
     }
   }

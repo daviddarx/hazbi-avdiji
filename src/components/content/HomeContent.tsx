@@ -8,7 +8,7 @@ import { tinaField } from 'tinacms/dist/react';
 const cardsArray = Array.from({ length: 12 });
 const cardsRotationRange = 20;
 const cardsRotationRangeIncrement = 0.25;
-const cardsPositionRangeRatioToScreenW = 0.04;
+const cardsPositionRangeRatioToScreenW = 0.2;
 const cardsPositionRangeIncrement = 0.25;
 const cardsRadiusRange = 10;
 const easing = 0.03;
