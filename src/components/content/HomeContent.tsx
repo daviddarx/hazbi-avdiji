@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 import { tinaField } from 'tinacms/dist/react';
 
-const cardsCount = 12;
+const cardsArray = Array.from({ length: 12 });
 const cardsRotationRange = 35;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
@@ -25,10 +25,13 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
   const mouseIdleTime = useRef(0);
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
+    const halfWidth = window.innerWidth * 0.5;
+    const halfHeight = window.innerHeight * 0.5;
+
     setIsMouseIdle(false);
     mouseToCenter.current = {
-      x: ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 2,
-      y: ((e.clientY - window.innerHeight / 2) / window.innerHeight) * 2,
+      x: ((e.clientX - halfWidth) / window.innerWidth) * 2,
+      y: ((e.clientY - halfHeight) / window.innerHeight) * 2,
     };
   }, []);
 
@@ -126,7 +129,7 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       </div>
       <div className='home-visual-container motion-reduce:hidden'>
         <div className='home-visual' ref={container}>
-          {Array.from({ length: cardsCount }).map((_, i) => (
+          {cardsArray.map((_, i) => (
             <div key={i}></div>
           ))}
         </div>
