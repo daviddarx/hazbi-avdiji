@@ -1,4 +1,4 @@
-const ease = {
+export const ease = {
   linear: [0.25, 0.25, 0.75, 0.75],
 
   inQuad: [0.55, 0.085, 0.68, 0.53],
@@ -28,8 +28,6 @@ const ease = {
   inOutCirc: [0.785, 0.135, 0.15, 0.86],
   inOutBack: [0.68, -0.55, 0.265, 1.55],
 };
-
-export default ease;
 
 export function cubicBezier(p: number[]) {
   const p0 = p[0];
