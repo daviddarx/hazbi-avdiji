@@ -19,27 +19,26 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
   const container = useRef<HTMLDivElement | null>(null);
   const cards = useRef<HTMLDivElement[]>([]);
   const raf = useRef<number | null>(null);
-  const [mouseToCenter, setMouseToCenter] = useState({ x: 0, y: 0 });
+  const mouseToCenter = useRef({ x: 0, y: 0 });
   const [isMouseIdle, setIsMouseIdle] = useState(true);
   const mouseIdleNoise = useRef(createNoise2D());
   const mouseIdleTime = useRef(0);
-  const mouseIdleLastMousePosition = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
     setIsMouseIdle(false);
-    setMouseToCenter({
+    mouseToCenter.current = {
       x: ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 2,
       y: ((e.clientY - window.innerHeight / 2) / window.innerHeight) * 2,
-    });
+    };
   }, []);
 
   const updateAutomaticMousePosition = useCallback(() => {
     if (isMouseIdle) {
       mouseIdleTime.current += mouseIdleNoiseSpeed;
-      setMouseToCenter({
+      mouseToCenter.current = {
         x: mouseIdleNoise.current(mouseIdleTime.current, 0),
         y: mouseIdleNoise.current(0, mouseIdleTime.current),
-      });
+      };
     }
   }, [isMouseIdle]);
 
@@ -66,10 +65,12 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
           parseFloat(card.style.getPropertyValue('--radius').split('vw')[0]) || 0;
 
         const targetRotation =
-          mouseToCenter.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement);
-        const targetX = mouseToCenter.x * positionRange * ((1 + i) * cardsPositionRangeIncrement);
-        const targetY = mouseToCenter.y * positionRange * ((1 + i) * cardsPositionRangeIncrement);
-        const targetRadius = Math.abs(mouseToCenter.x) * cardsRadiusRange;
+          mouseToCenter.current.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement);
+        const targetX =
+          mouseToCenter.current.x * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+        const targetY =
+          mouseToCenter.current.y * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+        const targetRadius = Math.abs(mouseToCenter.current.x) * cardsRadiusRange;
 
         const rotation = currentRotation + (targetRotation - currentRotation) * easing;
         const x = currentX + (targetX - currentX) * easing;
