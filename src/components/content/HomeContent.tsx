@@ -5,11 +5,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
 
 const cardsCount = 12;
-const cardsRotationRange = 20;
+const cardsRotationRange = 35;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
-const easing = 0.05;
+const cardsRadiusRange = 10;
+const easing = 0.03;
 
 export default function HomeContent({ content }: { content: PageBlocksHomeContent }) {
   const container = useRef<HTMLDivElement | null>(null);
@@ -33,19 +34,24 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
           parseFloat(card.style.getPropertyValue('--rotation').split('deg')[0]) || 0;
         const currentX = parseFloat(card.style.getPropertyValue('--x').split('px')[0]) || 0;
         const currentY = parseFloat(card.style.getPropertyValue('--y').split('px')[0]) || 0;
+        const currentRadius =
+          parseFloat(card.style.getPropertyValue('--radius').split('vw')[0]) || 0;
 
         const targetRotation =
           mouseToCenter.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement);
         const targetX = mouseToCenter.x * positionRange * ((1 + i) * cardsPositionRangeIncrement);
         const targetY = mouseToCenter.y * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+        const targetRadius = Math.abs(mouseToCenter.x) * cardsRadiusRange;
 
         const rotation = currentRotation + (targetRotation - currentRotation) * easing;
         const x = currentX + (targetX - currentX) * easing;
         const y = currentY + (targetY - currentY) * easing;
+        const radius = currentRadius + (targetRadius - currentRadius) * easing;
 
         card.style.setProperty('--rotation', `${rotation}deg`);
         card.style.setProperty('--x', `${x}px`);
         card.style.setProperty('--y', `${y}px`);
+        card.style.setProperty('--radius', `${radius}vw`);
       });
     }
   }, [mouseToCenter]);

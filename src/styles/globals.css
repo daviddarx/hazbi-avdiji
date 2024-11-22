@@ -505,12 +505,13 @@
 
   .home-visual {
     --size: 80vh;
-    --x: 0px;
-    --y: 0px;
     --rotation: 0deg;
     --rotation-base: 45deg;
     --scale: 1;
-    --radius: 100px;
+    --radius: 0vw;
+    --radius-base: 5vw;
+    --x: 0px;
+    --y: 0px;
 
     @apply absolute left-1/2 top-1/2 origin-center;
 
@@ -520,7 +521,7 @@
 
       margin-left: calc(var(--size) * -0.5);
       margin-top: calc(var(--size) * -0.5);
-      border-radius: var(--radius);
+      border-radius: calc(var(--radius-base) + var(--radius));
       transform: translate3d(var(--x), var(--y), 0)
         scale3d(var(--scale), var(--scale), var(--scale))
         rotate(calc(var(--rotation-base) + var(--rotation)));
