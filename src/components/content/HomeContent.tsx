@@ -9,6 +9,7 @@ const cardsRotationRange = 20;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
+const easing = 0.05;
 
 export default function HomeContent({ content }: { content: PageBlocksHomeContent }) {
   const container = useRef<HTMLDivElement | null>(null);
@@ -28,18 +29,23 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       const positionRange = window.innerWidth * cardsPositionRangeRatioToScreenW;
 
       cards.current.forEach((card, i) => {
-        card.style.setProperty(
-          '--rotation',
-          `${mouseToCenter.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement)}deg`,
-        );
-        card.style.setProperty(
-          '--x',
-          `${mouseToCenter.x * positionRange * ((1 + i) * cardsPositionRangeIncrement)}px`,
-        );
-        card.style.setProperty(
-          '--y',
-          `${mouseToCenter.y * positionRange * ((1 + i) * cardsPositionRangeIncrement)}px`,
-        );
+        const currentRotation =
+          parseFloat(card.style.getPropertyValue('--rotation').split('deg')[0]) || 0;
+        const currentX = parseFloat(card.style.getPropertyValue('--x').split('px')[0]) || 0;
+        const currentY = parseFloat(card.style.getPropertyValue('--y').split('px')[0]) || 0;
+
+        const targetRotation =
+          mouseToCenter.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement);
+        const targetX = mouseToCenter.x * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+        const targetY = mouseToCenter.y * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+
+        const rotation = currentRotation + (targetRotation - currentRotation) * easing;
+        const x = currentX + (targetX - currentX) * easing;
+        const y = currentY + (targetY - currentY) * easing;
+
+        card.style.setProperty('--rotation', `${rotation}deg`);
+        card.style.setProperty('--x', `${x}px`);
+        card.style.setProperty('--y', `${y}px`);
       });
     }
   }, [mouseToCenter]);
