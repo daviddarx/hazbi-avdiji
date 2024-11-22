@@ -1,4 +1,4 @@
-import ease from './eases';
+import { ease } from './eases';
 import { detect } from 'detect-browser';
 
 export function formatDate(date: string) {
