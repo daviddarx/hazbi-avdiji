@@ -2,6 +2,7 @@ import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksHomeContent } from '@/tina/types';
 import { reducedMotion } from '@/utils/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createNoise2D } from 'simplex-noise';
 import { tinaField } from 'tinacms/dist/react';
 
 const cardsCount = 12;
@@ -11,19 +12,46 @@ const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
 const cardsRadiusRange = 10;
 const easing = 0.03;
+const mouseIdleTimeoutDuration = 5000;
+const mouseIdleNoiseSpeed = 0.001;
 
 export default function HomeContent({ content }: { content: PageBlocksHomeContent }) {
   const container = useRef<HTMLDivElement | null>(null);
   const cards = useRef<HTMLDivElement[]>([]);
   const raf = useRef<number | null>(null);
   const [mouseToCenter, setMouseToCenter] = useState({ x: 0, y: 0 });
+  const [isMouseIdle, setIsMouseIdle] = useState(true);
+  const mouseIdleNoise = useRef(createNoise2D());
+  const mouseIdleTime = useRef(0);
+  const mouseIdleLastMousePosition = useRef({ x: 0, y: 0 });
 
   const handleMouseMove = useCallback((e: MouseEvent) => {
+    setIsMouseIdle(false);
     setMouseToCenter({
       x: ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 2,
       y: ((e.clientY - window.innerHeight / 2) / window.innerHeight) * 2,
     });
   }, []);
+
+  const updateAutomaticMousePosition = useCallback(() => {
+    if (isMouseIdle) {
+      mouseIdleTime.current += mouseIdleNoiseSpeed;
+      setMouseToCenter({
+        x: mouseIdleNoise.current(mouseIdleTime.current, 0),
+        y: mouseIdleNoise.current(0, mouseIdleTime.current),
+      });
+    }
+  }, [isMouseIdle]);
+
+  useEffect(() => {
+    if (!isMouseIdle) {
+      const timeout = setTimeout(() => {
+        setIsMouseIdle(true);
+      }, mouseIdleTimeoutDuration);
+
+      return () => clearTimeout(timeout);
+    }
+  }, [isMouseIdle]);
 
   const setCards = useCallback(() => {
     if (!reducedMotion()) {
@@ -57,9 +85,10 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
   }, [mouseToCenter]);
 
   const handleRAF = useCallback(() => {
+    updateAutomaticMousePosition();
     setCards();
     raf.current = requestAnimationFrame(handleRAF);
-  }, [setCards]);
+  }, [setCards, updateAutomaticMousePosition]);
 
   useEffect(() => {
     if (container.current && !reducedMotion()) {
