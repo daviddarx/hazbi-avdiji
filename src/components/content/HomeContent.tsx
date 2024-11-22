@@ -6,7 +6,7 @@ import { createNoise2D } from 'simplex-noise';
 import { tinaField } from 'tinacms/dist/react';
 
 const cardsArray = Array.from({ length: 12 });
-const cardsRotationRange = 35;
+const cardsRotationRange = 20;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
@@ -60,7 +60,7 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       const positionRange = window.innerWidth * cardsPositionRangeRatioToScreenW;
 
       cards.current.forEach((card, i) => {
-        const increment = 1 + i;
+        const increment = cardsArray.length - 1 - i + 0.5;
 
         const currentRotation =
           parseFloat(card.style.getPropertyValue('--rotation').split('deg')[0]) || 0;
