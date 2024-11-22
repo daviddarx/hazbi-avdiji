@@ -1,37 +1,74 @@
 import CustomMarkdown from '@/components/ui/CustomMarkdown';
 import { PageBlocksHomeContent } from '@/tina/types';
 import { reducedMotion } from '@/utils/core';
-import { useGSAP } from '@gsap/react';
-import { gsap } from 'gsap';
-import { useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { tinaField } from 'tinacms/dist/react';
 
-gsap.registerPlugin(useGSAP);
+const cardsCount = 12;
+const cardsRotationRange = 20;
+const cardsRotationRangeIncrement = 0.25;
+const cardsPositionRangeRatioToScreenW = 0.04;
+const cardsPositionRangeIncrement = 0.25;
 
 export default function HomeContent({ content }: { content: PageBlocksHomeContent }) {
   const container = useRef<HTMLDivElement | null>(null);
+  const cards = useRef<HTMLDivElement[]>([]);
+  const raf = useRef<number | null>(null);
+  const [mouseToCenter, setMouseToCenter] = useState({ x: 0, y: 0 });
 
-  useGSAP(
-    () => {
-      if (container.current && !reducedMotion()) {
-        const divs = container.current.querySelectorAll('div');
-        divs.forEach((div, i) => {
-          gsap.set(div, { rotation: i * 2 });
-          gsap.to(div, {
-            rotation: 180,
-            borderRadius: 200,
-            delay: i * 0.1,
-            duration: 10,
-            scale: 1 - i * 0.05,
-            ease: 'back.out(2)',
-            repeat: -1,
-            yoyo: true,
-          });
-        });
+  const handleMouseMove = useCallback((e: MouseEvent) => {
+    setMouseToCenter({
+      x: ((e.clientX - window.innerWidth / 2) / window.innerWidth) * 2,
+      y: ((e.clientY - window.innerHeight / 2) / window.innerHeight) * 2,
+    });
+  }, []);
+
+  const setCards = useCallback(() => {
+    if (!reducedMotion()) {
+      const positionRange = window.innerWidth * cardsPositionRangeRatioToScreenW;
+
+      cards.current.forEach((card, i) => {
+        card.style.setProperty(
+          '--rotation',
+          `${mouseToCenter.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement)}deg`,
+        );
+        card.style.setProperty(
+          '--x',
+          `${mouseToCenter.x * positionRange * ((1 + i) * cardsPositionRangeIncrement)}px`,
+        );
+        card.style.setProperty(
+          '--y',
+          `${mouseToCenter.y * positionRange * ((1 + i) * cardsPositionRangeIncrement)}px`,
+        );
+      });
+    }
+  }, [mouseToCenter]);
+
+  const handleRAF = useCallback(() => {
+    setCards();
+    raf.current = requestAnimationFrame(handleRAF);
+  }, [setCards]);
+
+  useEffect(() => {
+    if (container.current && !reducedMotion()) {
+      cards.current = Array.from(container.current.querySelectorAll('div'));
+
+      cards.current.forEach((card, i) => {
+        card.style.setProperty('--scale', `${1 - i * 0.07}`);
+      });
+    }
+
+    document.addEventListener('mousemove', handleMouseMove);
+
+    raf.current = requestAnimationFrame(handleRAF);
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      if (raf.current) {
+        cancelAnimationFrame(raf.current);
       }
-    },
-    { scope: container },
-  );
+    };
+  }, [container, raf, handleMouseMove, handleRAF]);
 
   return (
     <section className='grid-layout'>
@@ -45,20 +82,9 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       </div>
       <div className='home-visual-container motion-reduce:hidden'>
         <div className='home-visual' ref={container}>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
+          {Array.from({ length: cardsCount }).map((_, i) => (
+            <div key={i}></div>
+          ))}
         </div>
       </div>
     </section>

@@ -505,8 +505,14 @@
 
   .home-visual {
     --size: 80vh;
+    --rotation: 0deg;
+    --rotation-base: 45deg;
+    --scale: 1;
+    --radius: 100px;
+    --x: 0px;
+    --y: 0px;
 
-    @apply absolute left-1/2 top-1/2 origin-center rotate-45;
+    @apply absolute left-1/2 top-1/2 origin-center;
 
     & div {
       @apply border-light absolute z-0 rounded-cards border;
@@ -514,6 +520,10 @@
 
       margin-left: calc(var(--size) * -0.5);
       margin-top: calc(var(--size) * -0.5);
+      border-radius: var(--radius);
+      transform: translate3d(var(--x), var(--y), 0)
+        scale3d(var(--scale), var(--scale), var(--scale))
+        rotate(calc(var(--rotation-base) + var(--rotation)));
 
       @screen lg {
         --size: 120vh;
