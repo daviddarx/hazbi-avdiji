@@ -57,6 +57,8 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       const positionRange = window.innerWidth * cardsPositionRangeRatioToScreenW;
 
       cards.current.forEach((card, i) => {
+        const increment = 1 + i;
+
         const currentRotation =
           parseFloat(card.style.getPropertyValue('--rotation').split('deg')[0]) || 0;
         const currentX = parseFloat(card.style.getPropertyValue('--x').split('px')[0]) || 0;
@@ -65,11 +67,11 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
           parseFloat(card.style.getPropertyValue('--radius').split('vw')[0]) || 0;
 
         const targetRotation =
-          mouseToCenter.current.x * cardsRotationRange * ((1 + i) * cardsRotationRangeIncrement);
+          mouseToCenter.current.x * cardsRotationRange * (increment * cardsRotationRangeIncrement);
         const targetX =
-          mouseToCenter.current.x * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+          mouseToCenter.current.x * positionRange * (increment * cardsPositionRangeIncrement);
         const targetY =
-          mouseToCenter.current.y * positionRange * ((1 + i) * cardsPositionRangeIncrement);
+          mouseToCenter.current.y * positionRange * (increment * cardsPositionRangeIncrement);
         const targetRadius = Math.abs(mouseToCenter.current.x) * cardsRadiusRange;
 
         const rotation = currentRotation + (targetRotation - currentRotation) * easing;
