@@ -5,13 +5,14 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 import { tinaField } from 'tinacms/dist/react';
 
-const cardsArray = Array.from({ length: 12 });
+const cardsArray = Array.from({ length: 8 });
+const cardsScaleRange = 0.1;
 const cardsRotationRange = 20;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
 const cardsRadiusRange = 10;
-const easing = 0.03;
+const easing = 0.02;
 const mouseIdleTimeoutDuration = 5000;
 const mouseIdleNoiseSpeed = 0.001;
 
@@ -101,7 +102,7 @@ export default function HomeContent({ content }: { content: PageBlocksHomeConten
       cards.current = Array.from(container.current.querySelectorAll('div'));
 
       cards.current.forEach((card, i) => {
-        card.style.setProperty('--scale', `${1 - i * 0.07}`);
+        card.style.setProperty('--scale', `${1 - i * cardsScaleRange}`);
       });
     }
 
