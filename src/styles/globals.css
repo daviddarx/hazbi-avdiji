@@ -530,5 +530,9 @@
         --size: 120vh;
       }
     }
+
+    & div:not(:first-child) {
+      @apply opacity-0;
+    }
   }
 }
