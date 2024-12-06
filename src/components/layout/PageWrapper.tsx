@@ -3,7 +3,7 @@ import { uiStateType } from '@/store/ui-slice';
 import { FooteNavigationResult } from '@/types';
 import { delayBeforeScrollRestoration } from '@/utils/core';
 import { reducedMotion } from '@/utils/core';
-import eases from '@/utils/eases';
+import { ease } from '@/utils/eases';
 import { motion } from 'framer-motion';
 import React, { ReactNode } from 'react';
 import { useSelector } from 'react-redux';
@@ -21,7 +21,7 @@ const motionVariants = {
         delayBeforeScrollRestoration / 1000 +
         0.05 /* aditional delay to avoid visual glitch when pages have big differences in their height  */,
       duration: 0.25,
-      ease: eases.outQuart,
+      ease: ease.outQuart,
     },
   },
   exit: {
@@ -29,7 +29,7 @@ const motionVariants = {
     y: 0,
     transition: {
       duration: 0.15,
-      ease: eases.linear,
+      ease: ease.linear,
     },
   },
 };

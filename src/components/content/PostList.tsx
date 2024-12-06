@@ -12,7 +12,7 @@ import {
   POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE,
 } from '@/utils/core';
 import { reducedMotion } from '@/utils/core';
-import ease, { cubicBezier } from '@/utils/eases';
+import { cubicBezier, ease } from '@/utils/eases';
 import smoothScrollTo, { getScrollMarginTop, getScrollTop } from '@/utils/smooth-scroll';
 import { AnimatePresence, motion } from 'framer-motion';
 import React, { useCallback, useEffect, useRef, useState } from 'react';

@@ -1,3 +1,4 @@
+import AnimatedBackground from '@/components/layout/AnimatedBackground';
 import Layout from '@/components/layout/Layout';
 import store, { uiActions } from '@/store';
 import '@/styles/globals.css';
@@ -30,6 +31,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Layout {...pageProps}>
         <Component key={pageKey} {...pageProps} />
       </Layout>
+      <AnimatedBackground />
     </Provider>
   );
 }

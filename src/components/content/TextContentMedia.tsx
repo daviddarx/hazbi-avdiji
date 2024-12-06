@@ -6,7 +6,7 @@ import type {
 } from '@/tina/types';
 import { getRandomBetween } from '@/utils/core';
 import { reducedMotion } from '@/utils/core';
-import ease from '@/utils/eases';
+import { ease } from '@/utils/eases';
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef } from 'react';
 
