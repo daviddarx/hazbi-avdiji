@@ -11,7 +11,8 @@ const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
 const cardsRadiusRange = 30;
-const easing = 0.02;
+const easingNormal = 0.015;
+const easingMinimized = 0.005;
 const mouseIdleTimeoutDuration = 5000;
 const mouseIdleNoiseSpeed = 0.001;
 
@@ -26,6 +27,8 @@ export default function AnimatedBackground() {
   const mouseIdleNoise = useRef(createNoise2D());
   const mouseIdleTime = useRef(0);
   const [isMinimized, setIsMinimized] = useState(false);
+  // todo: remove test and class
+  const [isTest, setIsTest] = useState(false);
 
   const setCards = useCallback(() => {
     if (!reducedMotion()) {
@@ -49,6 +52,10 @@ export default function AnimatedBackground() {
           mouseToCenter.current.y * positionRange * (increment * cardsPositionRangeIncrement);
         const targetRadius = Math.abs(mouseToCenter.current.x) * cardsRadiusRange;
 
+        // todo: remove test router
+        const easing =
+          router.asPath === '/' ? easingNormal : isMinimized ? easingMinimized : easingNormal;
+
         const rotation = currentRotation + (targetRotation - currentRotation) * easing;
         const x = currentX + (targetX - currentX) * easing;
         const y = currentY + (targetY - currentY) * easing;
@@ -61,7 +68,7 @@ export default function AnimatedBackground() {
         card.style.setProperty('--radius', `${radius}vw`);
       });
     }
-  }, [mouseToCenter]);
+  }, [mouseToCenter, isMinimized, router.asPath]);
 
   const setMouseIdleTimeout = useCallback(() => {
     if (mouseIdleTimeout.current) {
@@ -139,8 +146,9 @@ export default function AnimatedBackground() {
 
   return (
     <React.Fragment>
+      {/* remove test */}
       <button
-        onClick={() => setIsMinimized(!isMinimized)}
+        onClick={() => setIsTest(!isTest)}
         className='fixed left-40 top-40 z-80 size-8 rounded-full bg-black/20'
       >
         <span className='sr-only'>Remove inside lines</span>
@@ -149,6 +157,7 @@ export default function AnimatedBackground() {
         <div
           className={classNames('animated-background', {
             'animated-background--minimized': isMinimized,
+            'animated-background--test': isTest,
           })}
           ref={container}
         >

@@ -504,12 +504,12 @@
   }
 
   .animated-background {
-    --size: 60vh;
+    --size: 80vh;
     --rotation: 0deg;
     --rotation-base: 65deg;
     --scale: 1;
     --radius: 0vw;
-    --radius-base: 5vw;
+    --radius-base: 10vh;
     --x: 0px;
     --y: 0px;
     --index: 0;
@@ -533,18 +533,32 @@
         var(--t-dim-duration), 0.5s;
       transition-delay: 0s, 0s, 0s, 0s, calc(var(--index) * 0.05s);
 
-      @screen lg {
-        --size: 120vh;
+      @media (min-aspect-ratio: 4/3) {
+        --size: 62vw;
+        --radius-base: 5vw;
       }
     }
 
     &.animated-background--minimized {
       & div {
-        @screen lg {
-          --size: 140vh;
+        --size: 90vh;
+
+        @media (min-aspect-ratio: 4/3) {
+          --size: 72vw;
+          --radius-base: 4vw;
         }
       }
 
+      & div:not(:first-child) {
+        @apply opacity-0;
+      }
+
+      &.animated-background--test {
+        opacity: 0;
+      }
+    }
+
+    &.animated-background--test {
       & div:not(:first-child) {
         @apply opacity-0;
       }
