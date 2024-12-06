@@ -500,7 +500,7 @@
   }
 
   .animated-background-container {
-    @apply pointer-events-none fixed left-0 top-0 -z-10 h-screen w-screen overflow-hidden;
+    @apply pointer-events-none fixed left-0 top-0 h-screen w-screen overflow-hidden;
   }
 
   .animated-background {
@@ -512,6 +512,8 @@
     --radius-base: 5vw;
     --x: 0px;
     --y: 0px;
+    --index: 0;
+    --t-dim-duration: 1s;
 
     @apply absolute left-1/2 top-1/2 origin-center;
 
@@ -525,14 +527,27 @@
       transform: translate3d(var(--x), var(--y), 0)
         scale3d(var(--scale), var(--scale), var(--scale))
         rotate(calc(var(--rotation-base) + var(--rotation)));
+      transition-property: width, height, margin-left, margin-top, opacity;
+      transition-timing-function: ease;
+      transition-duration: var(--t-dim-duration), var(--t-dim-duration), var(--t-dim-duration),
+        var(--t-dim-duration), 0.5s;
+      transition-delay: 0s, 0s, 0s, 0s, calc(var(--index) * 0.05s);
 
       @screen lg {
         --size: 120vh;
       }
     }
 
-    /* & div:not(:first-child) {
-      @apply opacity-0;
-    } */
+    &.animated-background--minimized {
+      & div {
+        @screen lg {
+          --size: 140vh;
+        }
+      }
+
+      & div:not(:first-child) {
+        @apply opacity-0;
+      }
+    }
   }
 }

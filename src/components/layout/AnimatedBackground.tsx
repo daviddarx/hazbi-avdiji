@@ -1,5 +1,7 @@
 import { reducedMotion } from '@/utils/core';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
+import { useRouter } from 'next/router';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 
 const cardsArray = Array.from({ length: 8 });
@@ -14,44 +16,16 @@ const mouseIdleTimeoutDuration = 5000;
 const mouseIdleNoiseSpeed = 0.001;
 
 export default function AnimatedBackground() {
+  const router = useRouter();
   const container = useRef<HTMLDivElement | null>(null);
   const cards = useRef<HTMLDivElement[]>([]);
   const raf = useRef<number | null>(null);
   const mouseToCenter = useRef({ x: 0, y: 0 });
   const [isMouseIdle, setIsMouseIdle] = useState(true);
+  const mouseIdleTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mouseIdleNoise = useRef(createNoise2D());
   const mouseIdleTime = useRef(0);
-
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    const halfWidth = window.innerWidth * 0.5;
-    const halfHeight = window.innerHeight * 0.5;
-
-    setIsMouseIdle(false);
-    mouseToCenter.current = {
-      x: ((e.clientX - halfWidth) / window.innerWidth) * 2,
-      y: ((e.clientY - halfHeight) / window.innerHeight) * 2,
-    };
-  }, []);
-
-  const updateAutomaticMousePosition = useCallback(() => {
-    if (isMouseIdle) {
-      mouseIdleTime.current += mouseIdleNoiseSpeed;
-      mouseToCenter.current = {
-        x: mouseIdleNoise.current(mouseIdleTime.current, 0),
-        y: mouseIdleNoise.current(0, mouseIdleTime.current),
-      };
-    }
-  }, [isMouseIdle]);
-
-  useEffect(() => {
-    if (!isMouseIdle) {
-      const timeout = setTimeout(() => {
-        setIsMouseIdle(true);
-      }, mouseIdleTimeoutDuration);
-
-      return () => clearTimeout(timeout);
-    }
-  }, [isMouseIdle]);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const setCards = useCallback(() => {
     if (!reducedMotion()) {
@@ -80,6 +54,7 @@ export default function AnimatedBackground() {
         const y = currentY + (targetY - currentY) * easing;
         const radius = currentRadius + (targetRadius - currentRadius) * easing;
 
+        card.style.setProperty('--index', (cardsArray.length - i).toString());
         card.style.setProperty('--rotation', `${rotation}deg`);
         card.style.setProperty('--x', `${x}px`);
         card.style.setProperty('--y', `${y}px`);
@@ -87,6 +62,43 @@ export default function AnimatedBackground() {
       });
     }
   }, [mouseToCenter]);
+
+  const setMouseIdleTimeout = useCallback(() => {
+    if (mouseIdleTimeout.current) {
+      clearTimeout(mouseIdleTimeout.current);
+    }
+    setIsMouseIdle(false);
+
+    mouseIdleTimeout.current = setTimeout(() => {
+      console.log('isHiddel');
+      setIsMouseIdle(true);
+    }, mouseIdleTimeoutDuration);
+  }, []);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      const halfWidth = window.innerWidth * 0.5;
+      const halfHeight = window.innerHeight * 0.5;
+
+      setMouseIdleTimeout();
+
+      mouseToCenter.current = {
+        x: ((e.clientX - halfWidth) / window.innerWidth) * 2,
+        y: ((e.clientY - halfHeight) / window.innerHeight) * 2,
+      };
+    },
+    [setMouseIdleTimeout],
+  );
+
+  const updateAutomaticMousePosition = useCallback(() => {
+    if (isMouseIdle) {
+      mouseIdleTime.current += mouseIdleNoiseSpeed;
+      mouseToCenter.current = {
+        x: mouseIdleNoise.current(mouseIdleTime.current, 0),
+        y: mouseIdleNoise.current(0, mouseIdleTime.current),
+      };
+    }
+  }, [isMouseIdle]);
 
   const handleRAF = useCallback(() => {
     updateAutomaticMousePosition();
@@ -117,13 +129,34 @@ export default function AnimatedBackground() {
     };
   }, [container, raf, handleMouseMove, handleRAF]);
 
+  useEffect(() => {
+    if (router.asPath === '/') {
+      setIsMinimized(false);
+    } else {
+      setIsMinimized(true);
+    }
+  }, [router.asPath]);
+
   return (
-    <div className='animated-background-container motion-reduce:hidden'>
-      <div className='animated-background' ref={container}>
-        {cardsArray.map((_, i) => (
-          <div key={i}></div>
-        ))}
+    <React.Fragment>
+      <button
+        onClick={() => setIsMinimized(!isMinimized)}
+        className='fixed left-40 top-40 z-80 size-8 rounded-full bg-black/20'
+      >
+        <span className='sr-only'>Remove inside lines</span>
+      </button>
+      <div className='animated-background-container motion-reduce:hidden'>
+        <div
+          className={classNames('animated-background', {
+            'animated-background--minimized': isMinimized,
+          })}
+          ref={container}
+        >
+          {cardsArray.map((_, i) => (
+            <div key={i}></div>
+          ))}
+        </div>
       </div>
-    </div>
+    </React.Fragment>
   );
 }
