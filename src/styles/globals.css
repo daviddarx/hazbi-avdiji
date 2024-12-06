@@ -499,14 +499,14 @@
     @apply border-light data-[focus]:bg-themed-prev flex w-full gap-16 border-t py-16 pl-24 pr-16 text-left text-base font-bold transition-colors duration-200 ease-out max-lg:last-of-type:border-b;
   }
 
-  .home-visual-container {
-    @apply pointer-events-none fixed left-0 top-0 h-screen w-screen overflow-hidden;
+  .animated-background-container {
+    @apply pointer-events-none fixed left-0 top-0 -z-10 h-screen w-screen overflow-hidden;
   }
 
-  .home-visual {
+  .animated-background {
     --size: 60vh;
     --rotation: 0deg;
-    --rotation-base: 45deg;
+    --rotation-base: 65deg;
     --scale: 1;
     --radius: 0vw;
     --radius-base: 5vw;
@@ -531,8 +531,8 @@
       }
     }
 
-    & div:not(:first-child) {
+    /* & div:not(:first-child) {
       @apply opacity-0;
-    }
+    } */
   }
 }
