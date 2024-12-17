@@ -64,15 +64,25 @@ export default function TextContentMedia({
       element.style.width = `${width}px`;
       element.style.height = `${height}px`;
 
-      let cappedWidth = element.offsetWidth;
-      let cappedHeight = element.offsetHeight;
+      let cappedWidth = width;
+      let cappedHeight = height;
 
-      if (mediaContainer.current.offsetWidth > window.innerWidth) {
+      const mediaContainerRatio =
+        mediaContainer.current.offsetWidth / mediaContainer.current.offsetHeight;
+      const screenRatio = window.innerWidth / window.innerHeight;
+
+      if (
+        mediaContainerRatio > screenRatio &&
+        mediaContainer.current.offsetWidth > window.innerWidth
+      ) {
         cappedWidth = window.innerWidth - 2 * parseInt(computedStyle.paddingLeft.split('px')[0]);
         cappedHeight = (cappedWidth * height) / width;
       }
 
-      if (mediaContainer.current.offsetHeight > window.innerHeight) {
+      if (
+        mediaContainerRatio < screenRatio &&
+        mediaContainer.current.offsetHeight > window.innerHeight
+      ) {
         cappedHeight = window.innerHeight - 2 * parseInt(computedStyle.paddingTop.split('px')[0]);
         cappedWidth = (cappedHeight * width) / height;
       }
