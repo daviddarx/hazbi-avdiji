@@ -77,7 +77,6 @@ export default function AnimatedBackground() {
     setIsMouseIdle(false);
 
     mouseIdleTimeout.current = setTimeout(() => {
-      console.log('isHiddel');
       setIsMouseIdle(true);
     }, mouseIdleTimeoutDuration);
   }, []);
