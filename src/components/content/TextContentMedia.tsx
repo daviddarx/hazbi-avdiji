@@ -64,8 +64,8 @@ export default function TextContentMedia({
       element.style.width = `${width}px`;
       element.style.height = `${height}px`;
 
-      let cappedWidth = 0;
-      let cappedHeight = 0;
+      let cappedWidth = element.offsetWidth;
+      let cappedHeight = element.offsetHeight;
 
       if (mediaContainer.current.offsetWidth > window.innerWidth) {
         cappedWidth = window.innerWidth - 2 * parseInt(computedStyle.paddingLeft.split('px')[0]);
