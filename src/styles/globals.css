@@ -551,6 +551,8 @@
     }
 
     &.animated-background--mounted {
+      --radius-base: calc(var(--size) / 20);
+
       & div {
         @apply opacity-100;
       }

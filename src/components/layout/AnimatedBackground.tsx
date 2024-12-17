@@ -4,13 +4,13 @@ import { useRouter } from 'next/router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
 
-const cardsArray = Array.from({ length: 8 });
-const cardsScaleRange = 0.1;
-const cardsRotationRange = 20;
+const cardsArray = Array.from({ length: 6 });
+const cardsScaleRange = 0.17;
+const cardsRotationRange = 45;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
-const cardsRadiusRange = 30;
+const cardsRadiusRange = 40;
 const easingNormal = 0.015;
 const easingMinimized = 0.005;
 const mouseIdleTimeoutDuration = 5000;
@@ -21,7 +21,7 @@ export default function AnimatedBackground() {
   const container = useRef<HTMLDivElement | null>(null);
   const cards = useRef<HTMLDivElement[]>([]);
   const raf = useRef<number | null>(null);
-  const [isAlternative, setIsAlternative] = useState(false);
+  const [isAlternative, setIsAlternative] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [isMouseIdle, setIsMouseIdle] = useState(true);
