@@ -146,12 +146,12 @@ export default function AnimatedBackground() {
 
   return (
     <React.Fragment>
-      {/* remove test */}
       <button
         onClick={() => setIsTest(!isTest)}
         className='fixed left-40 top-40 z-80 size-8 rounded-full bg-black/20'
+        tabIndex={-1}
       >
-        <span className='sr-only'>Remove inside lines</span>
+        <span className='sr-only'>Switch background</span>
       </button>
       <div className='animated-background-container motion-reduce:hidden'>
         <div
