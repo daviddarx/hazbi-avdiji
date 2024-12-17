@@ -1,5 +1,6 @@
 import PageLink from '@/components/ui/PageLink';
 import { PageQuery, PostQuery } from '@/tina/types';
+import classNames from 'classnames';
 import { tinaField } from 'tinacms/dist/react';
 
 export default function ContentLeftColumn({
@@ -15,7 +16,12 @@ export default function ContentLeftColumn({
 }) {
   return (
     <div className='grid-item-right-leftover pr-32 max-lg:hidden'>
-      <div className='border-light mt-12 border-y py-24'>
+      <div
+        className={classNames(
+          'border-light mt-12 py-24',
+          postCategoryName && postCategoryLink ? 'border-y' : 'border-t',
+        )}
+      >
         <h1 className='subtitle block' data-tina-field={tinaField(tinaFieldObject, 'title')}>
           {title}
         </h1>
