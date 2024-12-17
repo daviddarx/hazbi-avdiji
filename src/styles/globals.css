@@ -508,7 +508,7 @@
   }
 
   .animated-background {
-    --size: 80vh;
+    --size: 70vh;
     --rotation: 0deg;
     --rotation-base: 65deg;
     --scale: 1;
@@ -536,6 +536,10 @@
       transition-duration: var(--t-dim-duration), var(--t-dim-duration), var(--t-dim-duration),
         var(--t-dim-duration), 0.5s;
       transition-delay: 0s, 0s, 0s, 0s, calc(var(--index) * 0.05s);
+
+      @media (min-aspect-ratio: 2/3) {
+        --size: 80vw;
+      }
 
       @media (min-aspect-ratio: 4/3) {
         --size: 69vw;

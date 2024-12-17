@@ -11,7 +11,7 @@ export default function Footer(props: FooteNavigationResult) {
     <footer className='grid-layout'>
       <div className='grid-item-full border-light flex flex-wrap justify-between gap-20 border-t py-gutter text-sm md:py-spacer-48 md:text-base lg:pb-72'>
         {footerNavigation.links && (
-          <nav className='flex gap-4 max-md:flex-col md:gap-40'>
+          <nav className='flex flex-wrap gap-x-20 gap-y-4 md:gap-40'>
             <h2 className='sr-only'>Footer Navigation</h2>
             {footerNavigation.links.map((link) => (
               <PageLink
