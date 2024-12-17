@@ -21,14 +21,14 @@ export default function AnimatedBackground() {
   const container = useRef<HTMLDivElement | null>(null);
   const cards = useRef<HTMLDivElement[]>([]);
   const raf = useRef<number | null>(null);
-  const mouseToCenter = useRef({ x: 0, y: 0 });
+  const [isAlternative, setIsAlternative] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+  const [isMinimized, setIsMinimized] = useState(false);
   const [isMouseIdle, setIsMouseIdle] = useState(true);
   const mouseIdleTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const mouseIdleNoise = useRef(createNoise2D());
   const mouseIdleTime = useRef(0);
-  const [isMinimized, setIsMinimized] = useState(false);
-  // todo: remove test and class
-  const [isTest, setIsTest] = useState(false);
+  const mouseToCenter = useRef({ x: 0, y: 0 });
 
   const setCards = useCallback(() => {
     if (!reducedMotion()) {
@@ -52,7 +52,6 @@ export default function AnimatedBackground() {
           mouseToCenter.current.y * positionRange * (increment * cardsPositionRangeIncrement);
         const targetRadius = Math.abs(mouseToCenter.current.x) * cardsRadiusRange;
 
-        // todo: remove test router
         const easing =
           router.asPath === '/' ? easingNormal : isMinimized ? easingMinimized : easingNormal;
 
@@ -122,6 +121,8 @@ export default function AnimatedBackground() {
 
       document.addEventListener('mousemove', handleMouseMove);
 
+      setIsMounted(true);
+
       raf.current = requestAnimationFrame(handleRAF);
     }
 
@@ -146,8 +147,8 @@ export default function AnimatedBackground() {
   return (
     <React.Fragment>
       <button
-        onClick={() => setIsTest(!isTest)}
-        className='fixed left-40 top-40 z-80 size-8 rounded-full bg-black/20'
+        onClick={() => setIsAlternative(!isAlternative)}
+        className='fixed left-0 top-0 z-100 size-20'
         tabIndex={-1}
       >
         <span className='sr-only'>Switch background</span>
@@ -155,8 +156,9 @@ export default function AnimatedBackground() {
       <div className='animated-background-container motion-reduce:hidden'>
         <div
           className={classNames('animated-background', {
+            'animated-background--mounted': isMounted,
             'animated-background--minimized': isMinimized,
-            'animated-background--test': isTest,
+            'animated-background--alternative': isAlternative,
           })}
           ref={container}
         >
