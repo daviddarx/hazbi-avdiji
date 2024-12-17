@@ -6,7 +6,7 @@ import { createNoise2D } from 'simplex-noise';
 
 const cardsArray = Array.from({ length: 6 });
 const cardsScaleRange = 0.17;
-const cardsRotationRange = 45;
+const cardsRotationRange = 35;
 const cardsRotationRangeIncrement = 0.25;
 const cardsPositionRangeRatioToScreenW = 0.04;
 const cardsPositionRangeIncrement = 0.25;
