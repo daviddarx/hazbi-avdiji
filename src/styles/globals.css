@@ -55,6 +55,10 @@
   @screen xl {
     --gutter: theme('spacing.96');
   }
+
+  @media (min-aspect-ratio: 4/3) and (max-height: 1024px) {
+    --gutter: theme('spacing.56');
+  }
 }
 
 @layer base {
