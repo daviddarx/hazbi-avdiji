@@ -97,6 +97,7 @@ const config: Config = {
       'spacer-16': 'var(--spacer-16)',
       'spacer-20': 'var(--spacer-20)',
       'spacer-24': 'var(--spacer-24)',
+      'spacer-28': 'var(--spacer-28)',
       'spacer-32': 'var(--spacer-32)',
       'spacer-40': 'var(--spacer-40)',
       'spacer-48': 'var(--spacer-48)',

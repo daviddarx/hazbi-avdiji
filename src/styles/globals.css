@@ -9,6 +9,7 @@
   --spacer-16: theme('spacing.12');
   --spacer-20: theme('spacing.14');
   --spacer-24: theme('spacing.16');
+  --spacer-28: theme('spacing.18');
   --spacer-32: theme('spacing.20');
   --spacer-40: theme('spacing.24');
   --spacer-48: theme('spacing.24');
@@ -36,6 +37,7 @@
     --spacer-16: theme('spacing.16');
     --spacer-20: theme('spacing.20');
     --spacer-24: theme('spacing.24');
+    --spacer-28: theme('spacing.28');
     --spacer-32: theme('spacing.32');
     --spacer-40: theme('spacing.40');
     --spacer-48: theme('spacing.48');
@@ -388,7 +390,7 @@
     }
 
     & blockquote {
-      @apply rounded-lg bg-black/5 p-spacer-20;
+      @apply rounded-lg bg-black/5 px-spacer-28 py-spacer-20;
     }
 
     & code {
