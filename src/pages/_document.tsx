@@ -10,14 +10,16 @@ export default function Document() {
         <NextScript />
         <Script id='dark-mode-detection' strategy='beforeInteractive'>
           {`
-            if (
-              localStorage.theme === 'dark' ||
-              (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
-            ) {
-              document.documentElement.classList.add('dark');
-            } else {
-              document.documentElement.classList.remove('dark');
-            }
+            (function() {
+              const theme = localStorage.theme;
+              const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+              if (theme === 'dark' || (theme !== 'light' && prefersDark)) {
+                document.documentElement.classList.add('dark');
+              } else {
+                document.documentElement.classList.remove('dark');
+              }
+            })();
           `}
         </Script>
       </body>

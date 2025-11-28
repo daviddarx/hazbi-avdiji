@@ -38,42 +38,55 @@ export default function DarkModeSwitcher() {
 
   const applyDarkMode = () => {
     document.documentElement.classList.add('dark');
-    localStorage.theme = 'dark';
     setIsDark(true);
   };
 
   const removeDarkMode = () => {
     document.documentElement.classList.remove('dark');
-    localStorage.theme = 'light';
     setIsDark(false);
   };
 
-  useEffect(() => {
-    if (!('theme' in localStorage)) {
-      setDarkMode('system');
+  const applySystemPreference = () => {
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      applyDarkMode();
     } else {
-      setDarkMode(localStorage.theme === 'dark' ? 'dark' : 'light');
-      setIsDark(localStorage.theme === 'dark');
+      removeDarkMode();
+    }
+  };
+
+  useEffect(() => {
+    // Initialize dark mode from localStorage or default to system
+    const storedTheme = localStorage.theme;
+    if (!storedTheme || storedTheme === 'system') {
+      setDarkMode('system');
+      applySystemPreference();
+      localStorage.theme = 'system';
+    } else if (storedTheme === 'dark') {
+      setDarkMode('dark');
+      applyDarkMode();
+    } else {
+      setDarkMode('light');
+      removeDarkMode();
     }
   }, []);
 
   const handleChange = (mode: darkModeType) => {
+    setDarkMode(mode);
+
     switch (mode) {
       case 'light':
         removeDarkMode();
+        localStorage.theme = 'light';
         break;
       case 'dark':
         applyDarkMode();
+        localStorage.theme = 'dark';
         break;
-      default:
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          applyDarkMode();
-        } else {
-          removeDarkMode();
-        }
+      case 'system':
+        localStorage.theme = 'system';
+        applySystemPreference();
+        break;
     }
-
-    setDarkMode(mode);
   };
 
   return (
