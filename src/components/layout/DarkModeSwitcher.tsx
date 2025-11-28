@@ -9,7 +9,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-export type darkModeType = 'light' | 'dark' | 'system';
+export type darkModeType = 'light' | 'dark';
 
 type darkModeOption = {
   label: string;
@@ -24,10 +24,6 @@ const options: darkModeOption[] = [
   {
     label: t.darkModeSwitcher.options.dark,
     value: 'dark',
-  },
-  {
-    label: t.darkModeSwitcher.options.system,
-    value: 'system',
   },
 ];
 
@@ -46,46 +42,35 @@ export default function DarkModeSwitcher() {
     setIsDark(false);
   };
 
-  const applySystemPreference = () => {
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      applyDarkMode();
-    } else {
-      removeDarkMode();
-    }
-  };
-
   useEffect(() => {
-    // Initialize dark mode from localStorage or default to system
     const storedTheme = localStorage.theme;
-    if (!storedTheme || storedTheme === 'system') {
-      setDarkMode('system');
-      applySystemPreference();
-      localStorage.theme = 'system';
-    } else if (storedTheme === 'dark') {
+    if (storedTheme === 'dark') {
       setDarkMode('dark');
       applyDarkMode();
-    } else {
+    } else if (storedTheme === 'light') {
       setDarkMode('light');
       removeDarkMode();
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (prefersDark) {
+        setDarkMode('dark');
+        applyDarkMode();
+      } else {
+        setDarkMode('light');
+        removeDarkMode();
+      }
     }
   }, []);
 
   const handleChange = (mode: darkModeType) => {
     setDarkMode(mode);
 
-    switch (mode) {
-      case 'light':
-        removeDarkMode();
-        localStorage.theme = 'light';
-        break;
-      case 'dark':
-        applyDarkMode();
-        localStorage.theme = 'dark';
-        break;
-      case 'system':
-        localStorage.theme = 'system';
-        applySystemPreference();
-        break;
+    if (mode === 'light') {
+      removeDarkMode();
+      localStorage.theme = 'light';
+    } else {
+      applyDarkMode();
+      localStorage.theme = 'dark';
     }
   };
 

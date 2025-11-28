@@ -29,7 +29,6 @@ const t = {
     options: {
       light: 'Clair',
       dark: 'Sombre',
-      system: 'Auto',
     },
   },
 };
