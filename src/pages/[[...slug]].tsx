@@ -86,9 +86,31 @@ export const getStaticProps = async ({
       sort: 'priority',
     });
 
+    postsResult = await client.queries.postConnection({
+      filter: { published: { eq: true } },
+      sort: 'createdAt',
+      last: 100,
+    });
+
+    // Filter posts to current locale
+    const allPosts = postsResult.data.postConnection.edges;
+    const localePosts = allPosts?.filter((edge) => {
+      const postPath = edge?.node?._sys.path || '';
+      const pathParts = postPath.split('/');
+      return pathParts[pathParts.indexOf('posts') + 1] === locale;
+    });
+
+    // Filter categories to current locale
+    const allCategories = categoryConnectionResult.data.categoryConnection.edges;
+    const localeCategories = allCategories?.filter((edge) => {
+      const catPath = edge?.node?._sys.path || '';
+      const pathParts = catPath.split('/');
+      return pathParts[pathParts.indexOf('categories') + 1] === locale;
+    });
+
     postsFilters = [];
     postsFilters = postsFilters.concat(
-      categoryConnectionResult.data.categoryConnection.edges!.map((edge) => {
+      localeCategories!.map((edge) => {
         const node = edge!.node!;
         return {
           label: node.title,
@@ -103,27 +125,31 @@ export const getStaticProps = async ({
       category: POSTS_CATEGORY_ALL_VALUE,
     });
 
-    postsResult = await client.queries.postConnection({
-      filter: { published: { eq: true } },
-      sort: 'createdAt',
-      last: 100,
-    });
-
-    const posts = postsResult.data.postConnection.edges;
-    const categories = categoryConnectionResult.data.categoryConnection.edges;
-
-    if (posts && categories) {
-      posts.forEach((post) => {
+    if (localePosts && localeCategories) {
+      localePosts.forEach((post) => {
         if (post?.node?.title) {
           formatPostTitle(post.node as Post);
         }
       });
 
       sortPostsToCategories(
-        posts as PostConnectionEdges[],
-        categories as CategoryConnectionEdges[],
+        localePosts as PostConnectionEdges[],
+        localeCategories as CategoryConnectionEdges[],
       );
     }
+
+    const filteredPostsResult = {
+      ...postsResult,
+      data: {
+        ...postsResult.data,
+        postConnection: {
+          ...postsResult.data.postConnection,
+          edges: localePosts,
+        },
+      },
+    };
+
+    postsResult = filteredPostsResult as PostsResult;
   }
 
   return {
