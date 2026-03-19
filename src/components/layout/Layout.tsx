@@ -127,8 +127,10 @@ export default function Layout({
         <div className='grid-layout pt-gutter'>
           <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>
             {navigationProps && <Navigation {...navigationProps} />}
-            <LanguageSwitcher translationProps={translationProps || null} />
-            <DarkModeSwitcher />
+            <div className='flex gap-12 lg:gap-16'>
+              <LanguageSwitcher translationProps={translationProps || null} />
+              <DarkModeSwitcher />
+            </div>
             {navigationProps && <MobileNavigation {...navigationProps} />}
           </div>
         </div>

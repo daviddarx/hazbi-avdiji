@@ -57,7 +57,7 @@ export default function LanguageSwitcher({
       <Menu>
         {({ open }) => (
           <>
-            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong hashover:hover:bg-themed-prev hashover:hover:!border-strong relative z-100 rounded-full border p-16 transition-colors duration-200 ease-out lg:p-20'>
+            <MenuButton className='border-light data-[open]:bg-themed-prev bg-blurred data-[open]:!border-strong hashover:hover:bg-themed-prev hashover:hover:!border-strong relative z-100 flex h-56 w-56 items-center justify-center rounded-full border transition-colors duration-200 ease-out lg:h-64 lg:w-64'>
               <span className='text-sm font-bold uppercase lg:text-base'>{currentLocale}</span>
             </MenuButton>
             <AnimatePresence>

@@ -112,6 +112,18 @@ export default function ActivePillNavigation({
     setActiveChild(activeElement as HTMLElement);
   }, [currentActiveValue, handleActiveItem]);
 
+  useEffect(() => {
+    const nav = container.current;
+    if (!nav) return;
+
+    const observer = new ResizeObserver(() => {
+      handleResize();
+    });
+
+    observer.observe(nav);
+    return () => observer.disconnect();
+  }, [handleResize]);
+
   return (
     <nav
       ref={container}
