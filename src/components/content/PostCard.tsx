@@ -2,7 +2,9 @@ import Icon from '@/components/ui/Icon';
 import PageLink from '@/components/ui/PageLink';
 import QuoteIcon from '@/components/ui/QuoteIcon';
 import type { Post } from '@/tina/types';
-import { postRoute } from '@/utils/tina';
+import { getLocale } from '@/utils/locale';
+import { postRoutes } from '@/utils/tina';
+import { useRouter } from 'next/router';
 import { classNames } from 'tinacms';
 import { tinaField } from 'tinacms/dist/react';
 
@@ -15,9 +17,11 @@ export default function PostCard({
   direction?: 'left' | 'right';
   className?: string;
 }) {
+  const { locale } = useRouter();
+  const currentLocale = getLocale(locale);
   return (
     <PageLink
-      href={`${postRoute}/${post._sys.filename}`}
+      href={`${postRoutes[currentLocale]}/${post._sys.filename}`}
       className={classNames(
         'group relative block h-full rounded-cards hashover:hover:z-60',
         'before:bg-blurred before:border-light before:pointer-events-none before:absolute before:-inset-40 before:scale-50 before:rounded-cards-extended before:border before:opacity-0',
