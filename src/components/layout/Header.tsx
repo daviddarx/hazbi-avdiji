@@ -38,7 +38,10 @@ export default function Header() {
     >
       <header className='grid-layout pointer-events-none w-full'>
         <h2 className='grid-item-full'>
-          <PageLink href='/' className='pointer-events-auto relative z-70 inline-block'>
+          <PageLink
+            href='/'
+            className={classNames('relative z-70 inline-block', isVisible && 'pointer-events-auto')}
+          >
             <Logo className={'w-[80px] lg:w-[103px]'} />
             <span className='sr-only'>{t.logoTitle}</span>
             <span className='font-text mt-12 block max-w-[9em] text-[0.62rem] leading-tight xs:mt-20 xs:text-sm lg:text-[0.8rem]'>
