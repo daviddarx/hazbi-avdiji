@@ -25,10 +25,11 @@ export default defineConfig({
         ui: {
           router: (props) => {
             const locale = props.document._sys.path.includes('/en/') ? 'en' : 'fr';
+            const localePrefix = locale === 'fr' ? '' : `/${locale}`;
             if (props.document._sys.filename === 'home') {
-              return `/${locale}/`;
+              return `${localePrefix}/`;
             } else {
-              return `/${locale}/${props.document._sys.filename}`;
+              return `${localePrefix}/${props.document._sys.filename}`;
             }
           },
           filename: {
@@ -215,7 +216,8 @@ export default defineConfig({
         ui: {
           router: (props) => {
             const locale = props.document._sys.path.includes('/en/') ? 'en' : 'fr';
-            return `/${locale}${postRoutes[locale]}/${props.document._sys.filename}`;
+            const localePrefix = locale === 'fr' ? '' : `/${locale}`;
+            return `${localePrefix}${postRoutes[locale]}/${props.document._sys.filename}`;
           },
           filename: {
             slugify: (values) => {

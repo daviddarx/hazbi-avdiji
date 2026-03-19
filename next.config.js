@@ -8,11 +8,6 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: '/admin',
-        destination: '/admin/index.html',
-        locale: false,
-      },
-      {
         source: '/misconception/:slug',
         destination: '/idee-recue/:slug',
       },
