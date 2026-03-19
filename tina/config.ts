@@ -1,5 +1,4 @@
-import { addImagesDimensions, slugify, textContentTemplate } from '../src/utils/tina';
-import { postRoute } from '../src/utils/tina';
+import { addImagesDimensions, postRoutes, slugify, textContentTemplate } from '../src/utils/tina';
 import { defineConfig } from 'tinacms';
 
 export default defineConfig({
@@ -25,10 +24,11 @@ export default defineConfig({
         format: 'mdx',
         ui: {
           router: (props) => {
+            const locale = props.document._sys.path.includes('/en/') ? 'en' : 'fr';
             if (props.document._sys.filename === 'home') {
-              return '/';
+              return `/${locale}/`;
             } else {
-              return `/${props.document._sys.filename}`;
+              return `/${locale}/${props.document._sys.filename}`;
             }
           },
           filename: {
@@ -95,6 +95,13 @@ export default defineConfig({
                 ],
               },
             ],
+          },
+          {
+            name: 'translationOf',
+            label: 'Translation of',
+            type: 'reference',
+            collections: ['page'],
+            description: 'Link to the corresponding page in the other language (set on both sides)',
           },
         ],
       },
@@ -184,6 +191,14 @@ export default defineConfig({
             type: 'number',
             required: true,
           },
+          {
+            name: 'translationOf',
+            label: 'Translation of',
+            type: 'reference',
+            collections: ['category'],
+            description:
+              'Link to the corresponding category in the other language (set on both sides)',
+          },
         ],
       },
       {
@@ -199,7 +214,8 @@ export default defineConfig({
         },
         ui: {
           router: (props) => {
-            return `${postRoute}/${props.document._sys.filename}`;
+            const locale = props.document._sys.path.includes('/en/') ? 'en' : 'fr';
+            return `/${locale}${postRoutes[locale]}/${props.document._sys.filename}`;
           },
           filename: {
             slugify: (values) => {
@@ -244,6 +260,13 @@ export default defineConfig({
             type: 'object',
             list: true,
             templates: [textContentTemplate],
+          },
+          {
+            name: 'translationOf',
+            label: 'Translation of',
+            type: 'reference',
+            collections: ['post'],
+            description: 'Link to the corresponding post in the other language (set on both sides)',
           },
         ],
       },
