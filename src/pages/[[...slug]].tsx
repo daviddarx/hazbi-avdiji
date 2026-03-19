@@ -1,10 +1,11 @@
 import PageWrapper from '@/components/layout/PageWrapper';
 import Page from '@/components/pages/Page';
-import t from '@/content/translations';
+import t, { type Locale } from '@/content/translations';
 import client from '@/tina/client';
 import { CategoryConnectionEdges, Post, PostConnectionEdges } from '@/tina/types';
 import { FooteNavigationResult, PageResult, PostsFilter, PostsResult } from '@/types/';
 import { POSTS_CATEGORY_ALL_VALUE, POSTS_CATEGORY_SEARCH_PARAMS } from '@/utils/core';
+import { getLocale } from '@/utils/locale';
 import { formatPostTitle, sortPostsToCategories } from '@/utils/tina';
 
 export default function PageComponent({
@@ -25,10 +26,20 @@ export default function PageComponent({
   );
 }
 
-export const getStaticProps = async ({ params }: { params: { slug?: string[] } }) => {
-  const navigationResult = await client.queries.navigation({ relativePath: 'navigation.md' });
+export const getStaticProps = async ({
+  params,
+  locale: rawLocale,
+}: {
+  params: { slug?: string[] };
+  locale: string;
+}) => {
+  const locale = getLocale(rawLocale);
+
+  const navigationResult = await client.queries.navigation({
+    relativePath: `${locale}/navigation.md`,
+  });
   const footerNavigationResult = await client.queries.footerNavigation({
-    relativePath: 'footer-navigation.md',
+    relativePath: `${locale}/footer-navigation.md`,
   });
 
   let pageResult: PageResult;
@@ -36,6 +47,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
   let pageMdPath = params.slug ? params.slug[0] : 'home';
   let postsResult: PostsResult | null = null;
   let postsFilters: PostsFilter[] | null = null;
+  let translationProps: { slug: string; locale: string } | null = null;
 
   if (pageMdPath === '_next') {
     return {
@@ -45,7 +57,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
 
   try {
     pageResult = await client.queries.page({
-      relativePath: `${pageMdPath}.mdx`,
+      relativePath: `${locale}/${pageMdPath}.mdx`,
     });
     hasPostListBlock = pageResult.data.page.blocks?.some(
       (block) => block?.__typename === 'PageBlocksPostList',
@@ -54,6 +66,19 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
     return {
       notFound: true,
     };
+  }
+
+  if (pageResult.data.page.translationOf) {
+    const refPath = pageResult.data.page.translationOf._sys?.path || '';
+    const refParts = refPath.split('/');
+    const refLocale = refParts[refParts.indexOf('pages') + 1];
+    const refSlug = pageResult.data.page.translationOf._sys?.filename;
+    if (refLocale && refSlug) {
+      translationProps = {
+        slug: refSlug === 'home' ? '' : refSlug,
+        locale: refLocale,
+      };
+    }
   }
 
   if (hasPostListBlock) {
@@ -73,7 +98,7 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       }),
     );
     postsFilters.push({
-      label: t.allPosts,
+      label: t[locale as Locale].allPosts,
       link: `/${pageMdPath}?${POSTS_CATEGORY_SEARCH_PARAMS}=${POSTS_CATEGORY_ALL_VALUE}`,
       category: POSTS_CATEGORY_ALL_VALUE,
     });
@@ -108,30 +133,34 @@ export const getStaticProps = async ({ params }: { params: { slug?: string[] } }
       pageProps: { ...pageResult },
       postsProps: { ...postsResult },
       filterProps: postsFilters,
+      translationProps,
     },
     revalidate: 10,
   };
 };
 
-export const getStaticPaths = async () => {
+export const getStaticPaths = async ({ locales }: { locales: string[] }) => {
   const pageConnectionResult = await client.queries.pageConnection();
+  const paths: Array<{ params: { slug: string[] }; locale: string }> = [];
 
-  const paths = [{ params: { slug: [''] } }];
+  pageConnectionResult.data.pageConnection.edges!.map((edge) => {
+    const fileName = edge!.node!._sys.filename;
+    const filePath = edge!.node!._sys.path;
+    const pathParts = filePath.split('/');
+    const locale = pathParts[pathParts.indexOf('pages') + 1];
 
-  await Promise.all(
-    pageConnectionResult.data.pageConnection.edges!.map(async (edge) => {
-      const fileName = edge!.node!._sys.filename;
+    // Skip files not in a recognized locale folder
+    if (locale !== 'fr' && locale !== 'en') return;
 
-      paths.push({ params: { slug: [fileName] } });
-
-      const pageResult = await client.queries.page({
-        relativePath: `${fileName}.mdx`,
-      });
-    }),
-  );
+    if (fileName === 'home') {
+      paths.push({ params: { slug: [''] }, locale });
+    } else {
+      paths.push({ params: { slug: [fileName] }, locale });
+    }
+  });
 
   return {
-    paths: paths,
+    paths,
     fallback: 'blocking',
   };
 };
