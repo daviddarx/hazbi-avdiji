@@ -1,6 +1,7 @@
 import ColoredBackground from '@/components/layout/ColoredBackground';
 import DarkModeSwitcher from '@/components/layout/DarkModeSwitcher';
 import Header from '@/components/layout/Header';
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher';
 import MobileNavigation from '@/components/layout/MobileNavigation';
 import Navigation from '@/components/layout/Navigation';
 import { uiActions } from '@/store';
@@ -27,9 +28,11 @@ const fontTitle = localFont({
 
 export default function Layout({
   navigationProps,
+  translationProps,
   children,
 }: {
   navigationProps: NavigationResult;
+  translationProps?: { slug: string; locale: string; isPost?: boolean } | null;
   children: React.ReactNode;
 }) {
   const router = useRouter();
@@ -124,6 +127,7 @@ export default function Layout({
         <div className='grid-layout pt-gutter'>
           <div className='grid-item-full lg:grid-item-right flex justify-end gap-12 max-lg:pl-[160px] lg:justify-between'>
             {navigationProps && <Navigation {...navigationProps} />}
+            <LanguageSwitcher translationProps={translationProps || null} />
             <DarkModeSwitcher />
             {navigationProps && <MobileNavigation {...navigationProps} />}
           </div>
