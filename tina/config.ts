@@ -1,6 +1,12 @@
 import { addImagesDimensions, postRoutes, slugify, textContentTemplate } from '../src/utils/tina';
 import { defineConfig } from 'tinacms';
 
+const translationOptionComponent = (props: { title?: string }, _internalSys: { path: string }) => {
+  const locale = _internalSys.path.includes('/en/') ? 'EN' : 'FR';
+  const label = props.title || _internalSys.path;
+  return `${locale}: ${label}`;
+};
+
 export default defineConfig({
   branch: process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || 'main',
   clientId: process.env.TINA_CLIENT_ID || '',
@@ -103,6 +109,7 @@ export default defineConfig({
             type: 'reference',
             collections: ['page'],
             description: 'Link to the corresponding page in the other language (set on both sides)',
+            ui: { optionComponent: translationOptionComponent },
           },
         ],
       },
@@ -199,6 +206,7 @@ export default defineConfig({
             collections: ['category'],
             description:
               'Link to the corresponding category in the other language (set on both sides)',
+            ui: { optionComponent: translationOptionComponent },
           },
         ],
       },
@@ -269,6 +277,7 @@ export default defineConfig({
             type: 'reference',
             collections: ['post'],
             description: 'Link to the corresponding post in the other language (set on both sides)',
+            ui: { optionComponent: translationOptionComponent },
           },
         ],
       },
