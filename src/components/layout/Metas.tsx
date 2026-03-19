@@ -17,7 +17,8 @@ const Metas = ({ title, translationPath }: Props) => {
   const alternateLocale = currentLocale === 'fr' ? 'en' : 'fr';
   const combinedTitle = t.metaData.title(title);
   const description = t.metaData.description;
-  const canonicalUrl = `${BASE_URL}/${currentLocale}${asPath === '/' ? '' : asPath}`;
+  const localePath = currentLocale === 'fr' ? '' : `/${currentLocale}`;
+  const canonicalUrl = `${BASE_URL}${localePath}${asPath === '/' ? '' : asPath}`;
 
   return (
     <Head>

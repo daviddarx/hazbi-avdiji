@@ -19,9 +19,9 @@ export default function Page(props: {
   const path = usePathname();
 
   const translationPath = props.translationProps
-    ? `/${props.translationProps.locale}${
+    ? `${props.translationProps.locale === 'fr' ? '' : `/${props.translationProps.locale}`}${
         props.translationProps.slug ? `/${props.translationProps.slug}` : ''
-      }`
+      }` || '/'
     : undefined;
 
   return (

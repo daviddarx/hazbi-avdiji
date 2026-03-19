@@ -1,8 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   i18n: {
-    locales: ['default', 'fr', 'en'],
-    defaultLocale: 'default',
+    locales: ['fr', 'en'],
+    defaultLocale: 'fr',
     localeDetection: false,
   },
   async rewrites() {

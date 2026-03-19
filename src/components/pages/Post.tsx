@@ -27,7 +27,9 @@ export default function Post({
   const { post } = data.data;
 
   const translationPath = translationProps
-    ? `/${translationProps.locale}${postRoutes[translationProps.locale]}/${translationProps.slug}`
+    ? `${translationProps.locale === 'fr' ? '' : `/${translationProps.locale}`}${
+        postRoutes[translationProps.locale]
+      }/${translationProps.slug}`
     : undefined;
 
   return (
