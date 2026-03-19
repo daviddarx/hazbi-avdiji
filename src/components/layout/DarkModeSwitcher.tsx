@@ -1,6 +1,6 @@
 import DarkModeTypewitcherButton from '@/components/layout/DarkModeSwitcherButton';
 import Icon from '@/components/ui/Icon';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import { uiStateType } from '@/store/ui-slice';
 import { getMenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
@@ -16,18 +16,20 @@ type darkModeOption = {
   value: darkModeType;
 };
 
-const options: darkModeOption[] = [
-  {
-    label: t.darkModeSwitcher.options.light,
-    value: 'light',
-  },
-  {
-    label: t.darkModeSwitcher.options.dark,
-    value: 'dark',
-  },
-];
-
 export default function DarkModeSwitcher() {
+  const t = useTranslations();
+
+  const options: darkModeOption[] = [
+    {
+      label: t.darkModeSwitcher.options.light,
+      value: 'light',
+    },
+    {
+      label: t.darkModeSwitcher.options.dark,
+      value: 'dark',
+    },
+  ];
+
   const [darkMode, setDarkMode] = useState<darkModeType>();
   const [isDark, setIsDark] = useState(false);
   const hiddenTopBar = useSelector((state: uiStateType) => state.ui.hiddenTopBar);

@@ -1,7 +1,7 @@
 import PostCard from '@/components/content/PostCard';
 import ActivePillNavigation from '@/components/ui/ActivePillNavigation';
-import t from '@/content/translations';
 import useStuck from '@/hooks/useStuck';
+import useTranslations from '@/hooks/useTranslations';
 import { uiActions } from '@/store';
 import { PageBlocksPostList, type Post as PostType } from '@/tina/types';
 import { PostsFilter, PostsResult } from '@/types';
@@ -48,6 +48,7 @@ export default function PostList(props: {
   postsProps: PostsResult;
   filterProps: PostsFilter[];
 }) {
+  const t = useTranslations();
   const { data } = useTina(props.postsProps);
   const posts = data.postConnection.edges;
   const [filteredPosts, setFilteredPosts] = useState(posts);

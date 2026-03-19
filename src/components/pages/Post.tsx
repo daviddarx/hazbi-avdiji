@@ -3,7 +3,7 @@ import TextContent from '@/components/content/TextContent';
 import ContentLeftColumn from '@/components/layout/ContentLeftColumn';
 import Metas from '@/components/layout/Metas';
 import PostHeader from '@/components/layout/PostHeader';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import type { Post } from '@/tina/types';
 import { PostResult } from '@/types/';
 import { useTina } from 'tinacms/dist/react';
@@ -19,6 +19,7 @@ export default function Post({
   prevPost: Post | undefined;
   nextPost: Post | undefined;
 }) {
+  const t = useTranslations();
   const data = useTina(postProps);
   const { post } = data.data;
 

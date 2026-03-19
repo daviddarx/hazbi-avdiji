@@ -1,4 +1,4 @@
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import Head from 'next/head';
 
 interface Props {
@@ -6,6 +6,7 @@ interface Props {
 }
 
 const Metas = ({ title }: Props) => {
+  const t = useTranslations();
   const combinedTitle = t.metaData.title(title);
   const description = t.metaData.description;
 

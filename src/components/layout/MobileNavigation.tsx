@@ -1,6 +1,6 @@
 import Icon from '@/components/ui/Icon';
 import PageLink from '@/components/ui/PageLink';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import { NavigationResult } from '@/types';
 import { getMenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
@@ -11,6 +11,7 @@ import React from 'react';
 import { tinaField, useTina } from 'tinacms/dist/react';
 
 export default function MobileNavigation(props: NavigationResult) {
+  const t = useTranslations();
   const navigationData = useTina(props);
   const { navigation } = navigationData.data;
   const pathName = usePathname();

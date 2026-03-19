@@ -1,5 +1,5 @@
 import PageLink from '@/components/ui/PageLink';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import type { PostPartsFragment } from '@/tina/types';
 import { tinaField } from 'tinacms/dist/react';
 
@@ -10,6 +10,7 @@ export default function PageHeader({
   post: PostPartsFragment;
   postListLink: string;
 }) {
+  const t = useTranslations();
   return (
     <header className='grid-layout'>
       <div className='grid-item-left mb-v-spacer-120'>

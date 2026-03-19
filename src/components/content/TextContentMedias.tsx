@@ -1,6 +1,6 @@
 import TextContentMedia, { type MediaType } from '@/components/content/TextContentMedia';
 import CloseButton from '@/components/ui/CloseButton';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import type {
   Maybe,
   PageBlocksTextContentMediaBlocks,
@@ -24,6 +24,7 @@ export default function TextContentMedias({
   currentMedia: CurrentMediaType;
   onClose: () => void;
 }) {
+  const t = useTranslations();
   const [currentMediaType, setCurrentMediaType] = useState<MediaType>(null);
   const closeOverlay = useRef<HTMLDivElement | null>(null);
   const closeButton = useRef<HTMLDivElement | null>(null);

@@ -1,10 +1,11 @@
 import Logo from '@/components/layout/Logo';
 import PageLink from '@/components/ui/PageLink';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import classNames from 'classnames';
 import { useCallback, useEffect, useState } from 'react';
 
 export default function Header() {
+  const t = useTranslations();
   const [isVisible, setIsVisible] = useState(true);
 
   const handleScroll = useCallback(() => {
