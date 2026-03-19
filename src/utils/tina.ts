@@ -2,7 +2,10 @@ import { mediaLinksURLPrefix } from './core';
 import { CategoryConnectionEdges, Post, PostConnectionEdges } from '@/tina/types';
 import { type Template, type TinaField, tinaTableTemplate } from 'tinacms';
 
-export const postRoute = '/idee-recue';
+export const postRoutes: Record<string, string> = {
+  fr: '/idee-recue',
+  en: '/misconception',
+};
 
 export const slugify = (value = 'no-value') => {
   return `${value
