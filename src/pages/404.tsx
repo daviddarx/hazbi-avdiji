@@ -1,14 +1,17 @@
 import Metas from '@/components/layout/Metas';
 import PageWrapper from '@/components/layout/PageWrapper';
-import t from '@/content/translations';
+import useTranslations from '@/hooks/useTranslations';
 import client from '@/tina/client';
 import { FooteNavigationResult } from '@/types/';
+import { getLocale } from '@/utils/locale';
 
 export default function Custom404({
   footerNavigationProps,
 }: {
   footerNavigationProps: FooteNavigationResult;
 }) {
+  const t = useTranslations();
+
   return (
     <PageWrapper footerNavigationProps={footerNavigationProps}>
       <Metas title={t.errorPage.title} />
@@ -19,11 +22,13 @@ export default function Custom404({
   );
 }
 
-export const getStaticProps = async ({ params }: { params: { slug?: string[] } }) => {
-  const navigationResult = await client.queries.navigation({ relativePath: 'navigation.md' });
-
+export const getStaticProps = async ({ locale: rawLocale }: { locale: string }) => {
+  const locale = getLocale(rawLocale);
+  const navigationResult = await client.queries.navigation({
+    relativePath: `${locale}/navigation.md`,
+  });
   const footerNavigationResult = await client.queries.footerNavigation({
-    relativePath: 'footer-navigation.md',
+    relativePath: `${locale}/footer-navigation.md`,
   });
 
   return {
