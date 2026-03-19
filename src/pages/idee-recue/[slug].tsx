@@ -8,6 +8,7 @@ import {
   POSTS_LIST_VIEW_SEARCH_PARAMS,
   POSTS_LIST_VIEW_SEARCH_PARAMS_VALUE,
 } from '@/utils/core';
+import { getLocale } from '@/utils/locale';
 import { formatPostTitle, sortPostsToCategories } from '@/utils/tina';
 
 export default function BlogPage({
@@ -35,16 +36,26 @@ export default function BlogPage({
   );
 }
 
-export const getStaticProps = async ({ params }: { params: { slug: string } }) => {
-  const navigationResult = await client.queries.navigation({ relativePath: 'navigation.md' });
+export const getStaticProps = async ({
+  params,
+  locale: rawLocale,
+}: {
+  params: { slug: string };
+  locale: string;
+}) => {
+  const locale = getLocale(rawLocale);
+
+  const navigationResult = await client.queries.navigation({
+    relativePath: `${locale}/navigation.md`,
+  });
   const footerNavigationResult = await client.queries.footerNavigation({
-    relativePath: 'footer-navigation.md',
+    relativePath: `${locale}/footer-navigation.md`,
   });
 
   let postResult: PostResult;
 
   try {
-    postResult = await client.queries.post({ relativePath: `${params.slug}.mdx` });
+    postResult = await client.queries.post({ relativePath: `${locale}/${params.slug}.mdx` });
   } catch (error) {
     return {
       notFound: true,
@@ -68,25 +79,52 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
     last: 100,
   });
 
-  const posts = postsResult.data.postConnection.edges!;
-  const categories = categoryConnectionResult.data.categoryConnection.edges!;
+  const allPosts = postsResult.data.postConnection.edges!;
+  const localePosts = allPosts.filter((edge) => {
+    const postPath = edge?.node?._sys.path || '';
+    const pathParts = postPath.split('/');
+    return pathParts[pathParts.indexOf('posts') + 1] === locale;
+  });
+
+  const allCategories = categoryConnectionResult.data.categoryConnection.edges!;
+  const localeCategories = allCategories.filter((edge) => {
+    const catPath = edge?.node?._sys.path || '';
+    const pathParts = catPath.split('/');
+    return pathParts[pathParts.indexOf('categories') + 1] === locale;
+  });
+
   let prevPost: PostType = {} as PostType;
   let nextPost: PostType = {} as PostType;
 
-  sortPostsToCategories(posts as PostConnectionEdges[], categories as CategoryConnectionEdges[]);
+  sortPostsToCategories(
+    localePosts as PostConnectionEdges[],
+    localeCategories as CategoryConnectionEdges[],
+  );
 
-  posts.find((edge, i) => {
+  localePosts.find((edge, i) => {
     const currentPost = edge?.node?._sys.filename === postResult.data.post._sys.filename;
 
     if (currentPost) {
-      prevPost = posts[i > 0 ? i - 1 : posts.length - 1]?.node as PostType;
+      prevPost = localePosts[i > 0 ? i - 1 : localePosts.length - 1]?.node as PostType;
       formatPostTitle(prevPost);
-      nextPost = posts[i < posts.length - 1 ? i + 1 : 0]?.node as PostType;
+      nextPost = localePosts[i < localePosts.length - 1 ? i + 1 : 0]?.node as PostType;
       formatPostTitle(nextPost);
     }
 
     return currentPost;
   });
+
+  let translationProps: { slug: string; locale: string; isPost: boolean } | null = null;
+
+  if (postResult.data.post.translationOf) {
+    const refPath = postResult.data.post.translationOf._sys?.path || '';
+    const refParts = refPath.split('/');
+    const refLocale = refParts[refParts.indexOf('posts') + 1];
+    const refSlug = postResult.data.post.translationOf._sys?.filename;
+    if (refLocale && refSlug) {
+      translationProps = { slug: refSlug, locale: refLocale, isPost: true };
+    }
+  }
 
   return {
     props: {
@@ -96,6 +134,8 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
       postListLink,
       prevPost,
       nextPost,
+      translationProps,
+      locale,
     },
     revalidate: 10,
   };
@@ -104,12 +144,18 @@ export const getStaticProps = async ({ params }: { params: { slug: string } }) =
 export const getStaticPaths = async () => {
   const result = await client.queries.postConnection();
 
-  const paths = result.data.postConnection.edges!.map((edge) => {
-    return { params: { slug: edge!.node!._sys.filename } };
-  });
+  const paths = result.data.postConnection
+    .edges!.map((edge) => {
+      const filePath = edge!.node!._sys.path;
+      const pathParts = filePath.split('/');
+      const locale = pathParts[pathParts.indexOf('posts') + 1];
+      if (locale !== 'fr' && locale !== 'en') return null;
+      return { params: { slug: edge!.node!._sys.filename }, locale };
+    })
+    .filter(Boolean);
 
   return {
-    paths: paths,
+    paths,
     fallback: 'blocking',
   };
 };
