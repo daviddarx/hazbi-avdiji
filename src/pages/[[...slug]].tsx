@@ -13,15 +13,22 @@ export default function PageComponent({
   pageProps,
   postsProps,
   filterProps,
+  translationProps,
 }: {
   footerNavigationProps: FooteNavigationResult;
   pageProps: PageResult;
   postsProps?: PostsResult;
   filterProps?: PostsFilter[];
+  translationProps?: { slug: string; locale: string; isPost?: boolean } | null;
 }) {
   return (
     <PageWrapper footerNavigationProps={footerNavigationProps}>
-      <Page pageProps={pageProps} postsProps={postsProps} filterProps={filterProps} />
+      <Page
+        pageProps={pageProps}
+        postsProps={postsProps}
+        filterProps={filterProps}
+        translationProps={translationProps}
+      />
     </PageWrapper>
   );
 }

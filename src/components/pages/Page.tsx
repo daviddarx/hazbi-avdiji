@@ -12,14 +12,21 @@ export default function Page(props: {
   pageProps: PageResult;
   postsProps?: PostsResult;
   filterProps?: PostsFilter[];
+  translationProps?: { slug: string; locale: string; isPost?: boolean } | null;
 }) {
   const pageData = useTina(props.pageProps);
   const { page } = pageData.data;
   const path = usePathname();
 
+  const translationPath = props.translationProps
+    ? `/${props.translationProps.locale}${
+        props.translationProps.slug ? `/${props.translationProps.slug}` : ''
+      }`
+    : undefined;
+
   return (
     <article>
-      <Metas title={path === '/' ? '' : page.title} />
+      <Metas title={path === '/' ? '' : page.title} translationPath={translationPath} />
       {page.longTitle && <PageHeader page={page} />}
       <div className='mb-v-spacer-120 flex h-full flex-col gap-spacer-80'>
         {page.blocks?.map((block, i) => {

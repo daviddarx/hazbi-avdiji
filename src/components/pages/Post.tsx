@@ -6,6 +6,7 @@ import PostHeader from '@/components/layout/PostHeader';
 import useTranslations from '@/hooks/useTranslations';
 import type { Post } from '@/tina/types';
 import { PostResult } from '@/types/';
+import { postRoutes } from '@/utils/tina';
 import { useTina } from 'tinacms/dist/react';
 
 export default function Post({
@@ -13,19 +14,25 @@ export default function Post({
   postListLink,
   prevPost,
   nextPost,
+  translationProps,
 }: {
   postProps: PostResult;
   postListLink: string;
   prevPost: Post | undefined;
   nextPost: Post | undefined;
+  translationProps?: { slug: string; locale: string; isPost?: boolean } | null;
 }) {
   const t = useTranslations();
   const data = useTina(postProps);
   const { post } = data.data;
 
+  const translationPath = translationProps
+    ? `/${translationProps.locale}${postRoutes[translationProps.locale]}/${translationProps.slug}`
+    : undefined;
+
   return (
     <article>
-      <Metas title={post.title} />
+      <Metas title={post.title} translationPath={translationPath} />
       <PostHeader post={post} postListLink={postListLink} />
       <div className='mb-v-spacer-120 flex flex-col gap-spacer-80'>
         {post.blocks?.map((block, i) => {

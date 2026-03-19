@@ -17,12 +17,14 @@ export default function BlogPage({
   postListLink,
   prevPost,
   nextPost,
+  translationProps,
 }: {
   footerNavigationProps: FooteNavigationResult;
   postProps: PostResult;
   postListLink: string;
   prevPost: PostType;
   nextPost: PostType;
+  translationProps?: { slug: string; locale: string; isPost?: boolean } | null;
 }) {
   return (
     <PageWrapper footerNavigationProps={footerNavigationProps}>
@@ -31,6 +33,7 @@ export default function BlogPage({
         postListLink={postListLink}
         prevPost={prevPost}
         nextPost={nextPost}
+        translationProps={translationProps}
       />
     </PageWrapper>
   );
