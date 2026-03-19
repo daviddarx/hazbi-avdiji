@@ -26,22 +26,35 @@
 
 - [ ] **Step 1: Add i18n config, redirects, and rewrites**
 
-Update `next.config.js` to add the i18n block, the redirect for forcing `/fr/` prefix, and the rewrite for English post routes:
+Update `next.config.js` to add the i18n block and the rewrite for English post routes.
+
+**IMPORTANT (from context7 docs):** Next.js Pages Router i18n does NOT prefix the default locale. With `defaultLocale: 'fr'`, French pages are at `/page` not `/fr/page`. To force a `/fr/` prefix on all pages, use the official workaround: add a `'default'` pseudo-locale as the `defaultLocale`, and use rewrites to route it to `fr`. This way both `/fr/` and `/en/` are always prefixed.
+
+Additionally, rewrites and redirects are **automatically prefixed** with all configured locales unless `locale: false` is set. So `{ source: '/misconception/:slug' }` automatically matches `/fr/misconception/:slug` and `/en/misconception/:slug`.
 
 ```js
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   i18n: {
-    locales: ['fr', 'en'],
-    defaultLocale: 'fr',
+    locales: ['default', 'fr', 'en'],
+    defaultLocale: 'default',
     localeDetection: false,
   },
   async redirects() {
     return [
       {
+        // Redirect the pseudo-default locale root to /fr/
+        source: '/',
+        destination: '/fr/',
+        permanent: true,
+        locale: false,
+      },
+      {
+        // Redirect any unprefixed path to /fr/ version
         source: '/:path((?!fr|en|admin|_next|api|uploads|favicon\\.ico|robots\\.txt|sitemap\\.xml|manifest\\.webmanifest|hazbi-avdiji\\.jpg).*)',
         destination: '/fr/:path',
         permanent: true,
+        locale: false,
       },
     ];
   },
@@ -50,6 +63,7 @@ const nextConfig = {
       {
         source: '/admin',
         destination: '/admin/index.html',
+        locale: false,
       },
       {
         source: '/misconception/:slug',
@@ -69,6 +83,8 @@ const nextConfig = {
 
 module.exports = nextConfig;
 ```
+
+**Note:** With `defaultLocale: 'default'`, `router.locale` will be `'default'` for unprefixed paths. All code using `locale` must handle this by falling back to `'fr'`. We'll add a helper for this.
 
 - [ ] **Step 2: Verify dev server starts**
 
@@ -225,28 +241,43 @@ git add content/translations.ts
 git commit -m "feat(i18n): refactor translations.ts to locale-keyed structure with English"
 ```
 
-### Task 3: Create useTranslations hook
+### Task 3: Create getLocale helper and useTranslations hook
 
 **Files:**
+- Create: `src/utils/locale.ts`
 - Create: `src/hooks/useTranslations.ts`
 
-- [ ] **Step 1: Create the hook**
+- [ ] **Step 1: Create the locale helper**
+
+Since `defaultLocale` is `'default'` (the pseudo-locale), `router.locale` and `getStaticProps`'s `locale` param can be `'default'`. This helper normalizes it:
 
 ```ts
-import t, { type Locale } from '@/content/translations';
+import type { Locale } from '@/content/translations';
+
+export function getLocale(locale: string | undefined): Locale {
+  if (locale === 'fr' || locale === 'en') return locale;
+  return 'fr'; // 'default' or undefined → French
+}
+```
+
+- [ ] **Step 2: Create the useTranslations hook**
+
+```ts
+import t from '@/content/translations';
+import { getLocale } from '@/utils/locale';
 import { useRouter } from 'next/router';
 
 export default function useTranslations() {
   const { locale } = useRouter();
-  return t[(locale as Locale) || 'fr'];
+  return t[getLocale(locale)];
 }
 ```
 
-- [ ] **Step 2: Commit**
+- [ ] **Step 3: Commit**
 
 ```bash
-git add src/hooks/useTranslations.ts
-git commit -m "feat(i18n): add useTranslations hook"
+git add src/utils/locale.ts src/hooks/useTranslations.ts
+git commit -m "feat(i18n): add getLocale helper and useTranslations hook"
 ```
 
 ### Task 4: Make postRoute locale-aware
@@ -551,13 +582,12 @@ git commit -m "feat(i18n): add all English content translations with bidirection
 
 In `src/pages/[[...slug]].tsx`, update `getStaticProps` to receive `locale` from context and use it to fetch locale-specific content:
 
-Change the function signature from:
+Change the function signature to include `locale` and normalize it with `getLocale`:
 ```ts
-export const getStaticProps = async ({ params }: { params: { slug?: string[] } }) => {
-```
-To:
-```ts
-export const getStaticProps = async ({ params, locale }: { params: { slug?: string[] }; locale: string }) => {
+import { getLocale } from '@/utils/locale';
+
+export const getStaticProps = async ({ params, locale: rawLocale }: { params: { slug?: string[] }; locale: string }) => {
+  const locale = getLocale(rawLocale);
 ```
 
 Update all `relativePath` queries to include the locale prefix:
@@ -656,9 +686,12 @@ git commit -m "feat(i18n): update catch-all page for locale-aware data fetching"
 
 - [ ] **Step 1: Update getStaticProps to use locale**
 
-Change signature to include `locale`:
+Change signature to include `locale` and normalize it:
 ```ts
-export const getStaticProps = async ({ params, locale }: { params: { slug: string }; locale: string }) => {
+import { getLocale } from '@/utils/locale';
+
+export const getStaticProps = async ({ params, locale: rawLocale }: { params: { slug: string }; locale: string }) => {
+  const locale = getLocale(rawLocale);
 ```
 
 Update all `relativePath` queries:
@@ -773,9 +806,12 @@ export const getStaticProps = async ({ locale }: { locale: string }) => {
   });
 ```
 
-Note: Next.js may not pass `locale` reliably for 404 pages. If it doesn't, default to `'fr'`:
+Use `getLocale()` to normalize the locale (handles `'default'` pseudo-locale and undefined):
 ```ts
-const loc = locale || 'fr';
+import { getLocale } from '@/utils/locale';
+
+export const getStaticProps = async ({ locale: rawLocale }: { locale: string }) => {
+  const locale = getLocale(rawLocale);
 ```
 
 - [ ] **Step 3: Commit**
@@ -875,12 +911,14 @@ import { postRoute } from '@/utils/tina';
 To:
 ```ts
 import { postRoutes } from '@/utils/tina';
+import { getLocale } from '@/utils/locale';
 import { useRouter } from 'next/router';
 ```
 
 Inside the component, add:
 ```ts
 const { locale } = useRouter();
+const currentLocale = getLocale(locale);
 ```
 
 Change the href:
@@ -889,7 +927,7 @@ href={`${postRoute}/${post._sys.filename}`}
 ```
 To:
 ```tsx
-href={`${postRoutes[locale || 'fr']}/${post._sys.filename}`}
+href={`${postRoutes[currentLocale]}/${post._sys.filename}`}
 ```
 
 Note: Next.js i18n automatically prefixes links with the current locale when using `next/link` (which `PageLink` likely wraps). Verify whether `PageLink` uses `next/link` — if so, the locale prefix is automatic and we only need the route segment without the locale prefix.
@@ -1001,6 +1039,7 @@ import Icon from '@/components/ui/Icon';
 import useTranslations from '@/hooks/useTranslations';
 import { uiStateType } from '@/store/ui-slice';
 import { postRoutes } from '@/utils/tina';
+import { getLocale } from '@/utils/locale';
 import { getMenuMotionVariants } from '@/utils/core';
 import { Menu, MenuButton, MenuItems } from '@headlessui/react';
 import classNames from 'classnames';
@@ -1027,7 +1066,7 @@ export default function LanguageSwitcher({
   const router = useRouter();
   const t = useTranslations();
   const hiddenTopBar = useSelector((state: uiStateType) => state.ui.hiddenTopBar);
-  const currentLocale = router.locale || 'fr';
+  const currentLocale = getLocale(router.locale);
 
   const handleChange = (targetLocale: string) => {
     if (targetLocale === currentLocale) return;
